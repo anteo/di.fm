@@ -39,10 +39,10 @@ struct Channel
             self.channelDirector = String(channelDirector)
         }
         if let dateCreated = dict["created_at"] as? NSString {
-            self.dateCreated = DateFromRFC3339String(dateCreated as String)
+            self.dateCreated = NSDate(rfc3339string: dateCreated as String)
         }
         if let dateUpdated = dict["updated_at"] as? NSString {
-            self.dateUpdated = DateFromRFC3339String(dateUpdated as String)
+            self.dateUpdated = NSDate(rfc3339string: dateUpdated as String)
         }
         if let description = dict["description"] as? NSString {
             self.description = String(description)

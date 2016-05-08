@@ -32,10 +32,10 @@ struct Event
             self.duration = duration.doubleValue
         }
         if let startDate = dict["start_at"] as? NSString {
-            self.startDate = DateFromRFC3339String(startDate as String)
+            self.startDate = NSDate(rfc3339string: startDate as String)
         }
         if let endDate = dict["end_at"] as? NSString {
-            self.endDate = DateFromRFC3339String(endDate as String)
+            self.endDate = NSDate(rfc3339string: endDate as String)
         }
         if let artistsTagline = dict["artists_tagline"] as? NSString {
             self.artistsTagline = String(artistsTagline)

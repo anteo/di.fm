@@ -20,7 +20,6 @@
 		0C2AD0361CD0798100A20EFE /* ChannelFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0351CD0798100A20EFE /* ChannelFilter.swift */; };
 		0C2AD0381CD07A1D00A20EFE /* AudioAddictURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0371CD07A1D00A20EFE /* AudioAddictURL.swift */; };
 		0C2AD03A1CD07C9A00A20EFE /* ChannelImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0391CD07C9A00A20EFE /* ChannelImage.swift */; };
-		0C2B4D921CDF1DEB00A0487D /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2B4D911CDF1DEB00A0487D /* Utility.swift */; };
 		0C4301EF1CCFCB8200E4BEE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C4301EE1CCFCB8200E4BEE7 /* Assets.xcassets */; };
 		0CA349661CDEE60000765A46 /* AudioAddictServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA349651CDEE60000765A46 /* AudioAddictServer.swift */; };
 		0CA349681CDEE6C900765A46 /* BatchUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA349671CDEE6C900765A46 /* BatchUpdate.swift */; };
@@ -30,6 +29,7 @@
 		0CA349701CDF148400765A46 /* StreamList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3496F1CDF148400765A46 /* StreamList.swift */; };
 		0CA349721CDF14AE00765A46 /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA349711CDF14AE00765A46 /* Stream.swift */; };
 		0CA349741CDF1ADC00765A46 /* BatchUpdate.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CA349731CDF1ADC00765A46 /* BatchUpdate.json */; };
+		0CDEB6D51CDFB6C500CC208A /* NSDateAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEB6D41CDFB6C500CC208A /* NSDateAdditions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,7 +46,6 @@
 		0C2AD0351CD0798100A20EFE /* ChannelFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelFilter.swift; sourceTree = "<group>"; };
 		0C2AD0371CD07A1D00A20EFE /* AudioAddictURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioAddictURL.swift; sourceTree = "<group>"; };
 		0C2AD0391CD07C9A00A20EFE /* ChannelImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelImage.swift; sourceTree = "<group>"; };
-		0C2B4D911CDF1DEB00A0487D /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		0C4301E41CCFCB8200E4BEE7 /* di.fm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = di.fm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C4301EE1CCFCB8200E4BEE7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0C4301F01CCFCB8200E4BEE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -58,6 +57,7 @@
 		0CA3496F1CDF148400765A46 /* StreamList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamList.swift; sourceTree = "<group>"; };
 		0CA349711CDF14AE00765A46 /* Stream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stream.swift; sourceTree = "<group>"; };
 		0CA349731CDF1ADC00765A46 /* BatchUpdate.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = BatchUpdate.json; path = di.fm/SampleData/BatchUpdate.json; sourceTree = SOURCE_ROOT; };
+		0CDEB6D41CDFB6C500CC208A /* NSDateAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateAdditions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,11 +110,11 @@
 		0C2AD0221CD0795600A20EFE /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				0CDEB6D41CDFB6C500CC208A /* NSDateAdditions.swift */,
 				0C2AD0231CD0795600A20EFE /* NSErrorAdditions.swift */,
 				0C2AD0241CD0795600A20EFE /* Semaphore.swift */,
 				0C2AD0251CD0795600A20EFE /* StandardError.swift */,
 				0C2AD0261CD0795600A20EFE /* TVSupport.swift */,
-				0C2B4D911CDF1DEB00A0487D /* Utility.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -269,9 +269,9 @@
 				0CA349661CDEE60000765A46 /* AudioAddictServer.swift in Sources */,
 				0CA349701CDF148400765A46 /* StreamList.swift in Sources */,
 				0CA349681CDEE6C900765A46 /* BatchUpdate.swift in Sources */,
+				0CDEB6D51CDFB6C500CC208A /* NSDateAdditions.swift in Sources */,
 				0C2AD0311CD0795600A20EFE /* TVSupport.swift in Sources */,
 				0C2AD02C1CD0795600A20EFE /* ViewController.swift in Sources */,
-				0C2B4D921CDF1DEB00A0487D /* Utility.swift in Sources */,
 				0C2AD0291CD0795600A20EFE /* AppDelegate.swift in Sources */,
 				0C2AD0361CD0798100A20EFE /* ChannelFilter.swift in Sources */,
 				0C2AD02F1CD0795600A20EFE /* Semaphore.swift in Sources */,

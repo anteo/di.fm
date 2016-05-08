@@ -26,7 +26,7 @@ class BatchUpdate
         }
         
         if let dateCached = dict["cached_at"] as? NSString {
-            self.dateCached = DateFromRFC3339String(dateCached as String)
+            self.dateCached = NSDate(rfc3339string: dateCached as String)
         }
         
         if let assetsArray = dict["assets"] as? NSArray {
