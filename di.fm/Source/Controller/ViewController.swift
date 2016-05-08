@@ -10,7 +10,6 @@ import UIKit
 class ViewController : UIViewController, UICollectionViewDelegate, UICollectionViewDataSource
 {
     private var _collectionView:    UICollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: UICollectionViewFlowLayout())
-    private var _server:            Server = Server()
     private var _stations:          [Station] = []
     private var _player:            Player = Player()
     
@@ -76,11 +75,13 @@ class ViewController : UIViewController, UICollectionViewDelegate, UICollectionV
     
     internal func _reloadStations()
     {
+        /*
         _server.fetchStations(.PremiumHigh) { (stations: [Station], error: NSError?) in
             dispatch_async(dispatch_get_main_queue(), { 
                 self._stations = stations
                 self._collectionView.reloadData()
             })
         }
+ */
     }
 }
