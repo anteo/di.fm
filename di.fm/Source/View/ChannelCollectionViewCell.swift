@@ -1,5 +1,5 @@
 //
-//  StationCollectionViewCell.swift
+//  ChannelCollectionViewCell.swift
 //  di.fm
 //
 //  Created by Charles Magahern on 4/26/16.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class StationCollectionViewCell : UICollectionViewCell
+class ChannelCollectionViewCell : UICollectionViewCell
 {
     private var _imageView: UIImageView = UIImageView()
     
@@ -33,23 +33,23 @@ class StationCollectionViewCell : UICollectionViewCell
     
     // MARK: Accessors
     
-    var station: Station?
+    var channel: Channel?
     {
         didSet
         {
-            var stationImage: UIImage? = nil
+            var channelImage: UIImage? = nil
             
-            if (self.station != nil) {
-                stationImage = _generateStationImage(self.station!)
+            if (self.channel != nil) {
+                channelImage = _generateChannelImage(self.channel!)
             }
             
-            _imageView.image = stationImage
+            _imageView.image = channelImage
         }
     }
     
     // MARK: Internal
     
-    internal func _generateStationImage(station: Station) -> UIImage
+    internal func _generateChannelImage(channel: Channel) -> UIImage
     {
         let imageSize = CGSize(width: 250.0, height: 250.0)
         UIGraphicsBeginImageContextWithOptions(imageSize, true, self.traitCollection.displayScale)
@@ -57,7 +57,7 @@ class StationCollectionViewCell : UICollectionViewCell
         UIColor.blackColor().setFill()
         UIRectFill(CGRect(origin: CGPointZero, size: imageSize))
         
-        let stationNameString = NSString(string: station.name)
+        let stationNameString = NSString(string: channel.name)
         let attributes = [
             NSFontAttributeName : UIFont.boldSystemFontOfSize(42.0),
             NSForegroundColorAttributeName : UIColor.whiteColor()

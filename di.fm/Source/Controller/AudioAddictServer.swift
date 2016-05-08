@@ -9,6 +9,8 @@ import Foundation
 
 class AudioAddictServer
 {
+    static let sharedServer = AudioAddictServer()
+    
     private var _urlSession:        NSURLSession
     private var _operationQueue:    NSOperationQueue = NSOperationQueue()
     private var _errorStream:       StandardErrorOutputStream = StandardErrorOutputStream()

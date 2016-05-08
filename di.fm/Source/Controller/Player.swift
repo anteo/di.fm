@@ -13,6 +13,7 @@ class Player
     var listenKey:          String?
     private var _avPlayer:  AVPlayer?
     
+    /*
     var currentStation: Station?
     {
         didSet
@@ -36,6 +37,7 @@ class Player
             _avPlayer = newAVPlayer
         }
     }
+ */
     
     func play()
     {

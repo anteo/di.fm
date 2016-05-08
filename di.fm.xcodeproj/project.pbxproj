@@ -9,13 +9,11 @@
 /* Begin PBXBuildFile section */
 		0C2AD0291CD0795600A20EFE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD01B1CD0795600A20EFE /* AppDelegate.swift */; };
 		0C2AD02A1CD0795600A20EFE /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD01D1CD0795600A20EFE /* Player.swift */; };
-		0C2AD02C1CD0795600A20EFE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD01F1CD0795600A20EFE /* ViewController.swift */; };
-		0C2AD02D1CD0795600A20EFE /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0211CD0795600A20EFE /* Station.swift */; };
 		0C2AD02E1CD0795600A20EFE /* NSErrorAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0231CD0795600A20EFE /* NSErrorAdditions.swift */; };
 		0C2AD02F1CD0795600A20EFE /* Semaphore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0241CD0795600A20EFE /* Semaphore.swift */; };
 		0C2AD0301CD0795600A20EFE /* StandardError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0251CD0795600A20EFE /* StandardError.swift */; };
 		0C2AD0311CD0795600A20EFE /* TVSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0261CD0795600A20EFE /* TVSupport.swift */; };
-		0C2AD0321CD0795600A20EFE /* StationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0281CD0795600A20EFE /* StationCollectionViewCell.swift */; };
+		0C2AD0321CD0795600A20EFE /* ChannelCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0281CD0795600A20EFE /* ChannelCollectionViewCell.swift */; };
 		0C2AD0341CD0796100A20EFE /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0331CD0796100A20EFE /* Channel.swift */; };
 		0C2AD0361CD0798100A20EFE /* ChannelFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0351CD0798100A20EFE /* ChannelFilter.swift */; };
 		0C2AD0381CD07A1D00A20EFE /* AudioAddictURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0371CD07A1D00A20EFE /* AudioAddictURL.swift */; };
@@ -30,18 +28,18 @@
 		0CA349721CDF14AE00765A46 /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA349711CDF14AE00765A46 /* Stream.swift */; };
 		0CA349741CDF1ADC00765A46 /* BatchUpdate.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CA349731CDF1ADC00765A46 /* BatchUpdate.json */; };
 		0CDEB6D51CDFB6C500CC208A /* NSDateAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEB6D41CDFB6C500CC208A /* NSDateAdditions.swift */; };
+		0CDEB6D71CDFBBC400CC208A /* ChannelFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEB6D61CDFBBC400CC208A /* ChannelFilterViewController.swift */; };
+		0CDEB6D91CDFBC9E00CC208A /* ChannelListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEB6D81CDFBC9E00CC208A /* ChannelListViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0C2AD01B1CD0795600A20EFE /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0C2AD01D1CD0795600A20EFE /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
-		0C2AD01F1CD0795600A20EFE /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		0C2AD0211CD0795600A20EFE /* Station.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
 		0C2AD0231CD0795600A20EFE /* NSErrorAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSErrorAdditions.swift; sourceTree = "<group>"; };
 		0C2AD0241CD0795600A20EFE /* Semaphore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Semaphore.swift; sourceTree = "<group>"; };
 		0C2AD0251CD0795600A20EFE /* StandardError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandardError.swift; sourceTree = "<group>"; };
 		0C2AD0261CD0795600A20EFE /* TVSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TVSupport.swift; sourceTree = "<group>"; };
-		0C2AD0281CD0795600A20EFE /* StationCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationCollectionViewCell.swift; sourceTree = "<group>"; };
+		0C2AD0281CD0795600A20EFE /* ChannelCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelCollectionViewCell.swift; sourceTree = "<group>"; };
 		0C2AD0331CD0796100A20EFE /* Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		0C2AD0351CD0798100A20EFE /* ChannelFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelFilter.swift; sourceTree = "<group>"; };
 		0C2AD0371CD07A1D00A20EFE /* AudioAddictURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioAddictURL.swift; sourceTree = "<group>"; };
@@ -58,6 +56,8 @@
 		0CA349711CDF14AE00765A46 /* Stream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stream.swift; sourceTree = "<group>"; };
 		0CA349731CDF1ADC00765A46 /* BatchUpdate.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = BatchUpdate.json; path = di.fm/SampleData/BatchUpdate.json; sourceTree = SOURCE_ROOT; };
 		0CDEB6D41CDFB6C500CC208A /* NSDateAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateAdditions.swift; sourceTree = "<group>"; };
+		0CDEB6D61CDFBBC400CC208A /* ChannelFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelFilterViewController.swift; sourceTree = "<group>"; };
+		0CDEB6D81CDFBC9E00CC208A /* ChannelListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,8 +83,9 @@
 			isa = PBXGroup;
 			children = (
 				0CA349651CDEE60000765A46 /* AudioAddictServer.swift */,
+				0CDEB6D61CDFBBC400CC208A /* ChannelFilterViewController.swift */,
+				0CDEB6D81CDFBC9E00CC208A /* ChannelListViewController.swift */,
 				0C2AD01D1CD0795600A20EFE /* Player.swift */,
-				0C2AD01F1CD0795600A20EFE /* ViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -99,7 +100,6 @@
 				0C2AD0391CD07C9A00A20EFE /* ChannelImage.swift */,
 				0C2AD0351CD0798100A20EFE /* ChannelFilter.swift */,
 				0CA3496B1CDF12C000765A46 /* Event.swift */,
-				0C2AD0211CD0795600A20EFE /* Station.swift */,
 				0CA349711CDF14AE00765A46 /* Stream.swift */,
 				0CA3496F1CDF148400765A46 /* StreamList.swift */,
 				0CA3496D1CDF143300765A46 /* StreamSet.swift */,
@@ -122,7 +122,7 @@
 		0C2AD0271CD0795600A20EFE /* View */ = {
 			isa = PBXGroup;
 			children = (
-				0C2AD0281CD0795600A20EFE /* StationCollectionViewCell.swift */,
+				0C2AD0281CD0795600A20EFE /* ChannelCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -258,26 +258,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C2AD02A1CD0795600A20EFE /* Player.swift in Sources */,
-				0C2AD0321CD0795600A20EFE /* StationCollectionViewCell.swift in Sources */,
+				0C2AD0321CD0795600A20EFE /* ChannelCollectionViewCell.swift in Sources */,
 				0C2AD0381CD07A1D00A20EFE /* AudioAddictURL.swift in Sources */,
 				0C2AD0341CD0796100A20EFE /* Channel.swift in Sources */,
 				0C2AD0301CD0795600A20EFE /* StandardError.swift in Sources */,
 				0C2AD03A1CD07C9A00A20EFE /* ChannelImage.swift in Sources */,
 				0CA3496A1CDEE6EB00765A46 /* Asset.swift in Sources */,
-				0C2AD02D1CD0795600A20EFE /* Station.swift in Sources */,
 				0CA3496C1CDF12C000765A46 /* Event.swift in Sources */,
 				0CA349661CDEE60000765A46 /* AudioAddictServer.swift in Sources */,
 				0CA349701CDF148400765A46 /* StreamList.swift in Sources */,
 				0CA349681CDEE6C900765A46 /* BatchUpdate.swift in Sources */,
 				0CDEB6D51CDFB6C500CC208A /* NSDateAdditions.swift in Sources */,
 				0C2AD0311CD0795600A20EFE /* TVSupport.swift in Sources */,
-				0C2AD02C1CD0795600A20EFE /* ViewController.swift in Sources */,
 				0C2AD0291CD0795600A20EFE /* AppDelegate.swift in Sources */,
 				0C2AD0361CD0798100A20EFE /* ChannelFilter.swift in Sources */,
 				0C2AD02F1CD0795600A20EFE /* Semaphore.swift in Sources */,
+				0CDEB6D71CDFBBC400CC208A /* ChannelFilterViewController.swift in Sources */,
 				0CA3496E1CDF143300765A46 /* StreamSet.swift in Sources */,
 				0C2AD02E1CD0795600A20EFE /* NSErrorAdditions.swift in Sources */,
 				0CA349721CDF14AE00765A46 /* Stream.swift in Sources */,
+				0CDEB6D91CDFBC9E00CC208A /* ChannelListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
