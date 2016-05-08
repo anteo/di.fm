@@ -21,11 +21,9 @@ struct StreamList
         if let identifier = dict["id"] as? NSNumber {
             self.identifier = identifier.integerValue
         }
-        
         if let name = dict["name"] as? NSString {
             self.name = String(name)
         }
-        
         if let channelsArray = dict["channels"] as? NSArray {
             var channelIDToStreams: [Int : [Stream]] = [:]
             

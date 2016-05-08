@@ -24,6 +24,7 @@ class BatchUpdate
         if let adNetwork = dict["ad_network"] as? NSString {
             self.adNetwork = String(adNetwork)
         }
+        
         if let dateCached = dict["cached_at"] as? NSString {
             self.dateCached = DateFromRFC3339String(dateCached as String)
         }

@@ -21,11 +21,9 @@ struct Asset
         if let identifier = dict["id"] as? NSNumber {
             self.identifier = identifier.integerValue
         }
-        
         if let name = dict["name"] as? NSString {
             self.name = String(name)
         }
-        
         if let contentHash = dict["content_hash"] as? NSString {
             self.contentHash = String(contentHash)
         }

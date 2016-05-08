@@ -74,14 +74,12 @@ struct Channel
         if let assetIdentifier = dict["asset_id"] as? NSNumber {
             self.assetIdentifier = assetIdentifier.integerValue
         }
-        
         if let assetURL = dict["asset_url"] as? NSString {
             self.assetURL = AudioAddictURL(assetURL as String)
         }
         if let bannerURL = dict["banner_url"] as? NSString {
             self.bannerURL = AudioAddictURL(bannerURL as String)
         }
-        
         if let imageDict = dict["images"] as? NSDictionary {
             self.image = ChannelImage(imageDict)
         }

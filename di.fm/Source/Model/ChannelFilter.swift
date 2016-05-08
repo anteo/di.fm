@@ -48,7 +48,6 @@ struct ChannelFilter
         if let spriteURL = dict["sprite"] as? NSString {
             self.spriteURL = AudioAddictURL(spriteURL as String)
         }
-        
         if let channelObjs = dict["channels"] as? NSArray {
             var channels: [Channel] = []
             for channelObj in channelObjs {
