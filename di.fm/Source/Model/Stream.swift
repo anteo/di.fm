@@ -9,6 +9,16 @@ import Foundation
 
 struct Stream
 {
+    enum Quality : String {
+        case Public1        = "public1"         // 64kbps aac
+        case Public2        = "public2"         // 40kbps aac
+        case Public3        = "public3"         // 96kbps mp3
+        case PremiumLow     = "premium_low"     // 40kbps aac
+        case PremiumMedium  = "premium_medium"  // 64kbps aac
+        case Premium        = "premium"         // 128kbps aac
+        case PremiumHigh    = "premium_high"    // 256kbps mp3
+    }
+    
     var identifier:     Int = 0
     var url:            NSURL = NSURL()
     var format:         String = ""
