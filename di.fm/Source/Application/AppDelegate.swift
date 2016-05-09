@@ -8,10 +8,13 @@
 import UIKit
 
 @UIApplicationMain
-class AppDelegate : UIResponder, UIApplicationDelegate
+class AppDelegate : UIResponder, UIApplicationDelegate, ChannelListViewControllerDelegate, PlayerDelegate
 {
-    var window:             UIWindow?
-    var tabBarController:   UITabBarController = UITabBarController()
+    var window:                 UIWindow?
+    var tabBarController:       UITabBarController = UITabBarController()
+    var nowPlayingController:   NowPlayingViewController = NowPlayingViewController()
+    var server:                 AudioAddictServer = AudioAddictServer()
+    var player:                 Player = Player()
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool
     {
@@ -19,9 +22,43 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         self.window?.rootViewController = self.tabBarController
         self.window?.makeKeyAndVisible()
         
+        self.player.delegate = self
+        self.nowPlayingController.server = self.server
+        
         _reloadData()
         
         return true
+    }
+    
+    // MARK: ChannelListViewControllerDelegate
+    
+    func channelListDidSelectChannel(controller: ChannelListViewController, channel: Channel)
+    {
+        self.player.currentChannel = channel
+        self.player.play()
+        
+        _reloadNowPlayingState()
+        
+        if let nowPlayingControllerIndex = self.tabBarController.viewControllers?.indexOf(self.nowPlayingController)! {
+            self.tabBarController.selectedIndex = nowPlayingControllerIndex
+        }
+    }
+    
+    // MARK: PlayerDelegate
+    
+    func playerDidStartPlayingChannel(player: Player, channel: Channel)
+    {
+        _reloadNowPlayingState()
+    }
+    
+    func playerDidPausePlayback(player: Player)
+    {
+        _reloadNowPlayingState()
+    }
+    
+    func playerDidStopPlayback(player: Player)
+    {
+        _reloadNowPlayingState()
     }
     
     // MARK: Internal
@@ -34,12 +71,31 @@ class AppDelegate : UIResponder, UIApplicationDelegate
                 
                 if (update != nil) {
                     self._configureTabs(update!)
+                    self._configurePlayer(update!)
                 } else {
                     let alertMessage = "Cannot connect to server. \(error?.localizedDescription)"
                     let alert = UIAlertController(title: "Loading Failed", message: alertMessage, preferredStyle: .Alert)
                     self.tabBarController.presentViewController(alert, animated: true, completion: nil)
                 }
             })
+        }
+    }
+    
+    internal func _reloadNowPlayingState()
+    {
+        self.nowPlayingController.currentChannel = self.player.currentChannel
+        
+        let tabIndexOfNowPlaying = self.tabBarController.viewControllers?.indexOf(self.nowPlayingController)
+        if (self.nowPlayingController.currentChannel != nil) {
+            // show now playing tab if not already visible
+            if (tabIndexOfNowPlaying == nil) {
+                self.tabBarController.viewControllers?.append(self.nowPlayingController)
+            }
+        } else {
+            // hide now playing tab if not already hidden
+            if (tabIndexOfNowPlaying != nil) {
+                self.tabBarController.viewControllers?.removeAtIndex(tabIndexOfNowPlaying!)
+            }
         }
     }
     
@@ -51,11 +107,25 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         for channelFilter in channelFilters {
             if (!channelFilter.isStyleFilter() && !channelFilter.isHidden()) {
                 let viewController = ChannelFilterViewController()
+                viewController.channelListDelegate = self
+                viewController.server = self.server
                 viewController.channelFilter = channelFilter
+                
                 viewControllers.append(viewController)
             }
         }
         
         self.tabBarController.viewControllers = viewControllers
+    }
+    
+    internal func _configurePlayer(batchUpdate: BatchUpdate)
+    {
+        var streamSet: StreamSet? = nil
+        
+        if (batchUpdate.streamSets.count > 0) {
+            streamSet = batchUpdate.streamSets.first!
+        }
+        
+        self.player.streamSet = streamSet
     }
 }

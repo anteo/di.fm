@@ -31,6 +31,8 @@
 		0CDEB6D71CDFBBC400CC208A /* ChannelFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEB6D61CDFBBC400CC208A /* ChannelFilterViewController.swift */; };
 		0CDEB6D91CDFBC9E00CC208A /* ChannelListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEB6D81CDFBC9E00CC208A /* ChannelListViewController.swift */; };
 		0CDEB6DB1CE01DC200CC208A /* ChannelArtworkImageDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEB6DA1CE01DC200CC208A /* ChannelArtworkImageDataSource.swift */; };
+		0CDEB6DD1CE03D7C00CC208A /* NowPlayingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEB6DC1CE03D7C00CC208A /* NowPlayingViewController.swift */; };
+		0CDEB6E51CE044DE00CC208A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0CDEB6E41CE044DE00CC208A /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +62,8 @@
 		0CDEB6D61CDFBBC400CC208A /* ChannelFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelFilterViewController.swift; sourceTree = "<group>"; };
 		0CDEB6D81CDFBC9E00CC208A /* ChannelListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelListViewController.swift; sourceTree = "<group>"; };
 		0CDEB6DA1CE01DC200CC208A /* ChannelArtworkImageDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelArtworkImageDataSource.swift; sourceTree = "<group>"; };
+		0CDEB6DC1CE03D7C00CC208A /* NowPlayingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NowPlayingViewController.swift; sourceTree = "<group>"; };
+		0CDEB6E41CE044DE00CC208A /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +92,7 @@
 				0CDEB6DA1CE01DC200CC208A /* ChannelArtworkImageDataSource.swift */,
 				0CDEB6D61CDFBBC400CC208A /* ChannelFilterViewController.swift */,
 				0CDEB6D81CDFBC9E00CC208A /* ChannelListViewController.swift */,
+				0CDEB6DC1CE03D7C00CC208A /* NowPlayingViewController.swift */,
 				0C2AD01D1CD0795600A20EFE /* Player.swift */,
 			);
 			path = Controller;
@@ -172,6 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				0CA349731CDF1ADC00765A46 /* BatchUpdate.json */,
+				0CDEB6E41CE044DE00CC208A /* Localizable.strings */,
 				0C4301EE1CCFCB8200E4BEE7 /* Assets.xcassets */,
 			);
 			path = Resources;
@@ -249,6 +255,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C4301EF1CCFCB8200E4BEE7 /* Assets.xcassets in Resources */,
+				0CDEB6E51CE044DE00CC208A /* Localizable.strings in Resources */,
 				0CA349741CDF1ADC00765A46 /* BatchUpdate.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -279,6 +286,7 @@
 				0C2AD02F1CD0795600A20EFE /* Semaphore.swift in Sources */,
 				0CDEB6D71CDFBBC400CC208A /* ChannelFilterViewController.swift in Sources */,
 				0CA3496E1CDF143300765A46 /* StreamSet.swift in Sources */,
+				0CDEB6DD1CE03D7C00CC208A /* NowPlayingViewController.swift in Sources */,
 				0C2AD02E1CD0795600A20EFE /* NSErrorAdditions.swift in Sources */,
 				0CA349721CDF14AE00765A46 /* Stream.swift in Sources */,
 				0CDEB6D91CDFBC9E00CC208A /* ChannelListViewController.swift in Sources */,

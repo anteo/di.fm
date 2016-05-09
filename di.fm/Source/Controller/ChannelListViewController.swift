@@ -8,15 +8,31 @@
 import Foundation
 import UIKit
 
+protocol ChannelListViewControllerDelegate: class
+{
+    func channelListDidSelectChannel(controller: ChannelListViewController, channel: Channel)
+}
+
 class ChannelListViewController : UIViewController, UICollectionViewDelegate, UICollectionViewDataSource
 {
     static private let CollectionViewReuseIdentifier = "CollectionViewReuseIdentifier"
     static private let LayoutTemplate = TVSixColumnGridTemplate
     
     private var _collectionView:    UICollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: UICollectionViewFlowLayout())
-    private var _artworkDataSource: ChannelArtworkImageDataSource = ChannelArtworkImageDataSource(AudioAddictServer.sharedServer)
+    private var _artworkDataSource: ChannelArtworkImageDataSource = ChannelArtworkImageDataSource()
     
-    var channels: [Channel] = [] {
+    weak var delegate:              ChannelListViewControllerDelegate?
+    
+    var server: AudioAddictServer?
+    {
+        didSet
+        {
+            _artworkDataSource.server = server
+        }
+    }
+    
+    var channels: [Channel] = []
+    {
         didSet
         {
             _collectionView.reloadData()
@@ -82,5 +98,7 @@ class ChannelListViewController : UIViewController, UICollectionViewDelegate, UI
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath)
     {
+        let channel = self.channels[indexPath.row]
+        self.delegate?.channelListDidSelectChannel(self, channel: channel)
     }
 }

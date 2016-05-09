@@ -12,7 +12,23 @@ class ChannelFilterViewController : UIViewController
 {
     private var _channelListViewController: ChannelListViewController = ChannelListViewController()
     
-    var channelFilter:  ChannelFilter?
+    weak var channelListDelegate: ChannelListViewControllerDelegate?
+    {
+        didSet
+        {
+            _channelListViewController.delegate = self.channelListDelegate
+        }
+    }
+    
+    var server: AudioAddictServer?
+    {
+        didSet
+        {
+            _channelListViewController.server = server
+        }
+    }
+    
+    var channelFilter: ChannelFilter?
     {
         didSet
         {

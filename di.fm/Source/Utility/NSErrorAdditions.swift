@@ -11,6 +11,7 @@ import Foundation
 enum ErrorCode : Int {
     case Unknown
     case ConnectionError
+    case ConfigurationError
 }
 
 extension NSError {
@@ -31,6 +32,11 @@ extension NSError {
         }
         
         return self.difmError(code, userInfo: userInfo)
+    }
+    
+    class func difmError(code: ErrorCode, description: String) -> NSError
+    {
+        return self.difmError(code, userInfo: [NSLocalizedDescriptionKey : description])
     }
     
     class func difmError(code: ErrorCode, userInfo: [NSObject : AnyObject]?) -> NSError

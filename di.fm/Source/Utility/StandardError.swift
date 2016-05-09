@@ -10,9 +10,10 @@ import Foundation
 
 class StandardErrorOutputStream : OutputStreamType
 {
+    private var _stderr = NSFileHandle.fileHandleWithStandardError()
+    
     func write(string: String)
     {
-        let stderr = NSFileHandle.fileHandleWithStandardError()
-        stderr.writeData(string.dataUsingEncoding(NSUTF8StringEncoding)!)
+        _stderr.writeData(string.dataUsingEncoding(NSUTF8StringEncoding)!)
     }
 }

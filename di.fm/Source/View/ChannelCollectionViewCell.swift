@@ -34,14 +34,16 @@ class ChannelCollectionViewCell : UICollectionViewCell
     
     // MARK: Accessors
     
-    var channel: Channel? {
+    var channel: Channel?
+    {
         didSet
         {
             self.channelImage = nil
         }
     }
     
-    var channelImage: UIImage? {
+    var channelImage: UIImage?
+    {
         didSet
         {
             if (self.channelImage != nil) {
