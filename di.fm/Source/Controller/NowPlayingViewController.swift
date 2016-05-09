@@ -47,9 +47,9 @@ class NowPlayingViewController : UIViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
-        _artworkImageView.image = UIImage(named: "placeholder-artwork")
         self.view.addSubview(_artworkImageView)
+        
+        _reloadChannelArtwork()
     }
     
     override func viewDidLayoutSubviews()
@@ -71,6 +71,8 @@ class NowPlayingViewController : UIViewController
     
     internal func _reloadChannelArtwork()
     {
+        _artworkImageView.image = UIImage(named: "placeholder-artwork")
+        
         if (self.currentChannel != nil) {
             let artworkSize = NowPlayingViewController._ArtworkSize
             _artworkDataSource.loadChannelArtworkImage(self.currentChannel!, size: artworkSize, completion: { (image: UIImage?, error: NSError?) -> (Void) in
@@ -80,8 +82,6 @@ class NowPlayingViewController : UIViewController
                     }
                 }
             })
-        } else {
-            _artworkImageView.image = UIImage(named: "placeholder-artwork")
         }
     }
 }
