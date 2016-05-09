@@ -34,12 +34,14 @@ class LoginViewController : UIViewController
         _emailTextField.keyboardType = .EmailAddress
         _emailTextField.autocorrectionType = .No
         _emailTextField.autocapitalizationType = .None
+        _emailTextField.text = "james@magahern.com"
         self.view.addSubview(_emailTextField)
         
         _passwordTextField.placeholder = NSLocalizedString("LOGIN_PASSWORD_PLACEHOLDER_TEXT", comment: "")
         _passwordTextField.secureTextEntry = true
         _passwordTextField.autocorrectionType = .No
         _passwordTextField.autocapitalizationType = .None
+        _passwordTextField.text = "rrKP2hiZmyyEoyBFaQR9icYu"
         self.view.addSubview(_passwordTextField)
         
         _loginButton.setTitle(NSLocalizedString("LOGIN_BUTTON_TEXT", comment: ""), forState: .Normal)

@@ -10,21 +10,13 @@ import UIKit
 
 class ChannelFilterViewController : UIViewController
 {
-    private var _channelListViewController: ChannelListViewController = ChannelListViewController()
-    
-    weak var channelListDelegate: ChannelListViewControllerDelegate?
-    {
-        didSet
-        {
-            _channelListViewController.delegate = self.channelListDelegate
-        }
-    }
+    var channelListViewController: ChannelListViewController = ChannelListViewController()
     
     var server: AudioAddictServer?
     {
         didSet
         {
-            _channelListViewController.server = server
+            self.channelListViewController.server = server
         }
     }
     
@@ -33,7 +25,7 @@ class ChannelFilterViewController : UIViewController
         didSet
         {
             self.title = self.channelFilter?.name
-            _channelListViewController.channels = self.channelFilter?.channels ?? []
+            self.channelListViewController.channels = self.channelFilter?.channels ?? []
         }
     }
     
@@ -41,8 +33,8 @@ class ChannelFilterViewController : UIViewController
     {
         super.viewDidLoad()
         
-        self.addChildViewController(_channelListViewController)
-        self.view.addSubview(_channelListViewController.view)
+        self.addChildViewController(self.channelListViewController)
+        self.view.addSubview(self.channelListViewController.view)
     }
     
     override func viewDidLayoutSubviews()
@@ -50,6 +42,6 @@ class ChannelFilterViewController : UIViewController
         super.viewDidLayoutSubviews()
         
         let bounds = self.view.bounds
-        _channelListViewController.view.frame = bounds
+        self.channelListViewController.view.frame = bounds
     }
 }

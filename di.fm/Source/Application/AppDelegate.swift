@@ -136,12 +136,12 @@ class AppDelegate : UIResponder,
         
         for channelFilter in channelFilters {
             if (!channelFilter.isStyleFilter() && !channelFilter.isHidden()) {
-                let viewController = ChannelFilterViewController()
-                viewController.channelListDelegate = self
-                viewController.server = self.server
-                viewController.channelFilter = channelFilter
+                let channelFilterViewController = ChannelFilterViewController()
+                channelFilterViewController.channelListViewController.delegate = self
+                channelFilterViewController.server = self.server
+                channelFilterViewController.channelFilter = channelFilter
                 
-                viewControllers.append(viewController)
+                viewControllers.append(channelFilterViewController)
             }
         }
         
