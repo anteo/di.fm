@@ -26,13 +26,14 @@
 		0CA3496E1CDF143300765A46 /* StreamSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3496D1CDF143300765A46 /* StreamSet.swift */; };
 		0CA349701CDF148400765A46 /* StreamList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3496F1CDF148400765A46 /* StreamList.swift */; };
 		0CA349721CDF14AE00765A46 /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA349711CDF14AE00765A46 /* Stream.swift */; };
-		0CA349741CDF1ADC00765A46 /* BatchUpdate.json in Resources */ = {isa = PBXBuildFile; fileRef = 0CA349731CDF1ADC00765A46 /* BatchUpdate.json */; };
 		0CDEB6D51CDFB6C500CC208A /* NSDateAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEB6D41CDFB6C500CC208A /* NSDateAdditions.swift */; };
 		0CDEB6D71CDFBBC400CC208A /* ChannelFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEB6D61CDFBBC400CC208A /* ChannelFilterViewController.swift */; };
 		0CDEB6D91CDFBC9E00CC208A /* ChannelListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEB6D81CDFBC9E00CC208A /* ChannelListViewController.swift */; };
 		0CDEB6DB1CE01DC200CC208A /* ChannelArtworkImageDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEB6DA1CE01DC200CC208A /* ChannelArtworkImageDataSource.swift */; };
 		0CDEB6DD1CE03D7C00CC208A /* NowPlayingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEB6DC1CE03D7C00CC208A /* NowPlayingViewController.swift */; };
 		0CDEB6E51CE044DE00CC208A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0CDEB6E41CE044DE00CC208A /* Localizable.strings */; };
+		0CDEB6E91CE047A400CC208A /* AuthenticatedUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEB6E81CE047A400CC208A /* AuthenticatedUser.swift */; };
+		0CDEB6EB1CE04E4800CC208A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEB6EA1CE04E4800CC208A /* LoginViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,13 +58,14 @@
 		0CA3496D1CDF143300765A46 /* StreamSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamSet.swift; sourceTree = "<group>"; };
 		0CA3496F1CDF148400765A46 /* StreamList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamList.swift; sourceTree = "<group>"; };
 		0CA349711CDF14AE00765A46 /* Stream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stream.swift; sourceTree = "<group>"; };
-		0CA349731CDF1ADC00765A46 /* BatchUpdate.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = BatchUpdate.json; path = di.fm/SampleData/BatchUpdate.json; sourceTree = SOURCE_ROOT; };
 		0CDEB6D41CDFB6C500CC208A /* NSDateAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateAdditions.swift; sourceTree = "<group>"; };
 		0CDEB6D61CDFBBC400CC208A /* ChannelFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelFilterViewController.swift; sourceTree = "<group>"; };
 		0CDEB6D81CDFBC9E00CC208A /* ChannelListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelListViewController.swift; sourceTree = "<group>"; };
 		0CDEB6DA1CE01DC200CC208A /* ChannelArtworkImageDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelArtworkImageDataSource.swift; sourceTree = "<group>"; };
 		0CDEB6DC1CE03D7C00CC208A /* NowPlayingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NowPlayingViewController.swift; sourceTree = "<group>"; };
 		0CDEB6E41CE044DE00CC208A /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		0CDEB6E81CE047A400CC208A /* AuthenticatedUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticatedUser.swift; sourceTree = "<group>"; };
+		0CDEB6EA1CE04E4800CC208A /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 				0CDEB6DA1CE01DC200CC208A /* ChannelArtworkImageDataSource.swift */,
 				0CDEB6D61CDFBBC400CC208A /* ChannelFilterViewController.swift */,
 				0CDEB6D81CDFBC9E00CC208A /* ChannelListViewController.swift */,
+				0CDEB6EA1CE04E4800CC208A /* LoginViewController.swift */,
 				0CDEB6DC1CE03D7C00CC208A /* NowPlayingViewController.swift */,
 				0C2AD01D1CD0795600A20EFE /* Player.swift */,
 			);
@@ -103,6 +106,7 @@
 			children = (
 				0CA349691CDEE6EB00765A46 /* Asset.swift */,
 				0C2AD0371CD07A1D00A20EFE /* AudioAddictURL.swift */,
+				0CDEB6E81CE047A400CC208A /* AuthenticatedUser.swift */,
 				0CA349671CDEE6C900765A46 /* BatchUpdate.swift */,
 				0C2AD0331CD0796100A20EFE /* Channel.swift */,
 				0C2AD0391CD07C9A00A20EFE /* ChannelImage.swift */,
@@ -176,7 +180,6 @@
 		0C4301F71CCFCBDE00E4BEE7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				0CA349731CDF1ADC00765A46 /* BatchUpdate.json */,
 				0CDEB6E41CE044DE00CC208A /* Localizable.strings */,
 				0C4301EE1CCFCB8200E4BEE7 /* Assets.xcassets */,
 			);
@@ -256,7 +259,6 @@
 			files = (
 				0C4301EF1CCFCB8200E4BEE7 /* Assets.xcassets in Resources */,
 				0CDEB6E51CE044DE00CC208A /* Localizable.strings in Resources */,
-				0CA349741CDF1ADC00765A46 /* BatchUpdate.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,6 +272,7 @@
 				0C2AD02A1CD0795600A20EFE /* Player.swift in Sources */,
 				0C2AD0321CD0795600A20EFE /* ChannelCollectionViewCell.swift in Sources */,
 				0C2AD0381CD07A1D00A20EFE /* AudioAddictURL.swift in Sources */,
+				0CDEB6E91CE047A400CC208A /* AuthenticatedUser.swift in Sources */,
 				0C2AD0341CD0796100A20EFE /* Channel.swift in Sources */,
 				0C2AD0301CD0795600A20EFE /* StandardError.swift in Sources */,
 				0C2AD03A1CD07C9A00A20EFE /* ChannelImage.swift in Sources */,
@@ -279,6 +282,7 @@
 				0CA349701CDF148400765A46 /* StreamList.swift in Sources */,
 				0CA349681CDEE6C900765A46 /* BatchUpdate.swift in Sources */,
 				0CDEB6D51CDFB6C500CC208A /* NSDateAdditions.swift in Sources */,
+				0CDEB6EB1CE04E4800CC208A /* LoginViewController.swift in Sources */,
 				0C2AD0311CD0795600A20EFE /* TVSupport.swift in Sources */,
 				0CDEB6DB1CE01DC200CC208A /* ChannelArtworkImageDataSource.swift in Sources */,
 				0C2AD0291CD0795600A20EFE /* AppDelegate.swift in Sources */,

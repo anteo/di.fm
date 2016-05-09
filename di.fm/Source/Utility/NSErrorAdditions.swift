@@ -12,6 +12,7 @@ enum ErrorCode : Int {
     case Unknown
     case ConnectionError
     case ConfigurationError
+    case AuthenticationError
 }
 
 extension NSError {

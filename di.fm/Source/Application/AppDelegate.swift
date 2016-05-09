@@ -8,7 +8,11 @@
 import UIKit
 
 @UIApplicationMain
-class AppDelegate : UIResponder, UIApplicationDelegate, ChannelListViewControllerDelegate, PlayerDelegate
+class AppDelegate : UIResponder,
+    UIApplicationDelegate,
+    ChannelListViewControllerDelegate,
+    PlayerDelegate,
+    LoginViewControllerDelegate
 {
     var window:                 UIWindow?
     var tabBarController:       UITabBarController = UITabBarController()
@@ -18,14 +22,15 @@ class AppDelegate : UIResponder, UIApplicationDelegate, ChannelListViewControlle
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool
     {
+        let loginViewController = LoginViewController()
+        loginViewController.delegate = self
+        
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        self.window?.rootViewController = self.tabBarController
+        self.window?.rootViewController = loginViewController
         self.window?.makeKeyAndVisible()
         
         self.player.delegate = self
         self.nowPlayingController.server = self.server
-        
-        _reloadData()
         
         return true
     }
@@ -61,11 +66,32 @@ class AppDelegate : UIResponder, UIApplicationDelegate, ChannelListViewControlle
         _reloadNowPlayingState()
     }
     
+    // MARK: LoginViewControllerDelegate
+    
+    func loginViewControllerDidSubmitCredentials(controller: LoginViewController,
+                                                 email: String,
+                                                 password: String,
+                                                 completion: (NSError?) -> (Void))
+    {
+        self.server.authenticate(email, password: password) { (authenticatedUser: AuthenticatedUser?, error: NSError?) -> (Void) in
+            completion(error)
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                if (authenticatedUser != nil) {
+                    self.player.listenKey = authenticatedUser?.listenKey
+                    self.window?.rootViewController = self.tabBarController
+                    self._reloadData()
+                }
+            }
+        }
+    }
+    
     // MARK: Internal
     
     internal func _reloadData()
     {
-        AudioAddictServer.sharedServer.fetchBatchUpdate(.Public1) { (update: BatchUpdate?, error: NSError?) -> (Void) in
+        // TODO: read stream quality from user settings
+        self.server.fetchBatchUpdate(.PremiumHigh) { (update: BatchUpdate?, error: NSError?) -> (Void) in
             dispatch_async(dispatch_get_main_queue(), {
                 self.tabBarController.viewControllers = nil
                 
@@ -73,8 +99,12 @@ class AppDelegate : UIResponder, UIApplicationDelegate, ChannelListViewControlle
                     self._configureTabs(update!)
                     self._configurePlayer(update!)
                 } else {
-                    let alertMessage = "Cannot connect to server. \(error?.localizedDescription)"
+                    let errorDescription = error?.localizedDescription ?? NSLocalizedString("UNKNOWN_ERROR", comment: "")
+                    let alertMessage = "Cannot connect to server. \(errorDescription)"
                     let alert = UIAlertController(title: "Loading Failed", message: alertMessage, preferredStyle: .Alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action: UIAlertAction) in
+                        self.tabBarController.dismissViewControllerAnimated(true, completion: nil)
+                    }))
                     self.tabBarController.presentViewController(alert, animated: true, completion: nil)
                 }
             })
