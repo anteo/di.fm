@@ -7,6 +7,10 @@
 
 "NOW_PLAYING_TAB" = "Now Playing";
 
+"LOGIN_FAILED_MESSAGE_TITLE" = "Login Failed";
+"LOADING_FAILED_MESSAGE_TITLE" = "Loading Failed";
+
+"CONNECTION_ERROR_FORMAT_%@" = "Cannot connect to server. %@";
 "AUTH_ERROR_USERNAME_OR_PASSWORD" = "Incorrect username or password.";
 "AUTH_ERROR_NOT_AUTHENTICATED" = "Your account credentials are no longer valid. Please login and try again.";
 "UNKNOWN_ERROR" = "An unknown error occurred.";
@@ -14,3 +18,5 @@
 "LOGIN_EMAIL_PLACEHOLDER_TEXT" = "Email";
 "LOGIN_PASSWORD_PLACEHOLDER_TEXT" = "Password";
 "LOGIN_BUTTON_TEXT" = "Login";
+
+"OK" = "OK";

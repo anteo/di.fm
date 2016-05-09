@@ -100,9 +100,10 @@ class AppDelegate : UIResponder,
                     self._configurePlayer(update!)
                 } else {
                     let errorDescription = error?.localizedDescription ?? NSLocalizedString("UNKNOWN_ERROR", comment: "")
-                    let alertMessage = "Cannot connect to server. \(errorDescription)"
-                    let alert = UIAlertController(title: "Loading Failed", message: alertMessage, preferredStyle: .Alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action: UIAlertAction) in
+                    let alertMessage = NSString(format: NSLocalizedString("CONNECTION_ERROR_FORMAT_%@", comment: ""), errorDescription) as String
+                    let alertTitle = NSLocalizedString("LOADING_FAILED_MESSAGE_TITLE", comment: "")
+                    let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .Alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: { (action: UIAlertAction) in
                         self.tabBarController.dismissViewControllerAnimated(true, completion: nil)
                     }))
                     self.tabBarController.presentViewController(alert, animated: true, completion: nil)

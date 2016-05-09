@@ -34,14 +34,12 @@ class LoginViewController : UIViewController
         _emailTextField.keyboardType = .EmailAddress
         _emailTextField.autocorrectionType = .No
         _emailTextField.autocapitalizationType = .None
-        _emailTextField.text = "james@magahern.com"
         self.view.addSubview(_emailTextField)
         
         _passwordTextField.placeholder = NSLocalizedString("LOGIN_PASSWORD_PLACEHOLDER_TEXT", comment: "")
         _passwordTextField.secureTextEntry = true
         _passwordTextField.autocorrectionType = .No
         _passwordTextField.autocapitalizationType = .None
-        _passwordTextField.text = "rrKP2hiZmyyEoyBFaQR9icYu"
         self.view.addSubview(_passwordTextField)
         
         _loginButton.setTitle(NSLocalizedString("LOGIN_BUTTON_TEXT", comment: ""), forState: .Normal)
@@ -100,7 +98,20 @@ class LoginViewController : UIViewController
                                                                password: password,
                                                                completion:
         { (error: NSError?) -> (Void) in
-            // TODO: present error dialog if auth failure occurs
+            dispatch_async(dispatch_get_main_queue()) {
+                if (error != nil) {
+                    let alertTitle = NSLocalizedString("LOGIN_FAILED_MESSAGE_TITLE", comment: "")
+                    let alertMessage = error!.localizedDescription
+                    let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .Alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: { (action: UIAlertAction) in
+                        self.dismissViewControllerAnimated(true, completion: nil)
+                    }))
+                    self.presentViewController(alert, animated: true, completion: {
+                        // clear password field
+                        self._passwordTextField.text = ""
+                    })
+                }
+            }
         })
     }
 }
