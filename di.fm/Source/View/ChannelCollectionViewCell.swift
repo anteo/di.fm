@@ -17,6 +17,7 @@ class ChannelCollectionViewCell : UICollectionViewCell
         super.init(frame: frame)
         
         _imageView.adjustsImageWhenAncestorFocused = true
+        _imageView.image = _placeholderArtworkImage()
         self.addSubview(_imageView)
     }
     
@@ -33,42 +34,28 @@ class ChannelCollectionViewCell : UICollectionViewCell
     
     // MARK: Accessors
     
-    var channel: Channel?
-    {
+    var channel: Channel? {
         didSet
         {
-            var channelImage: UIImage? = nil
-            
-            if (self.channel != nil) {
-                channelImage = _generateChannelImage(self.channel!)
+            self.channelImage = nil
+        }
+    }
+    
+    var channelImage: UIImage? {
+        didSet
+        {
+            if (self.channelImage != nil) {
+                _imageView.image = self.channelImage
+            } else {
+                _imageView.image = _placeholderArtworkImage()
             }
-            
-            _imageView.image = channelImage
         }
     }
     
     // MARK: Internal
     
-    internal func _generateChannelImage(channel: Channel) -> UIImage
+    func _placeholderArtworkImage() -> UIImage
     {
-        let imageSize = CGSize(width: 250.0, height: 250.0)
-        UIGraphicsBeginImageContextWithOptions(imageSize, true, self.traitCollection.displayScale)
-        
-        UIColor.blackColor().setFill()
-        UIRectFill(CGRect(origin: CGPointZero, size: imageSize))
-        
-        let stationNameString = NSString(string: channel.name)
-        let attributes = [
-            NSFontAttributeName : UIFont.boldSystemFontOfSize(42.0),
-            NSForegroundColorAttributeName : UIColor.whiteColor()
-        ]
-        
-        UIColor.whiteColor().setFill()
-        stationNameString.drawInRect(CGRect(origin: CGPointZero, size: imageSize), withAttributes: attributes)
-        
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return image
+        return UIImage(named: "placeholder-artwork")!
     }
 }

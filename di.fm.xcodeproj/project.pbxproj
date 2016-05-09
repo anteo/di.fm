@@ -30,6 +30,7 @@
 		0CDEB6D51CDFB6C500CC208A /* NSDateAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEB6D41CDFB6C500CC208A /* NSDateAdditions.swift */; };
 		0CDEB6D71CDFBBC400CC208A /* ChannelFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEB6D61CDFBBC400CC208A /* ChannelFilterViewController.swift */; };
 		0CDEB6D91CDFBC9E00CC208A /* ChannelListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEB6D81CDFBC9E00CC208A /* ChannelListViewController.swift */; };
+		0CDEB6DB1CE01DC200CC208A /* ChannelArtworkImageDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEB6DA1CE01DC200CC208A /* ChannelArtworkImageDataSource.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,7 @@
 		0CDEB6D41CDFB6C500CC208A /* NSDateAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateAdditions.swift; sourceTree = "<group>"; };
 		0CDEB6D61CDFBBC400CC208A /* ChannelFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelFilterViewController.swift; sourceTree = "<group>"; };
 		0CDEB6D81CDFBC9E00CC208A /* ChannelListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelListViewController.swift; sourceTree = "<group>"; };
+		0CDEB6DA1CE01DC200CC208A /* ChannelArtworkImageDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelArtworkImageDataSource.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				0CA349651CDEE60000765A46 /* AudioAddictServer.swift */,
+				0CDEB6DA1CE01DC200CC208A /* ChannelArtworkImageDataSource.swift */,
 				0CDEB6D61CDFBBC400CC208A /* ChannelFilterViewController.swift */,
 				0CDEB6D81CDFBC9E00CC208A /* ChannelListViewController.swift */,
 				0C2AD01D1CD0795600A20EFE /* Player.swift */,
@@ -270,6 +273,7 @@
 				0CA349681CDEE6C900765A46 /* BatchUpdate.swift in Sources */,
 				0CDEB6D51CDFB6C500CC208A /* NSDateAdditions.swift in Sources */,
 				0C2AD0311CD0795600A20EFE /* TVSupport.swift in Sources */,
+				0CDEB6DB1CE01DC200CC208A /* ChannelArtworkImageDataSource.swift in Sources */,
 				0C2AD0291CD0795600A20EFE /* AppDelegate.swift in Sources */,
 				0C2AD0361CD0798100A20EFE /* ChannelFilter.swift in Sources */,
 				0C2AD02F1CD0795600A20EFE /* Semaphore.swift in Sources */,

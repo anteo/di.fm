@@ -11,8 +11,10 @@ import UIKit
 class ChannelListViewController : UIViewController, UICollectionViewDelegate, UICollectionViewDataSource
 {
     static private let CollectionViewReuseIdentifier = "CollectionViewReuseIdentifier"
+    static private let LayoutTemplate = TVSixColumnGridTemplate
     
-    private var _collectionView: UICollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: UICollectionViewFlowLayout())
+    private var _collectionView:    UICollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: UICollectionViewFlowLayout())
+    private var _artworkDataSource: ChannelArtworkImageDataSource = ChannelArtworkImageDataSource(AudioAddictServer.sharedServer)
     
     var channels: [Channel] = [] {
         didSet
@@ -28,7 +30,7 @@ class ChannelListViewController : UIViewController, UICollectionViewDelegate, UI
         super.viewDidLoad()
         
         let collectionViewLayout = _collectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        let layoutTemplate = TVSixColumnGridTemplate
+        let layoutTemplate = ChannelListViewController.LayoutTemplate
         collectionViewLayout.itemSize = CGSize(width: layoutTemplate.unfocusedContentWidth, height: layoutTemplate.unfocusedContentWidth)
         collectionViewLayout.minimumInteritemSpacing = layoutTemplate.horizontalSpacing
         collectionViewLayout.minimumLineSpacing = layoutTemplate.minimumVerticalSpacing
@@ -55,8 +57,23 @@ class ChannelListViewController : UIViewController, UICollectionViewDelegate, UI
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell
     {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(ChannelListViewController.CollectionViewReuseIdentifier, forIndexPath: indexPath) as! ChannelCollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(
+            ChannelListViewController.CollectionViewReuseIdentifier,
+            forIndexPath: indexPath)
+            as! ChannelCollectionViewCell
+        
+        let channel = self.channels[indexPath.row]
         cell.channel = self.channels[indexPath.row]
+        
+        let sizeDimensions = ChannelListViewController.LayoutTemplate.unfocusedContentWidth
+        let size = CGSize(width: sizeDimensions, height: sizeDimensions)
+        _artworkDataSource.loadChannelArtworkImage(channel, size: size) { (channelImage: UIImage?, error: NSError?) -> (Void) in
+            dispatch_async(dispatch_get_main_queue()) {
+                if (cell.channel?.identifier == channel.identifier) {
+                    cell.channelImage = channelImage
+                }
+            }
+        }
         
         return cell
     }

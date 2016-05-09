@@ -59,4 +59,31 @@ struct ChannelFilter
             self.channels = channels
         }
     }
+    
+    func isStyleFilter() -> Bool
+    {
+        return Set([
+            5,  // Trance
+            7,  // Dance
+            6,  // House
+            16, // Lounge
+            9,  // Chillout
+            8,  // Techno
+            65, // Bass
+            15, // Ambient
+            88, // Deep
+            19, // Classic
+            11, // Vocal
+            12  // Hard
+        ]).contains(self.identifier)
+    }
+    
+    func isHidden() -> Bool
+    {
+        // no idea what these are, but don't show them
+        return Set([
+            67, // UMF
+            69  // Sankeys
+        ]).contains(self.identifier)
+    }
 }

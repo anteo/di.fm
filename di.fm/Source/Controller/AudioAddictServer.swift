@@ -5,6 +5,7 @@
 //  Created by Charles Magahern on 5/7/16.
 //
 
+import CoreGraphics
 import Foundation
 
 class AudioAddictServer
@@ -22,7 +23,6 @@ class AudioAddictServer
     {
         let config = NSURLSessionConfiguration.defaultSessionConfiguration()
         _urlSession = NSURLSession(configuration: config)
-        _operationQueue.maxConcurrentOperationCount = 1
     }
     
     func fetchBatchUpdate(streamQuality: Stream.Quality, completion: (BatchUpdate?, NSError?) -> (Void))
@@ -38,6 +38,25 @@ class AudioAddictServer
             }
             
             completion(strongOp.batchUpdate, strongOp.error)
+        }
+        
+        _operationQueue.addOperation(operation)
+    }
+    
+    func loadChannelArtwork(channelImage: ChannelImage, size: CGSize, completion: (NSData?, NSError?) -> (Void))
+    {
+        let operation = LoadChannelArtworkOperation(baseURL: AudioAddictServer._BaseURL, session: _urlSession)
+        operation.channelImage = channelImage
+        operation.sizeHint = size
+        
+        weak var weakOp = operation
+        operation.completionBlock = {
+            guard let strongOp = weakOp else { completion(nil, nil) ; return }
+            if (strongOp.error != nil) {
+                self._logError("could not fetch artwork data", error: strongOp.error!)
+            }
+            
+            completion(strongOp.imageData, strongOp.error)
         }
         
         _operationQueue.addOperation(operation)
@@ -107,7 +126,6 @@ internal class ServerOperation : NSOperation
 internal class BatchUpdateOperation : ServerOperation
 {
     var streamQuality: Stream.Quality = .Public1
-    
     internal(set) var batchUpdate: BatchUpdate? = nil
     
     override func main()
@@ -125,5 +143,20 @@ internal class BatchUpdateOperation : ServerOperation
                 self.batchUpdate = BatchUpdate(jsonDict!)
             }
         }
+    }
+}
+
+internal class LoadChannelArtworkOperation : ServerOperation
+{
+    var sizeHint:       CGSize = CGSize(width: 300.0, height: 300.0)
+    var channelImage:   ChannelImage = ChannelImage()
+    
+    internal(set) var imageData: NSData? = nil
+    
+    override func main()
+    {
+        let urlParams = ["width" : "\(self.sizeHint.width)", "height" : "\(self.sizeHint.height)"]
+        let artworkURL = self.channelImage.defaultURL.url(urlParams)
+        self.imageData = self.fetchData(artworkURL)
     }
 }

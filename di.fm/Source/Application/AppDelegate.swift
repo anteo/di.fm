@@ -49,9 +49,11 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         let channelFilters = batchUpdate.channelFilters
         
         for channelFilter in channelFilters {
-            let viewController = ChannelFilterViewController()
-            viewController.channelFilter = channelFilter
-            viewControllers.append(viewController)
+            if (!channelFilter.isStyleFilter() && !channelFilter.isHidden()) {
+                let viewController = ChannelFilterViewController()
+                viewController.channelFilter = channelFilter
+                viewControllers.append(viewController)
+            }
         }
         
         self.tabBarController.viewControllers = viewControllers
