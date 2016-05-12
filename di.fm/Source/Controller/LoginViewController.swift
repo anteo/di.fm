@@ -25,6 +25,7 @@ class LoginViewController : UIViewController
     private var _emailTextField:    UITextField = UITextField()
     private var _passwordTextField: UITextField = UITextField()
     private var _loginButton:       UIButton = UIButton(type: .System)
+    private var _spinner:           UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .White)
     
     // MARK: UIViewController
     
@@ -47,17 +48,24 @@ class LoginViewController : UIViewController
         _emailTextField.keyboardType = .EmailAddress
         _emailTextField.autocorrectionType = .No
         _emailTextField.autocapitalizationType = .None
+        _emailTextField.addTarget(self, action: #selector(_textFieldValueChanged), forControlEvents: .EditingChanged)
         _formContainerView.addSubview(_emailTextField)
         
         _passwordTextField.placeholder = NSLocalizedString("LOGIN_PASSWORD_PLACEHOLDER_TEXT", comment: "")
         _passwordTextField.secureTextEntry = true
         _passwordTextField.autocorrectionType = .No
         _passwordTextField.autocapitalizationType = .None
+        _passwordTextField.addTarget(self, action: #selector(_textFieldValueChanged), forControlEvents: .EditingChanged)
         _formContainerView.addSubview(_passwordTextField)
         
+        _loginButton.enabled = false
         _loginButton.setTitle(NSLocalizedString("LOGIN_BUTTON_TEXT", comment: ""), forState: .Normal)
         _loginButton.addTarget(self, action: #selector(_loginButtonSelected), forControlEvents: .PrimaryActionTriggered)
         _formContainerView.addSubview(_loginButton)
+        
+        _spinner.stopAnimating()
+        _spinner.hidesWhenStopped = true
+        _formContainerView.addSubview(_spinner)
     }
     
     override func viewWillLayoutSubviews()
@@ -69,6 +77,7 @@ class LoginViewController : UIViewController
         let headerFormPadding = CGFloat(50.0)
         let textFieldsPadding = CGFloat(40.0)
         let loginButtonMarginTop = CGFloat(60.0)
+        let spinnerMarginTop = CGFloat(40.0)
         
         let logoViewHeight = containerViewDimensions / 8.0
         let logoViewImageSize = _logoImageView.image!.size
@@ -119,12 +128,34 @@ class LoginViewController : UIViewController
             height: loginButtonSize.height
         )
         _loginButton.frame = loginButtonFrame
+        
+        let spinnerSize = _spinner.sizeThatFits(bounds.size)
+        let spinnerFrame = CGRect(
+            x: rint(containerViewDimensions / 2.0 - spinnerSize.width / 2.0),
+            y: CGRectGetMaxY(loginButtonFrame) + spinnerMarginTop,
+            width: spinnerSize.width,
+            height: spinnerSize.height
+        )
+        _spinner.frame = spinnerFrame
     }
     
     // MARK: Actions
     
-    func _loginButtonSelected(sender: UIButton)
+    internal func _textFieldValueChanged(sender: UITextField)
     {
+        let email = _emailTextField.text!
+        let password = _passwordTextField.text!
+        if (email.characters.count > 0 && password.characters.count > 0) {
+            _loginButton.enabled = true
+        } else {
+            _loginButton.enabled = false
+        }
+    }
+    
+    internal func _loginButtonSelected(sender: UIButton)
+    {
+        _setLoadingStateVisible(true)
+        
         let email = _emailTextField.text!
         let password = _passwordTextField.text!
         
@@ -134,6 +165,8 @@ class LoginViewController : UIViewController
                                                                completion:
         { (error: NSError?) -> (Void) in
             dispatch_async(dispatch_get_main_queue()) {
+                self._setLoadingStateVisible(false)
+                
                 if (error != nil) {
                     let alertTitle = NSLocalizedString("LOGIN_FAILED_MESSAGE_TITLE", comment: "")
                     let alertMessage = error!.localizedDescription
@@ -148,5 +181,18 @@ class LoginViewController : UIViewController
                 }
             }
         })
+    }
+    
+    // MARK: Internal
+    
+    internal func _setLoadingStateVisible(visible: Bool)
+    {
+        if (visible) {
+            _spinner.startAnimating()
+            _loginButton.enabled = false
+        } else {
+            _spinner.stopAnimating()
+            _loginButton.enabled = true
+        }
     }
 }
