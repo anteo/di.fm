@@ -16,18 +16,39 @@ class AppDelegate : UIResponder,
 {
     var window:                 UIWindow?
     var tabBarController:       UITabBarController = UITabBarController()
+    var credentialsStore:       CredentialsStore = CredentialsStore()
     var nowPlayingController:   NowPlayingViewController = NowPlayingViewController()
     var server:                 AudioAddictServer = AudioAddictServer()
     var player:                 Player = Player()
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool
     {
-        let loginViewController = LoginViewController()
-        loginViewController.delegate = self
+        var initialRootViewController: UIViewController? = nil
+        if (self.credentialsStore.hasCredentials()) {
+            initialRootViewController = LoadingViewController()
+            
+            let username = self.credentialsStore.username ?? ""
+            let password = self.credentialsStore.password ?? ""
+            self.server.authenticate(username, password: password, completion: { (user: AuthenticatedUser?, err: NSError?) -> (Void) in
+                if (user != nil) {
+                    self._handleSuccessfulAuthentication(user!)
+                } else {
+                    // show login screen
+                    let loginViewController = LoginViewController()
+                    loginViewController.delegate = self
+                    
+                    self.window?.rootViewController = loginViewController
+                }
+            })
+        } else {
+            let loginViewController = LoginViewController()
+            loginViewController.delegate = self
+            initialRootViewController = loginViewController
+        }
         
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         self.window?.backgroundColor = Theme.defaultTheme().backgroundColor
-        self.window?.rootViewController = loginViewController
+        self.window?.rootViewController = initialRootViewController
         self.window?.makeKeyAndVisible()
         
         self.player.delegate = self
@@ -77,17 +98,24 @@ class AppDelegate : UIResponder,
         self.server.authenticate(email, password: password) { (authenticatedUser: AuthenticatedUser?, error: NSError?) -> (Void) in
             completion(error)
             
-            dispatch_async(dispatch_get_main_queue()) {
-                if (authenticatedUser != nil) {
-                    self.player.listenKey = authenticatedUser?.listenKey
-                    self.window?.rootViewController = self.tabBarController
-                    self._reloadData()
-                }
+            if (authenticatedUser != nil) {
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.credentialsStore.username = email
+                    self.credentialsStore.password = password
+                    self._handleSuccessfulAuthentication(authenticatedUser!)
+                })
             }
         }
     }
     
     // MARK: Internal
+    
+    internal func _handleSuccessfulAuthentication(authenticatedUser: AuthenticatedUser)
+    {
+        self.player.listenKey = authenticatedUser.listenKey
+        self.window?.rootViewController = LoadingViewController()
+        _reloadData()
+    }
     
     internal func _reloadData()
     {
@@ -99,6 +127,7 @@ class AppDelegate : UIResponder,
                 if (update != nil) {
                     self._configureTabs(update!)
                     self._configurePlayer(update!)
+                    self.window?.rootViewController = self.tabBarController
                 } else {
                     let errorDescription = error?.localizedDescription ?? NSLocalizedString("UNKNOWN_ERROR", comment: "")
                     let alertMessage = NSString(format: NSLocalizedString("CONNECTION_ERROR_FORMAT_%@", comment: ""), errorDescription) as String
