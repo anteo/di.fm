@@ -20,7 +20,8 @@ class LoginViewController : UIViewController
 {
     weak var delegate:              LoginViewControllerDelegate?
     
-    private var _containerView:     UIView = UIView()
+    private var _logoImageView:     UIImageView = UIImageView()
+    private var _formContainerView: UIView = UIView()
     private var _emailTextField:    UITextField = UITextField()
     private var _passwordTextField: UITextField = UITextField()
     private var _loginButton:       UIButton = UIButton(type: .System)
@@ -33,26 +34,30 @@ class LoginViewController : UIViewController
         
         let theme = Theme.defaultTheme()
         
-        _containerView.backgroundColor = theme.secondaryColor
-        _containerView.clipsToBounds = true
-        _containerView.layer.cornerRadius = 6.0
-        self.view.addSubview(_containerView)
+        _logoImageView.image = UIImage(named: "di_logo_title")
+        _logoImageView.contentMode = .ScaleAspectFit
+        self.view.addSubview(_logoImageView)
+        
+        _formContainerView.backgroundColor = theme.secondaryColor
+        _formContainerView.clipsToBounds = true
+        _formContainerView.layer.cornerRadius = 24.0
+        self.view.addSubview(_formContainerView)
         
         _emailTextField.placeholder = NSLocalizedString("LOGIN_EMAIL_PLACEHOLDER_TEXT", comment: "")
         _emailTextField.keyboardType = .EmailAddress
         _emailTextField.autocorrectionType = .No
         _emailTextField.autocapitalizationType = .None
-        _containerView.addSubview(_emailTextField)
+        _formContainerView.addSubview(_emailTextField)
         
         _passwordTextField.placeholder = NSLocalizedString("LOGIN_PASSWORD_PLACEHOLDER_TEXT", comment: "")
         _passwordTextField.secureTextEntry = true
         _passwordTextField.autocorrectionType = .No
         _passwordTextField.autocapitalizationType = .None
-        _containerView.addSubview(_passwordTextField)
+        _formContainerView.addSubview(_passwordTextField)
         
         _loginButton.setTitle(NSLocalizedString("LOGIN_BUTTON_TEXT", comment: ""), forState: .Normal)
         _loginButton.addTarget(self, action: #selector(_loginButtonSelected), forControlEvents: .PrimaryActionTriggered)
-        _containerView.addSubview(_loginButton)
+        _formContainerView.addSubview(_loginButton)
     }
     
     override func viewWillLayoutSubviews()
@@ -61,22 +66,35 @@ class LoginViewController : UIViewController
         
         let bounds = self.view.bounds
         let containerViewDimensions = bounds.size.height / 2.0
-        let textFieldsPadding = CGFloat(30.0)
-        let loginButtonMarginTop = CGFloat(50.0)
+        let headerFormPadding = CGFloat(50.0)
+        let textFieldsPadding = CGFloat(40.0)
+        let loginButtonMarginTop = CGFloat(60.0)
         
+        let logoViewHeight = containerViewDimensions / 8.0
+        let logoViewImageSize = _logoImageView.image!.size
+        let logoViewSize = CGSize(width: rint((logoViewHeight / logoViewImageSize.height) * logoViewImageSize.width), height: logoViewHeight)
         let emailFieldSize = _emailTextField.sizeThatFits(bounds.size)
         let passwordFieldSize = _passwordTextField.sizeThatFits(bounds.size)
         let loginButtonSize = _loginButton.sizeThatFits(bounds.size)
-        let totalFieldsHeight = emailFieldSize.height + textFieldsPadding + passwordFieldSize.height + loginButtonMarginTop + loginButtonSize.height
         let textFieldsWidth = bounds.size.width / 5.0
+        let totalViewsHeight = logoViewSize.height + headerFormPadding + containerViewDimensions
+        let totalFieldsHeight = emailFieldSize.height + textFieldsPadding + passwordFieldSize.height + loginButtonMarginTop + loginButtonSize.height
+        
+        let logoViewFrame = CGRect(
+            x: rint(bounds.size.width / 2.0 - logoViewSize.width / 2.0),
+            y: rint(bounds.size.height / 2.0 - totalViewsHeight / 2.0),
+            width: logoViewSize.width,
+            height: logoViewSize.height
+        )
+        _logoImageView.frame = logoViewFrame
         
         let containerFrame = CGRect(
             x: rint(bounds.size.width / 2.0 - containerViewDimensions / 2.0),
-            y: rint(bounds.size.height / 2.0 - containerViewDimensions / 2.0),
+            y: CGRectGetMaxY(logoViewFrame) + headerFormPadding,
             width: containerViewDimensions,
             height: containerViewDimensions
         )
-        _containerView.frame = containerFrame
+        _formContainerView.frame = containerFrame
         
         let emailFrame = CGRect(
             x: rint(containerViewDimensions / 2.0 - textFieldsWidth / 2.0),
