@@ -35,5 +35,11 @@
 	<array>
 		<string>arm64</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>EnzoOT-Light.ttf</string>
+		<string>EnzoOT-Medium.ttf</string>
+		<string>EnzoOT-Bold.ttf</string>
+	</array>
 </dict>
 </plist>

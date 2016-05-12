@@ -20,6 +20,7 @@ class LoginViewController : UIViewController
 {
     weak var delegate:              LoginViewControllerDelegate?
     
+    private var _containerView:     UIView = UIView()
     private var _emailTextField:    UITextField = UITextField()
     private var _passwordTextField: UITextField = UITextField()
     private var _loginButton:       UIButton = UIButton(type: .System)
@@ -30,21 +31,28 @@ class LoginViewController : UIViewController
     {
         super.viewDidLoad()
         
+        let theme = Theme.defaultTheme()
+        
+        _containerView.backgroundColor = theme.secondaryColor
+        _containerView.clipsToBounds = true
+        _containerView.layer.cornerRadius = 6.0
+        self.view.addSubview(_containerView)
+        
         _emailTextField.placeholder = NSLocalizedString("LOGIN_EMAIL_PLACEHOLDER_TEXT", comment: "")
         _emailTextField.keyboardType = .EmailAddress
         _emailTextField.autocorrectionType = .No
         _emailTextField.autocapitalizationType = .None
-        self.view.addSubview(_emailTextField)
+        _containerView.addSubview(_emailTextField)
         
         _passwordTextField.placeholder = NSLocalizedString("LOGIN_PASSWORD_PLACEHOLDER_TEXT", comment: "")
         _passwordTextField.secureTextEntry = true
         _passwordTextField.autocorrectionType = .No
         _passwordTextField.autocapitalizationType = .None
-        self.view.addSubview(_passwordTextField)
+        _containerView.addSubview(_passwordTextField)
         
         _loginButton.setTitle(NSLocalizedString("LOGIN_BUTTON_TEXT", comment: ""), forState: .Normal)
         _loginButton.addTarget(self, action: #selector(_loginButtonSelected), forControlEvents: .PrimaryActionTriggered)
-        self.view.addSubview(_loginButton)
+        _containerView.addSubview(_loginButton)
     }
     
     override func viewWillLayoutSubviews()
@@ -52,6 +60,7 @@ class LoginViewController : UIViewController
         super.viewWillLayoutSubviews()
         
         let bounds = self.view.bounds
+        let containerViewDimensions = bounds.size.height / 2.0
         let textFieldsPadding = CGFloat(30.0)
         let loginButtonMarginTop = CGFloat(50.0)
         
@@ -61,16 +70,24 @@ class LoginViewController : UIViewController
         let totalFieldsHeight = emailFieldSize.height + textFieldsPadding + passwordFieldSize.height + loginButtonMarginTop + loginButtonSize.height
         let textFieldsWidth = bounds.size.width / 5.0
         
+        let containerFrame = CGRect(
+            x: rint(bounds.size.width / 2.0 - containerViewDimensions / 2.0),
+            y: rint(bounds.size.height / 2.0 - containerViewDimensions / 2.0),
+            width: containerViewDimensions,
+            height: containerViewDimensions
+        )
+        _containerView.frame = containerFrame
+        
         let emailFrame = CGRect(
-            x: rint(bounds.size.width / 2.0 - textFieldsWidth / 2.0),
-            y: rint(bounds.size.height / 2.0 - totalFieldsHeight / 2.0),
+            x: rint(containerViewDimensions / 2.0 - textFieldsWidth / 2.0),
+            y: rint(containerViewDimensions / 2.0 - totalFieldsHeight / 2.0),
             width: textFieldsWidth,
             height: emailFieldSize.height
         )
         _emailTextField.frame = emailFrame
         
         let passwordFrame = CGRect(
-            x: rint(bounds.size.width / 2.0 - textFieldsWidth / 2.0),
+            x: rint(containerViewDimensions / 2.0 - textFieldsWidth / 2.0),
             y: CGRectGetMaxY(emailFrame) + textFieldsPadding,
             width: textFieldsWidth,
             height: passwordFieldSize.height
@@ -78,7 +95,7 @@ class LoginViewController : UIViewController
         _passwordTextField.frame = passwordFrame
         
         let loginButtonFrame = CGRect(
-            x: rint(bounds.size.width / 2.0 - loginButtonSize.width / 2.0),
+            x: rint(containerViewDimensions / 2.0 - loginButtonSize.width / 2.0),
             y: CGRectGetMaxY(passwordFrame) + loginButtonMarginTop,
             width: loginButtonSize.width,
             height: loginButtonSize.height

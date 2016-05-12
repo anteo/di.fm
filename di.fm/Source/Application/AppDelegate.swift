@@ -26,6 +26,7 @@ class AppDelegate : UIResponder,
         loginViewController.delegate = self
         
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.window?.backgroundColor = Theme.defaultTheme().backgroundColor
         self.window?.rootViewController = loginViewController
         self.window?.makeKeyAndVisible()
         
