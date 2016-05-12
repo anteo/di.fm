@@ -9,7 +9,7 @@ import Foundation
 
 class CredentialsStore
 {
-    private var _keychainItem: KeychainItemWrapper = KeychainItemWrapper(identifier: "com.zanneth.di.fm", accessGroup: "")
+    private var _keychainItem: KeychainItemWrapper = KeychainItemWrapper(identifier: "com.zanneth.di.fm", accessGroup: nil)
     
     var username: String?
     {
