@@ -26,6 +26,7 @@
 		0CA3496E1CDF143300765A46 /* StreamSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3496D1CDF143300765A46 /* StreamSet.swift */; };
 		0CA349701CDF148400765A46 /* StreamList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3496F1CDF148400765A46 /* StreamList.swift */; };
 		0CA349721CDF14AE00765A46 /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA349711CDF14AE00765A46 /* Stream.swift */; };
+		0CB7A68A1CE5904D004EF016 /* RemoteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB7A6891CE5904D004EF016 /* RemoteController.swift */; };
 		0CD7B38B1CE4198300516C50 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD7B38A1CE4198300516C50 /* Theme.swift */; };
 		0CD7B38F1CE41C1200516C50 /* EnzoOT-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0CD7B38C1CE41C1200516C50 /* EnzoOT-Bold.ttf */; };
 		0CD7B3901CE41C1200516C50 /* EnzoOT-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0CD7B38D1CE41C1200516C50 /* EnzoOT-Light.ttf */; };
@@ -65,6 +66,7 @@
 		0CA3496D1CDF143300765A46 /* StreamSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamSet.swift; sourceTree = "<group>"; };
 		0CA3496F1CDF148400765A46 /* StreamList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamList.swift; sourceTree = "<group>"; };
 		0CA349711CDF14AE00765A46 /* Stream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stream.swift; sourceTree = "<group>"; };
+		0CB7A6891CE5904D004EF016 /* RemoteController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteController.swift; sourceTree = "<group>"; };
 		0CD7B38A1CE4198300516C50 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		0CD7B38C1CE41C1200516C50 /* EnzoOT-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "EnzoOT-Bold.ttf"; sourceTree = "<group>"; };
 		0CD7B38D1CE41C1200516C50 /* EnzoOT-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "EnzoOT-Light.ttf"; sourceTree = "<group>"; };
@@ -110,10 +112,11 @@
 				0CDEB6DA1CE01DC200CC208A /* ChannelArtworkImageDataSource.swift */,
 				0CDEB6D61CDFBBC400CC208A /* ChannelFilterViewController.swift */,
 				0CDEB6D81CDFBC9E00CC208A /* ChannelListViewController.swift */,
+				0CD7B3961CE45D2C00516C50 /* LoadingViewController.swift */,
 				0CDEB6EA1CE04E4800CC208A /* LoginViewController.swift */,
 				0CDEB6DC1CE03D7C00CC208A /* NowPlayingViewController.swift */,
 				0C2AD01D1CD0795600A20EFE /* Player.swift */,
-				0CD7B3961CE45D2C00516C50 /* LoadingViewController.swift */,
+				0CB7A6891CE5904D004EF016 /* RemoteController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -309,6 +312,7 @@
 				0CA3496A1CDEE6EB00765A46 /* Asset.swift in Sources */,
 				0CA3496C1CDF12C000765A46 /* Event.swift in Sources */,
 				0CA349661CDEE60000765A46 /* AudioAddictServer.swift in Sources */,
+				0CB7A68A1CE5904D004EF016 /* RemoteController.swift in Sources */,
 				0CA349701CDF148400765A46 /* StreamList.swift in Sources */,
 				0CA349681CDEE6C900765A46 /* BatchUpdate.swift in Sources */,
 				0CDEB6D51CDFB6C500CC208A /* NSDateAdditions.swift in Sources */,

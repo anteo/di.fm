@@ -15,11 +15,12 @@ class AppDelegate : UIResponder,
     LoginViewControllerDelegate
 {
     var window:                 UIWindow?
+    var server:                 AudioAddictServer = AudioAddictServer()
+    var player:                 Player = Player()
     var tabBarController:       UITabBarController = UITabBarController()
     var credentialsStore:       CredentialsStore = CredentialsStore()
     var nowPlayingController:   NowPlayingViewController = NowPlayingViewController()
-    var server:                 AudioAddictServer = AudioAddictServer()
-    var player:                 Player = Player()
+    var remoteController:       RemoteController!
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool
     {
@@ -53,8 +54,14 @@ class AppDelegate : UIResponder,
         self.window?.rootViewController = initialRootViewController
         self.window?.makeKeyAndVisible()
         
+        let playPauseButtonRecognizer = UITapGestureRecognizer(target: self, action: #selector(_playPauseButtonPressed))
+        playPauseButtonRecognizer.allowedPressTypes = [NSNumber(integer: UIPressType.PlayPause.rawValue)];
+        self.window?.addGestureRecognizer(playPauseButtonRecognizer)
+        
         self.player.delegate = self
         self.nowPlayingController.server = self.server
+        self.remoteController = RemoteController(player: self.player)
+        self.remoteController.player = self.player
         
         return true
     }
@@ -190,5 +197,15 @@ class AppDelegate : UIResponder,
         }
         
         self.player.streamSet = streamSet
+    }
+    
+    internal func _playPauseButtonPressed(sender: UITapGestureRecognizer)
+    {
+        if (self.player.isPlaying()) {
+            self.player.pause()
+        }
+        else {
+            self.player.play()
+        }
     }
 }
