@@ -23,6 +23,8 @@ class AppDelegate : UIResponder,
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool
     {
+        application.idleTimerDisabled = true
+        
         var initialRootViewController: UIViewController? = nil
         if (self.credentialsStore.hasCredentials()) {
             initialRootViewController = LoadingViewController()
