@@ -34,6 +34,13 @@ class Player
     
     func play()
     {
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+        }
+        catch let error as NSError {
+            _logError("error setting audio category", error: error)
+        }
+        
         _avPlayer?.play()
         
         if (self.currentChannel != nil) {
