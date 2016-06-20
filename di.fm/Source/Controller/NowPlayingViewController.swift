@@ -14,7 +14,9 @@ class NowPlayingViewController : UIViewController
     {
         didSet
         {
-            _reloadChannelArtwork()
+            if (oldValue != currentChannel) {
+                _reloadChannelArtwork()
+            }
         }
     }
     

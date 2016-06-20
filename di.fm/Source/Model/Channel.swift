@@ -85,3 +85,18 @@ struct Channel
         }
     }
 }
+
+func ==(left: Channel?, right: Channel?) -> Bool
+{
+    var equal: Bool = false
+    if let left = left,
+       let right = right {
+        equal = (left.identifier == right.identifier)
+    }
+    return equal
+}
+
+func !=(left: Channel?, right: Channel?) -> Bool
+{
+    return !(left == right)
+}
