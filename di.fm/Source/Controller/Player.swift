@@ -5,30 +5,42 @@
 //  Created by Charles Magahern on 4/26/16.
 //
 
-import Foundation
 import AVFoundation
+import Foundation
 
 protocol PlayerDelegate: class
 {
     func playerDidStartPlayingChannel(player: Player, channel: Channel)
     func playerDidPausePlayback(player: Player)
     func playerDidStopPlayback(player: Player)
+    func playerCurrentTrackDidChange(player: Player, newTrack: Track?)
 }
 
-class Player
+class Player : NSObject
 {
-    var listenKey:              String?
-    var streamSet:              StreamSet?
-    weak var delegate:          PlayerDelegate?
+    var listenKey:                  String?
+    var streamSet:                  StreamSet?
+    weak var delegate:              PlayerDelegate?
     
-    private var _avPlayer:      AVPlayer?
-    private var _errorStream:   StandardErrorOutputStream = StandardErrorOutputStream()
+    private var _playerItem:        AVPlayerItem?
+    private var _avPlayer:          AVPlayer?
+    private var _errorStream:       StandardErrorOutputStream = StandardErrorOutputStream()
     
     var currentChannel: Channel?
     {
         didSet
         {
+            self.currentTrack = nil
+            
             _reloadStream()
+        }
+    }
+    
+    private(set) var currentTrack: Track?
+    {
+        didSet
+        {
+            self.delegate?.playerCurrentTrackDidChange(self, newTrack: nil)
         }
     }
     
@@ -61,6 +73,24 @@ class Player
         return (_avPlayer?.rate > 0.0)
     }
     
+    // MARK: KVO
+    
+    override func observeValueForKeyPath(keyPath: String?,
+                                         ofObject object: AnyObject?,
+                                                  change: [String : AnyObject]?,
+                                                  context: UnsafeMutablePointer<Void>)
+    {
+        var newTrack: Track? = nil
+        
+        if (keyPath == "timedMetadata") {
+            if let playerItem = object as? AVPlayerItem {
+                newTrack = Track(playerItem)
+            }
+        }
+        
+        self.currentTrack = newTrack
+    }
+    
     // MARK: Internal
     
     internal func _cachedChannelStream(channel: Channel) -> Stream?
@@ -82,6 +112,7 @@ class Player
     
     internal func _reloadStream()
     {
+        var newPlayerItem: AVPlayerItem? = nil
         var newAVPlayer: AVPlayer? = nil
         
         if (self.currentChannel != nil) {
@@ -91,7 +122,8 @@ class Player
                     streamURLComponents.query = "?\(self.listenKey!)"
                 }
                 
-                newAVPlayer = AVPlayer(URL: streamURLComponents.URL!)
+                newPlayerItem = AVPlayerItem(URL: streamURLComponents.URL!)
+                newAVPlayer = AVPlayer(playerItem: newPlayerItem!)
             } else {
                 _logError("No stream found for channel \(self.currentChannel!.name)", error: nil)
             }
@@ -102,6 +134,12 @@ class Player
         let prevPlaying = self.isPlaying()
         self.pause()
         
+        _playerItem?.removeObserver(self, forKeyPath: "timedMetadata")
+        if let observablePlayerItem = newPlayerItem {
+            observablePlayerItem.addObserver(self, forKeyPath: "timedMetadata", options: NSKeyValueObservingOptions(), context: nil)
+        }
+        
+        _playerItem = newPlayerItem
         _avPlayer = newAVPlayer
         
         if (prevPlaying) {

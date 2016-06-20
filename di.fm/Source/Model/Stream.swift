@@ -9,7 +9,8 @@ import Foundation
 
 struct Stream
 {
-    enum Quality : String {
+    enum Quality : String
+    {
         case Public1        = "public1"         // 64kbps aac
         case Public2        = "public2"         // 40kbps aac
         case Public3        = "public3"         // 96kbps mp3

@@ -97,6 +97,11 @@ class AppDelegate : UIResponder,
         _reloadNowPlayingState()
     }
     
+    func playerCurrentTrackDidChange(player: Player, newTrack: Track?)
+    {
+        _reloadNowPlayingState()
+    }
+    
     // MARK: LoginViewControllerDelegate
     
     func loginViewControllerDidSubmitCredentials(controller: LoginViewController,
@@ -154,6 +159,7 @@ class AppDelegate : UIResponder,
     internal func _reloadNowPlayingState()
     {
         self.nowPlayingController.currentChannel = self.player.currentChannel
+        self.nowPlayingController.currentTrack = self.player.currentTrack
         
         let tabIndexOfNowPlaying = self.tabBarController.viewControllers?.indexOf(self.nowPlayingController)
         if (self.nowPlayingController.currentChannel != nil) {

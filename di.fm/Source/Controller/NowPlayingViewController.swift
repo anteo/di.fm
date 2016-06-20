@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MediaPlayer
 import UIKit
 
 class NowPlayingViewController : UIViewController
@@ -15,7 +16,19 @@ class NowPlayingViewController : UIViewController
         didSet
         {
             if (oldValue != currentChannel) {
+                self.currentTrack = nil // current track is now invalid
                 _reloadChannelArtwork()
+            }
+        }
+    }
+    
+    var currentTrack: Track?
+    {
+        didSet
+        {
+            if (oldValue != currentTrack) {
+                _reloadMetadataDisplay()
+                _reloadSystemNowPlayingInfo()
             }
         }
     }
@@ -28,10 +41,14 @@ class NowPlayingViewController : UIViewController
         }
     }
     
-    private var _artworkImageView: UIImageView = UIImageView()
+    private var _artworkImageView:  UIImageView = UIImageView()
     private var _artworkDataSource: ChannelArtworkImageDataSource = ChannelArtworkImageDataSource()
+    private var _titleLabel:        UILabel = UILabel()
+    private var _artistLabel:       UILabel = UILabel()
     
-    private static let _ArtworkSize = CGSize(width: 400.0, height: 400.0)
+    private static let _ArtworkSize = CGSize(width: 600.0, height: 600.0)
+    private static let _ArtworkTitlePadding = CGFloat(40.0)
+    private static let _TitleArtistLeading = CGFloat(5.0)
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?)
     {
@@ -49,9 +66,20 @@ class NowPlayingViewController : UIViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        self.view.addSubview(_artworkImageView)
         
+        self.view.addSubview(_artworkImageView)
         _reloadChannelArtwork()
+        
+        let theme = Theme.defaultTheme()
+        _titleLabel.font = theme.titleFont
+        _titleLabel.textColor = theme.foregroundColor
+        _titleLabel.textAlignment = .Center
+        self.view.addSubview(_titleLabel)
+        
+        _artistLabel.font = theme.foregroundFont
+        _artistLabel.textColor = theme.tertiaryColor
+        _artistLabel.textAlignment = .Center
+        self.view.addSubview(_artistLabel)
     }
     
     override func viewDidLayoutSubviews()
@@ -60,13 +88,42 @@ class NowPlayingViewController : UIViewController
         
         let bounds = self.view.bounds
         let artworkSize = NowPlayingViewController._ArtworkSize
+        let titleSize = _titleLabel.sizeThatFits(bounds.size)
+        let artistSize = _artistLabel.sizeThatFits(bounds.size)
+        let artworkTitlePadding = NowPlayingViewController._ArtworkTitlePadding
+        let titleArtistLeading = NowPlayingViewController._TitleArtistLeading
+        let totalViewsHeight = (
+            artworkSize.height +
+            artworkTitlePadding +
+            titleSize.height +
+            titleArtistLeading +
+            artistSize.height
+        )
+        
         let artworkFrame = CGRect(
             x: rint(bounds.size.width / 2.0 - artworkSize.width / 2.0),
-            y: rint(bounds.size.height / 2.0 - artworkSize.height / 2.0),
+            y: rint(bounds.size.height / 2.0 - totalViewsHeight / 2.0),
             width: artworkSize.width,
             height: artworkSize.height
         )
         _artworkImageView.frame = artworkFrame
+        
+        let labelsWidth = artworkFrame.size.width * 2.0
+        let titleFrame = CGRect(
+            x: rint(bounds.size.width / 2.0 - labelsWidth / 2.0),
+            y: CGRectGetMaxY(artworkFrame) + artworkTitlePadding,
+            width: labelsWidth,
+            height: titleSize.height
+        )
+        _titleLabel.frame = titleFrame
+        
+        let artistFrame = CGRect(
+            x: rint(bounds.size.width / 2.0 - labelsWidth / 2.0),
+            y: CGRectGetMaxY(titleFrame) + titleArtistLeading,
+            width: labelsWidth,
+            height: artistSize.height
+        )
+        _artistLabel.frame = artistFrame
     }
     
     // MARK: Internal
@@ -74,6 +131,7 @@ class NowPlayingViewController : UIViewController
     internal func _reloadChannelArtwork()
     {
         _artworkImageView.image = UIImage(named: "placeholder-artwork")
+        _reloadSystemNowPlayingInfo()
         
         if (self.currentChannel != nil) {
             let artworkSize = NowPlayingViewController._ArtworkSize
@@ -81,9 +139,51 @@ class NowPlayingViewController : UIViewController
                 dispatch_async(dispatch_get_main_queue()) {
                     if (image != nil) {
                         self._artworkImageView.image = image
+                        self._reloadSystemNowPlayingInfo()
                     }
                 }
             })
         }
+    }
+    
+    internal func _reloadMetadataDisplay()
+    {
+        dispatch_async(dispatch_get_main_queue()) {
+            let metadataWasEmpty = (self._titleLabel.text?.isEmpty ?? true && self._artistLabel.text?.isEmpty ?? true)
+            self._titleLabel.text = self.currentTrack?.title
+            self._artistLabel.text = self.currentTrack?.artist
+            self.view.setNeedsLayout()
+            
+            if (metadataWasEmpty) {
+                self._titleLabel.alpha = 0.0
+                self._artistLabel.alpha = 0.0
+            }
+            
+            UIView.animateWithDuration(0.5) {
+                self.view.layoutIfNeeded()
+                self._titleLabel.alpha = 1.0
+                self._artistLabel.alpha = 1.0
+            }
+        }
+    }
+    
+    internal func _reloadSystemNowPlayingInfo()
+    {
+        let npInfoCenter = MPNowPlayingInfoCenter.defaultCenter()
+        var npInfo: [String : AnyObject]? = nil
+        if let currentTrack = self.currentTrack {
+            npInfo = [
+                MPMediaItemPropertyTitle : currentTrack.title,
+                MPMediaItemPropertyArtist : currentTrack.artist,
+                MPMediaItemPropertyAlbumTitle : currentTrack.album
+            ]
+            
+            /* this was fixed in iOS 10.0 I think...
+            if let artwork = _artworkImageView.image {
+                npInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork()
+            }
+            */
+        }
+        npInfoCenter.nowPlayingInfo = npInfo
     }
 }

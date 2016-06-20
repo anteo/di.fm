@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C12834C1D177C8E00EDFB79 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C12834B1D177C8E00EDFB79 /* Track.swift */; };
 		0C2AD0291CD0795600A20EFE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD01B1CD0795600A20EFE /* AppDelegate.swift */; };
 		0C2AD02A1CD0795600A20EFE /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD01D1CD0795600A20EFE /* Player.swift */; };
 		0C2AD02E1CD0795600A20EFE /* NSErrorAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0231CD0795600A20EFE /* NSErrorAdditions.swift */; };
@@ -45,6 +46,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0C12834B1D177C8E00EDFB79 /* Track.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
 		0C2AD01B1CD0795600A20EFE /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0C2AD01D1CD0795600A20EFE /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		0C2AD0231CD0795600A20EFE /* NSErrorAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSErrorAdditions.swift; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				0CA3496F1CDF148400765A46 /* StreamList.swift */,
 				0CA3496D1CDF143300765A46 /* StreamSet.swift */,
 				0CD7B38A1CE4198300516C50 /* Theme.swift */,
+				0C12834B1D177C8E00EDFB79 /* Track.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -329,6 +332,7 @@
 				0CA3496E1CDF143300765A46 /* StreamSet.swift in Sources */,
 				0CDEB6DD1CE03D7C00CC208A /* NowPlayingViewController.swift in Sources */,
 				0C2AD02E1CD0795600A20EFE /* NSErrorAdditions.swift in Sources */,
+				0C12834C1D177C8E00EDFB79 /* Track.swift in Sources */,
 				0CA349721CDF14AE00765A46 /* Stream.swift in Sources */,
 				0CDEB6D91CDFBC9E00CC208A /* ChannelListViewController.swift in Sources */,
 			);
