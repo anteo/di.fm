@@ -26,12 +26,13 @@ class Player : NSObject
     private var _avPlayer:          AVPlayer?
     private var _errorStream:       StandardErrorOutputStream = StandardErrorOutputStream()
     
+    private let _keyPathsToObserve = ["tracks", "timedMetadata", "status"]
+    
     var currentChannel: Channel?
     {
         didSet
         {
             self.currentTrack = nil
-            
             _reloadStream()
         }
     }
@@ -82,9 +83,11 @@ class Player : NSObject
     {
         var newTrack: Track? = nil
         
-        if (keyPath == "timedMetadata") {
-            if let playerItem = object as? AVPlayerItem {
-                newTrack = Track(playerItem)
+        if let keyPath = keyPath {
+            if (_keyPathsToObserve.contains(keyPath)) {
+                if let playerItem = object as? AVPlayerItem {
+                    newTrack = Track(playerItem)
+                }
             }
         }
         
@@ -134,9 +137,14 @@ class Player : NSObject
         let prevPlaying = self.isPlaying()
         self.pause()
         
-        _playerItem?.removeObserver(self, forKeyPath: "timedMetadata")
+        for keyPath in _keyPathsToObserve {
+            _playerItem?.removeObserver(self, forKeyPath: keyPath)
+        }
+        
         if let observablePlayerItem = newPlayerItem {
-            observablePlayerItem.addObserver(self, forKeyPath: "timedMetadata", options: NSKeyValueObservingOptions(), context: nil)
+            for keyPath in _keyPathsToObserve {
+                observablePlayerItem.addObserver(self, forKeyPath: keyPath, options: NSKeyValueObservingOptions(), context: nil)
+            }
         }
         
         _playerItem = newPlayerItem

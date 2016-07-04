@@ -10,12 +10,17 @@ import Foundation
 
 struct Track
 {
-    var title:  String = ""
-    var artist: String = ""
-    var album:  String = ""
+    var title:      String = ""
+    var artist:     String = ""
+    var album:      String = ""
+    var playerItem: AVPlayerItem
+    var assetTrack: AVAssetTrack?
     
     init(_ playerItem: AVPlayerItem)
     {
+        self.playerItem = playerItem
+        
+        // parse player item metadata
         if let metadata = playerItem.timedMetadata {
             for metadataItem in metadata {
                 if let key = metadataItem.commonKey {
@@ -52,6 +57,14 @@ struct Track
                 self.title = titleString.substringWithRange(titleRange) as String
             }
         }
+    
+        // search for asset track
+        for track in playerItem.tracks {
+            if (track.assetTrack.mediaType == AVMediaTypeAudio) {
+                self.assetTrack = track.assetTrack
+                break
+            }
+        }
     }
 }
 
@@ -62,7 +75,9 @@ func ==(left: Track?, right: Track?) -> Bool
         equal = (
             left.title == right.title &&
             left.artist == right.artist &&
-            left.album == right.album
+            left.album == right.album &&
+            left.playerItem == right.playerItem &&
+            left.assetTrack == right.assetTrack
         )
     }
     return equal

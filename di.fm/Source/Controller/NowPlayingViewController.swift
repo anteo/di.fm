@@ -30,6 +30,8 @@ class NowPlayingViewController : UIViewController
                 _reloadMetadataDisplay()
                 _reloadSystemNowPlayingInfo()
             }
+            
+            _reloadVisualization()
         }
     }
     
@@ -41,10 +43,11 @@ class NowPlayingViewController : UIViewController
         }
     }
     
-    private var _artworkImageView:  UIImageView = UIImageView()
-    private var _artworkDataSource: ChannelArtworkImageDataSource = ChannelArtworkImageDataSource()
-    private var _titleLabel:        UILabel = UILabel()
-    private var _artistLabel:       UILabel = UILabel()
+    private var _visualizationViewController: VisualizationViewController = VisualizationViewController()
+    private var _artworkImageView:            UIImageView = UIImageView()
+    private var _artworkDataSource:           ChannelArtworkImageDataSource = ChannelArtworkImageDataSource()
+    private var _titleLabel:                  UILabel = UILabel()
+    private var _artistLabel:                 UILabel = UILabel()
     
     private static let _ArtworkSize = CGSize(width: 600.0, height: 600.0)
     private static let _ArtworkTitlePadding = CGFloat(40.0)
@@ -66,6 +69,10 @@ class NowPlayingViewController : UIViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        let visualizationView = _visualizationViewController.view
+        self.addChildViewController(_visualizationViewController)
+        self.view.addSubview(visualizationView)
         
         self.view.addSubview(_artworkImageView)
         _reloadChannelArtwork()
@@ -99,6 +106,9 @@ class NowPlayingViewController : UIViewController
             titleArtistLeading +
             artistSize.height
         )
+        
+        let visualizationFrame = bounds
+        _visualizationViewController.view.frame = visualizationFrame
         
         let artworkFrame = CGRect(
             x: rint(bounds.size.width / 2.0 - artworkSize.width / 2.0),
@@ -185,5 +195,10 @@ class NowPlayingViewController : UIViewController
             */
         }
         npInfoCenter.nowPlayingInfo = npInfo
+    }
+    
+    internal func _reloadVisualization()
+    {
+        _visualizationViewController.currentTrack = self.currentTrack
     }
 }
