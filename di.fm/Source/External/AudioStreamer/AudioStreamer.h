@@ -22,6 +22,7 @@
 //
 
 #import <TargetConditionals.h>
+#import "AudioStreamDelegate.h"
 
 #if TARGET_OS_IPHONE			
 #import <UIKit/UIKit.h>
@@ -97,6 +98,7 @@ typedef enum
 	AS_AUDIO_QUEUE_ENQUEUE_FAILED,
 	AS_AUDIO_QUEUE_ADD_LISTENER_FAILED,
 	AS_AUDIO_QUEUE_REMOVE_LISTENER_FAILED,
+    AS_AUDIO_QUEUE_ADD_PROCESSING_TAP_FAILED,
 	AS_AUDIO_QUEUE_START_FAILED,
 	AS_AUDIO_QUEUE_PAUSE_FAILED,
 	AS_AUDIO_QUEUE_BUFFER_MISMATCH,
@@ -113,17 +115,18 @@ extern NSString * const ASStatusChangedNotification;
 @interface AudioStreamer : NSObject
 {
 	NSURL *url;
-
+    
 	//
 	// Special threading consideration:
 	//	The audioQueue property should only ever be accessed inside a
 	//	synchronized(self) block and only *after* checking that ![self isFinishing]
 	//
 	AudioQueueRef audioQueue;
-	AudioFileStreamID audioFileStream;	// the audio file stream parser
-	AudioStreamBasicDescription asbd;	// description of the audio
-	NSThread *internalThread;			// the thread where the download and
-										// audio file stream parsing occurs
+	AudioFileStreamID audioFileStream;          // the audio file stream parser
+	AudioStreamBasicDescription asbd;           // description of the audio
+    AudioQueueProcessingTapRef processingTap;   // post-processing tap
+	NSThread *internalThread;                   // the thread where the download and
+                                                // audio file stream parsing occurs
 	
 	AudioQueueBufferRef audioQueueBuffer[kNumAQBufs];		// audio queue buffers
 	AudioStreamPacketDescription packetDescs[kAQMaxPacketDescs];	// packet descriptions for enqueuing audio
@@ -173,6 +176,8 @@ extern NSString * const ASStatusChangedNotification;
 	BOOL pausedByInterruption;
 #endif
 }
+
+@property (nonatomic,assign) id<AudioStreamDelegate> delegate;
 
 @property AudioStreamerErrorCode errorCode;
 @property (readonly) AudioStreamerState state;

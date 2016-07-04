@@ -9,11 +9,6 @@
 #import "FFTProcessor.h"
 #import <Accelerate/Accelerate.h>
 
-typedef struct
-{
-    void *userInfo;
-} DIFMAudioProcessingContext;
-
 static void _DIFMTapInitCallback(MTAudioProcessingTapRef tap, void *info, void **storageOut);
 static void _DIFMTapFinalizeCallback(MTAudioProcessingTapRef tap);
 static void _DIFMTapProcessCallback(MTAudioProcessingTapRef tap,
@@ -24,67 +19,76 @@ static void _DIFMTapProcessCallback(MTAudioProcessingTapRef tap,
                                     MTAudioProcessingTapFlags *flagsOut);
 
 @implementation FFTProcessor
-{
-    AVAudioMix *_audioMix;
-}
 
-- (instancetype)initWithTrack:(AVAssetTrack *)track
+- (AVAudioMix *)audioMixWithAssetTrack:(AVAssetTrack *)track
 {
-    self = [super init];
-    if (self) {
-        _track = track;
-    }
-    return self;
-}
-
-#pragma mark - Accessors
-
-- (AVAudioMix *)audioMix
-{
-    if (!_audioMix) {
-        AVMutableAudioMix *audioMix = [[AVMutableAudioMix alloc] init];
-        AVMutableAudioMixInputParameters *inputParams = [AVMutableAudioMixInputParameters audioMixInputParametersWithTrack:_track];
-        MTAudioProcessingTapCallbacks callbacks = {
-            .version = kMTAudioProcessingTapCallbacksVersion_0,
-            .clientInfo = (__bridge void *)self,
-            .init = _DIFMTapInitCallback,
-            .finalize = _DIFMTapFinalizeCallback,
-            .prepare = NULL,
-            .unprepare = NULL,
-            .process = _DIFMTapProcessCallback
-        };
+    AVMutableAudioMix *audioMix = [[AVMutableAudioMix alloc] init];
+    AVMutableAudioMixInputParameters *inputParams = [AVMutableAudioMixInputParameters audioMixInputParametersWithTrack:track];
+    MTAudioProcessingTapCallbacks callbacks = {
+        .version = kMTAudioProcessingTapCallbacksVersion_0,
+        .clientInfo = (__bridge void *)self,
+        .init = _DIFMTapInitCallback,
+        .finalize = _DIFMTapFinalizeCallback,
+        .prepare = NULL,
+        .unprepare = NULL,
+        .process = _DIFMTapProcessCallback
+    };
+    
+    MTAudioProcessingTapRef tap = NULL;
+    OSStatus status = MTAudioProcessingTapCreate(kCFAllocatorDefault, &callbacks, kMTAudioProcessingTapCreationFlag_PreEffects, &tap);
+    if (status == noErr) {
+        inputParams.audioTapProcessor = tap;
+        CFRelease(tap);
         
-        MTAudioProcessingTapRef tap = NULL;
-        OSStatus status = MTAudioProcessingTapCreate(kCFAllocatorDefault, &callbacks, kMTAudioProcessingTapCreationFlag_PreEffects, &tap);
-        if (status == noErr) {
-            inputParams.audioTapProcessor = tap;
-            CFRelease(tap);
-            
-            audioMix.inputParameters = @[inputParams];
-            _audioMix = audioMix;
-        } else {
-            fprintf(stderr, "failed to create audio processing tap (status = %d)", status);
-        }
+        audioMix.inputParameters = @[inputParams];
+    } else {
+        fprintf(stderr, "failed to create audio processing tap (status = %d)", status);
     }
     
-    return _audioMix;
+    return audioMix;
+}
+
+- (void)processAudioData:(NSData *)data withFramesCount:(NSUInteger)framesCount
+{
+    const int bufferLog2 = round(log2(framesCount));
+    const float fftNorm = (1.0 / (2 * framesCount));
+    const long halfFrameCount = (framesCount / 2);
+    float outReal[halfFrameCount];
+    float outImaginary[halfFrameCount];
+    
+    // allocate memory for FFT and prepare input
+    FFTSetup fft = vDSP_create_fftsetup(bufferLog2, kFFTRadix2);
+    COMPLEX_SPLIT fftOutput = { .realp = outReal, .imagp = outImaginary };
+    
+    // put all even elements into real component, and odd elements into the imaginary component
+    vDSP_ctoz((COMPLEX *)data.bytes, 2, &fftOutput, 1, halfFrameCount);
+    
+    // perform fft
+    vDSP_fft_zrip(fft, &fftOutput, 1, bufferLog2, FFT_FORWARD);
+    
+    // scale data
+    vDSP_vsmul(fftOutput.realp, 1, &fftNorm, fftOutput.realp, 1, halfFrameCount);
+    vDSP_vsmul(fftOutput.imagp, 1, &fftNorm, fftOutput.imagp, 1, halfFrameCount);
+    
+    // read absolute value from data
+    NSMutableData *frequencyData = [[NSMutableData alloc] initWithLength:(halfFrameCount * sizeof(float))];
+    vDSP_zvabs(&fftOutput, 1, frequencyData.mutableBytes, 1, halfFrameCount);
+    
+    // call delegate
+    [_delegate processor:self didProcessFrequencyData:frequencyData];
+    
+    vDSP_destroy_fftsetup(fft);
 }
 
 #pragma mark - Tap Callbacks
 
 void _DIFMTapInitCallback(MTAudioProcessingTapRef tap, void *info, void **storageOut)
 {
-    DIFMAudioProcessingContext *ctx = malloc(sizeof(DIFMAudioProcessingContext));
-    ctx->userInfo = info;
-    *storageOut = ctx;
+    *storageOut = info;
 }
 
 void _DIFMTapFinalizeCallback(MTAudioProcessingTapRef tap)
-{
-    DIFMAudioProcessingContext *ctx = (DIFMAudioProcessingContext *)MTAudioProcessingTapGetStorage(tap);
-    ctx->userInfo = NULL;
-    free(ctx);
-}
+{}
 
 void _DIFMTapProcessCallback(MTAudioProcessingTapRef tap,
                              CMItemCount numberFrames,
@@ -93,41 +97,15 @@ void _DIFMTapProcessCallback(MTAudioProcessingTapRef tap,
                              CMItemCount *numberFramesOut,
                              MTAudioProcessingTapFlags *flagsOut)
 {
-    const int bufferLog2 = round(log2(numberFrames));
-    const float fftNorm = (1.0 / (2 * numberFrames));
-    const long halfFrameCount = (numberFrames / 2);
-    float outReal[halfFrameCount];
-    float outImaginary[halfFrameCount];
-    COMPLEX_SPLIT fftOutput = { .realp = outReal, .imagp = outImaginary };
-    
-    FFTSetup fft = vDSP_create_fftsetup(bufferLog2, kFFTRadix2);
     OSStatus status = MTAudioProcessingTapGetSourceAudio(tap, numberFrames, bufferListInOut, flagsOut, NULL, numberFramesOut);
     if (status == noErr) {
+        FFTProcessor *processor = (__bridge FFTProcessor *)MTAudioProcessingTapGetStorage(tap);
         AudioBuffer *buffer = &bufferListInOut->mBuffers[0];
-        
-        // put all even elements into real component, and odd elements into the imaginary component
-        vDSP_ctoz((COMPLEX *)buffer->mData, 2, &fftOutput, 1, halfFrameCount);
-        
-        // perform fft
-        vDSP_fft_zrip(fft, &fftOutput, 1, bufferLog2, FFT_FORWARD);
-        
-        // scale data
-        vDSP_vsmul(fftOutput.realp, 1, &fftNorm, fftOutput.realp, 1, halfFrameCount);
-        vDSP_vsmul(fftOutput.imagp, 1, &fftNorm, fftOutput.imagp, 1, halfFrameCount);
-        
-        // read absolute value from data
-        NSMutableData *frequencyData = [[NSMutableData alloc] initWithLength:(halfFrameCount * sizeof(float))];
-        vDSP_zvabs(&fftOutput, 1, frequencyData.mutableBytes, 1, halfFrameCount);
-        
-        // call delegate
-        DIFMAudioProcessingContext *ctx = (DIFMAudioProcessingContext *)MTAudioProcessingTapGetStorage(tap);
-        FFTProcessor *processor = (__bridge FFTProcessor *)ctx->userInfo;
-        [processor.delegate processor:processor didProcessFrequencyData:frequencyData];
+        NSData *audioData = [NSData dataWithBytesNoCopy:buffer->mData length:buffer->mDataByteSize freeWhenDone:NO];
+        [processor processAudioData:audioData withFramesCount:(NSUInteger)numberFrames];
     } else {
         fprintf(stderr, "failed to read audio data from tap (status = %d)", status);
     }
-    
-    vDSP_destroy_fftsetup(fft);
 }
 
 @end

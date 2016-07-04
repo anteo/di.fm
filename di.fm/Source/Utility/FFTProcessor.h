@@ -23,11 +23,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FFTProcessor : NSObject
 
-@property (nonatomic, readonly) AVAssetTrack *track;
-@property (nonatomic, readonly, nullable) AVAudioMix *audioMix;
 @property (nonatomic, weak, nullable) id<FFTProcessorDelegate> delegate;
 
-- (instancetype)initWithTrack:(AVAssetTrack *)track;
+- (AVAudioMix *)audioMixWithAssetTrack:(AVAssetTrack *)track;
+- (void)processAudioData:(NSData *)data withFramesCount:(NSUInteger)framesCount;
 
 @end
 

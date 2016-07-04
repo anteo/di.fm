@@ -14,20 +14,12 @@ import UIKit
 let π = CGFloat(M_PI)
 let π2 = CGFloat(2.0 * M_PI)
 
-class VisualizationViewController : UIViewController, FFTProcessorDelegate
+class VisualizationViewController : UIViewController, FFTProcessorDelegate, AudioStreamDelegate
 {
-    var currentTrack: Track?
-    {
-        didSet
-        {
-            _reloadFFTProcessor()
-        }
-    }
-    
     private var _sceneView:      SCNView?
     private var _icosphereScene: WireframeIcosphereScene = WireframeIcosphereScene()
     private var _levelsScene:    LevelMeterScene = LevelMeterScene(size: CGSizeZero)
-    private var _fftProcessor:   FFTProcessor?
+    private var _fftProcessor:   FFTProcessor = FFTProcessor()
     
     override func loadView()
     {
@@ -42,6 +34,7 @@ class VisualizationViewController : UIViewController, FFTProcessorDelegate
     override func viewDidAppear(animated: Bool)
     {
         super.viewDidAppear(animated)
+        _fftProcessor.delegate = self
         _sceneView?.play(nil)
     }
     
@@ -61,25 +54,18 @@ class VisualizationViewController : UIViewController, FFTProcessorDelegate
         _levelsScene.center = CGPoint(x: CGRectGetMidX(bounds), y: CGRectGetMidY(bounds))
     }
     
+    // MARK: AudioStreamDelegate
+    
+    func audioStreamDidDecodeAudioData(data: NSData!, framesCount: UInt)
+    {
+        _fftProcessor.processAudioData(data, withFramesCount: framesCount)
+    }
+    
     // MARK: FFTProcessorDelegate
     
     func processor(processor: FFTProcessor, didProcessFrequencyData data: NSData)
     {
         _levelsScene.updateFrequency(data)
-    }
-    
-    // MARK: Internal
-    
-    internal func _reloadFFTProcessor()
-    {
-        if let assetTrack = self.currentTrack?.assetTrack {
-            _fftProcessor = FFTProcessor(track: assetTrack)
-            _fftProcessor?.delegate = self
-            
-            self.currentTrack?.playerItem.audioMix = _fftProcessor?.audioMix
-        } else {
-            _fftProcessor = nil
-        }
     }
 }
 
@@ -240,7 +226,7 @@ internal class LevelMeterScene : SKScene
         
         for i in 0 ..< _kLevelsCount {
             let a = CGFloat(i) / CGFloat(_kLevelsCount)
-            let sz = CGSize(width: levelsWidth, height: 0.0)
+            let sz = CGSize(width: levelsWidth, height: 20.0)
             let color = UIColor.whiteColor()
             let node = SKSpriteNode(color: color, size: sz)
             
@@ -256,6 +242,7 @@ internal class LevelMeterScene : SKScene
             filters.append(LowPassFilter(length: _kFilterLength))
         }
         
+        _levelNodes.forEach { $0.removeFromParent() }
         _levelNodes = levelNodes
         _filters = filters
     }

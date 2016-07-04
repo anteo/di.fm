@@ -59,6 +59,7 @@ class AppDelegate : UIResponder,
         self.window?.addGestureRecognizer(playPauseButtonRecognizer)
         
         self.player.delegate = self
+        self.player.streamDelegate = self.nowPlayingController.visualizationViewController
         self.nowPlayingController.server = self.server
         self.remoteController = RemoteController(player: self.player)
         self.remoteController.player = self.player

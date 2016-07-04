@@ -43,6 +43,7 @@ NSString * const AS_AUDIO_QUEUE_BUFFER_ALLOCATION_FAILED_STRING = @"Audio buffer
 NSString * const AS_AUDIO_QUEUE_ENQUEUE_FAILED_STRING = @"Queueing of audio buffer failed.";
 NSString * const AS_AUDIO_QUEUE_ADD_LISTENER_FAILED_STRING = @"Audio queue add listener failed.";
 NSString * const AS_AUDIO_QUEUE_REMOVE_LISTENER_FAILED_STRING = @"Audio queue remove listener failed.";
+NSString * const AS_AUDIO_QUEUE_ADD_PROCESSING_TAP_FAILED_STRING = @"Audio queue add processing tap failed.";
 NSString * const AS_AUDIO_QUEUE_START_FAILED_STRING = @"Audio queue start failed.";
 NSString * const AS_AUDIO_QUEUE_BUFFER_MISMATCH_STRING = @"Audio queue buffers don't match.";
 NSString * const AS_AUDIO_QUEUE_DISPOSE_FAILED_STRING = @"Audio queue dispose failed.";
@@ -70,6 +71,12 @@ NSString * const AS_AUDIO_BUFFER_TOO_SMALL_STRING = @"Audio packets are larger t
 	buffer:(AudioQueueBufferRef)inBuffer;
 - (void)handlePropertyChangeForQueue:(AudioQueueRef)inAQ
 	propertyID:(AudioQueuePropertyID)inID;
+- (void)handleTapCallbackFromTap:(AudioQueueProcessingTapRef)tap
+                 withFramesCount:(UInt32)inNumberFrames
+                  audioTimestamp:(AudioTimeStamp *)ioTimeStamp
+              processingTapFlags:(AudioQueueProcessingTapFlags *)flags
+                  outFramesCount:(UInt32 *)outNumberFrames
+                            data:(AudioBufferList *)ioData;
 
 #if 0
 #if TARGET_OS_IPHONE
@@ -166,6 +173,23 @@ static void ASAudioQueueIsRunningCallback(void *inUserData, AudioQueueRef inAQ, 
 {
 	AudioStreamer* streamer = (AudioStreamer *)inUserData;
 	[streamer handlePropertyChangeForQueue:inAQ propertyID:inID];
+}
+
+static void ASAudioQueueProcessingTapCallback(void *inClientData,
+                                              AudioQueueProcessingTapRef inAQTap,
+                                              UInt32 inNumberFrames,
+                                              AudioTimeStamp *ioTimeStamp,
+                                              AudioQueueProcessingTapFlags *ioFlags,
+                                              UInt32 *outNumberFrames,
+                                              AudioBufferList *ioData)
+{
+    AudioStreamer* streamer = (AudioStreamer *)inClientData;
+    [streamer handleTapCallbackFromTap:inAQTap
+                       withFramesCount:inNumberFrames
+                        audioTimestamp:ioTimeStamp
+                    processingTapFlags:ioFlags
+                        outFramesCount:outNumberFrames
+                                  data:ioData];
 }
 
 #if 0
@@ -317,6 +341,8 @@ static void ASReadStreamCallBack
 			return AS_AUDIO_QUEUE_ADD_LISTENER_FAILED_STRING;
 		case AS_AUDIO_QUEUE_REMOVE_LISTENER_FAILED:
 			return AS_AUDIO_QUEUE_REMOVE_LISTENER_FAILED_STRING;
+        case AS_AUDIO_QUEUE_ADD_PROCESSING_TAP_FAILED:
+            return AS_AUDIO_QUEUE_ADD_PROCESSING_TAP_FAILED_STRING;
 		case AS_AUDIO_QUEUE_START_FAILED:
 			return AS_AUDIO_QUEUE_START_FAILED_STRING;
 		case AS_AUDIO_QUEUE_BUFFER_MISMATCH:
@@ -847,6 +873,14 @@ cleanup:
 				[self failWithErrorCode:AS_FILE_STREAM_CLOSE_FAILED];
 			}
 		}
+        
+        //
+        // Dispose of processing tap
+        if (processingTap)
+        {
+            err = AudioQueueProcessingTapDispose(processingTap);
+            processingTap = NULL;
+        }
 		
 		//
 		// Dispose of the Audio Queue
@@ -1510,6 +1544,15 @@ cleanup:
 			return;
 		}
 	}
+    
+    // create processing tap
+    UInt32 maxFrames = 0;
+    AudioStreamBasicDescription processingFormat;
+    err = AudioQueueProcessingTapNew(audioQueue, ASAudioQueueProcessingTapCallback, (void *)self, kAudioQueueProcessingTap_PreEffects, &maxFrames, &processingFormat, &processingTap);
+    if (err || maxFrames == 0) {
+        [self failWithErrorCode:AS_AUDIO_QUEUE_ADD_PROCESSING_TAP_FAILED];
+        return;
+    }
 
 	// get the cookie size
 	UInt32 cookieSize;
@@ -1955,6 +1998,23 @@ cleanup:
 	}
 	
 	[pool release];
+}
+
+- (void)handleTapCallbackFromTap:(AudioQueueProcessingTapRef)tap
+                 withFramesCount:(UInt32)inNumberFrames
+                  audioTimestamp:(AudioTimeStamp *)ioTimeStamp
+              processingTapFlags:(AudioQueueProcessingTapFlags *)flags
+                  outFramesCount:(UInt32 *)outNumberFrames
+                            data:(AudioBufferList *)ioData
+{
+    OSStatus status = AudioQueueProcessingTapGetSourceAudio(tap, inNumberFrames, ioTimeStamp, flags, outNumberFrames, ioData);
+    if (status != noErr) {
+        NSLog(@"AudioQueue failed to get source audio");
+    } else if (_delegate) {
+        AudioBuffer *buffer = &ioData->mBuffers[0];
+        NSData *audioData = [NSData dataWithBytesNoCopy:buffer->mData length:buffer->mDataByteSize freeWhenDone:NO];
+        [_delegate audioStreamDidDecodeAudioData:audioData framesCount:inNumberFrames];
+    }
 }
 
 #if 0

@@ -99,6 +99,7 @@
 		0CDEB6EA1CE04E4800CC208A /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		0CE38BB31D2A14DE00D2A718 /* AudioStreamer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioStreamer.h; sourceTree = "<group>"; };
 		0CE38BB41D2A14DE00D2A718 /* AudioStreamer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioStreamer.m; sourceTree = "<group>"; };
+		0CE38BBB1D2A214E00D2A718 /* AudioStreamDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioStreamDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				0CD7B3921CE45C0B00516C50 /* di.fm-Bridging-Header.h */,
+				0CE38BBB1D2A214E00D2A718 /* AudioStreamDelegate.h */,
 				0C7D257D1D29C1B400FA7157 /* FFTProcessor.h */,
 				0C7D257E1D29C1B400FA7157 /* FFTProcessor.m */,
 				0CD7B3931CE45C0C00516C50 /* KeychainItemWrapper.h */,

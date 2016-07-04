@@ -21,6 +21,7 @@ class Player : NSObject
     var listenKey:                  String?
     var streamSet:                  StreamSet?
     weak var delegate:              PlayerDelegate?
+    weak var streamDelegate:        AudioStreamDelegate?
     
     private var _streamer:          AudioStreamer?
     private var _errorStream:       StandardErrorOutputStream = StandardErrorOutputStream()
@@ -146,6 +147,7 @@ class Player : NSObject
         
         // save new streamer
         _streamer = newStreamer
+        _streamer?.delegate = self.streamDelegate
         
         // begin playback if necessary
         if (prevPlaying) {
