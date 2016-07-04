@@ -47,6 +47,7 @@
 		0CDEB6E51CE044DE00CC208A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0CDEB6E41CE044DE00CC208A /* Localizable.strings */; };
 		0CDEB6E91CE047A400CC208A /* AuthenticatedUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEB6E81CE047A400CC208A /* AuthenticatedUser.swift */; };
 		0CDEB6EB1CE04E4800CC208A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEB6EA1CE04E4800CC208A /* LoginViewController.swift */; };
+		0CE38BB51D2A14DE00D2A718 /* AudioStreamer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CE38BB41D2A14DE00D2A718 /* AudioStreamer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -Wno-deprecated-declarations"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -96,6 +97,8 @@
 		0CDEB6E41CE044DE00CC208A /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		0CDEB6E81CE047A400CC208A /* AuthenticatedUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticatedUser.swift; sourceTree = "<group>"; };
 		0CDEB6EA1CE04E4800CC208A /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		0CE38BB31D2A14DE00D2A718 /* AudioStreamer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioStreamer.h; sourceTree = "<group>"; };
+		0CE38BB41D2A14DE00D2A718 /* AudioStreamer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioStreamer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +216,7 @@
 			children = (
 				0C2AD01A1CD0795500A20EFE /* Application */,
 				0C2AD01C1CD0795600A20EFE /* Controller */,
+				0CE38BB11D2A14DE00D2A718 /* External */,
 				0C2AD0201CD0795600A20EFE /* Model */,
 				0C2AD0221CD0795600A20EFE /* Utility */,
 				0C2AD0271CD0795600A20EFE /* View */,
@@ -240,6 +244,23 @@
 			);
 			name = "Supporting Files";
 			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		0CE38BB11D2A14DE00D2A718 /* External */ = {
+			isa = PBXGroup;
+			children = (
+				0CE38BB21D2A14DE00D2A718 /* AudioStreamer */,
+			);
+			path = External;
+			sourceTree = "<group>";
+		};
+		0CE38BB21D2A14DE00D2A718 /* AudioStreamer */ = {
+			isa = PBXGroup;
+			children = (
+				0CE38BB31D2A14DE00D2A718 /* AudioStreamer.h */,
+				0CE38BB41D2A14DE00D2A718 /* AudioStreamer.m */,
+			);
+			path = AudioStreamer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -347,6 +368,7 @@
 				0CD7B38B1CE4198300516C50 /* Theme.swift in Sources */,
 				0C2AD0361CD0798100A20EFE /* ChannelFilter.swift in Sources */,
 				0C2AD02F1CD0795600A20EFE /* Semaphore.swift in Sources */,
+				0CE38BB51D2A14DE00D2A718 /* AudioStreamer.m in Sources */,
 				0CDEB6D71CDFBBC400CC208A /* ChannelFilterViewController.swift in Sources */,
 				0CA3496E1CDF143300765A46 /* StreamSet.swift in Sources */,
 				0CDEB6DD1CE03D7C00CC208A /* NowPlayingViewController.swift in Sources */,

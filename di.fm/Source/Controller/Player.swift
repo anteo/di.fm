@@ -22,11 +22,8 @@ class Player : NSObject
     var streamSet:                  StreamSet?
     weak var delegate:              PlayerDelegate?
     
-    private var _playerItem:        AVPlayerItem?
-    private var _avPlayer:          AVPlayer?
+    private var _streamer:          AudioStreamer?
     private var _errorStream:       StandardErrorOutputStream = StandardErrorOutputStream()
-    
-    private let _keyPathsToObserve = ["tracks", "timedMetadata", "status"]
     
     var currentChannel: Channel?
     {
@@ -54,7 +51,7 @@ class Player : NSObject
             _logError("error setting audio category", error: error)
         }
         
-        _avPlayer?.play()
+        _streamer?.start()
         
         if (self.currentChannel != nil) {
             self.delegate?.playerDidStartPlayingChannel(self, channel: self.currentChannel!)
@@ -63,15 +60,21 @@ class Player : NSObject
     
     func pause()
     {
-        if (_avPlayer?.rate > 0.0) {
-            _avPlayer?.pause()
-            self.delegate?.playerDidPausePlayback(self)
+        if let streamer = _streamer {
+            if (streamer.isPlaying()) {
+                _streamer?.stop()
+                self.delegate?.playerDidPausePlayback(self)
+            }
         }
     }
     
     func isPlaying() -> Bool
     {
-        return (_avPlayer?.rate > 0.0)
+        var playing: Bool = false
+        if let streamer = _streamer {
+            playing = streamer.isPlaying()
+        }
+        return playing
     }
     
     // MARK: KVO
@@ -84,7 +87,7 @@ class Player : NSObject
         var newTrack: Track? = nil
         
         if let keyPath = keyPath {
-            if (_keyPathsToObserve.contains(keyPath)) {
+            if (keyPath == "timedMetadata") {
                 if let playerItem = object as? AVPlayerItem {
                     newTrack = Track(playerItem)
                 }
@@ -115,9 +118,9 @@ class Player : NSObject
     
     internal func _reloadStream()
     {
-        var newPlayerItem: AVPlayerItem? = nil
-        var newAVPlayer: AVPlayer? = nil
+        var newStreamer: AudioStreamer? = nil
         
+        // create player item and player for new channel stream
         if (self.currentChannel != nil) {
             if let stream = _cachedChannelStream(self.currentChannel!) {
                 let streamURLComponents = NSURLComponents(URL: stream.url, resolvingAgainstBaseURL: false)!
@@ -125,8 +128,11 @@ class Player : NSObject
                     streamURLComponents.query = "?\(self.listenKey!)"
                 }
                 
-                newPlayerItem = AVPlayerItem(URL: streamURLComponents.URL!)
-                newAVPlayer = AVPlayer(playerItem: newPlayerItem!)
+                if let streamURL = streamURLComponents.URL {
+                    newStreamer = AudioStreamer(URL: streamURL)
+                } else {
+                    _logError("Could not parse URL using components: \(streamURLComponents)", error: nil)
+                }
             } else {
                 _logError("No stream found for channel \(self.currentChannel!.name)", error: nil)
             }
@@ -134,22 +140,14 @@ class Player : NSObject
             self.delegate?.playerDidStopPlayback(self)
         }
         
+        // reset playback state
         let prevPlaying = self.isPlaying()
         self.pause()
         
-        for keyPath in _keyPathsToObserve {
-            _playerItem?.removeObserver(self, forKeyPath: keyPath)
-        }
+        // save new streamer
+        _streamer = newStreamer
         
-        if let observablePlayerItem = newPlayerItem {
-            for keyPath in _keyPathsToObserve {
-                observablePlayerItem.addObserver(self, forKeyPath: keyPath, options: NSKeyValueObservingOptions(), context: nil)
-            }
-        }
-        
-        _playerItem = newPlayerItem
-        _avPlayer = newAVPlayer
-        
+        // begin playback if necessary
         if (prevPlaying) {
             self.play()
         }
