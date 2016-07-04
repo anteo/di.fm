@@ -23,8 +23,12 @@ class Player : NSObject
     weak var delegate:              PlayerDelegate?
     weak var streamDelegate:        AudioStreamDelegate?
     
+    private var _player:            AVPlayer?
+    private var _playerItem:        AVPlayerItem?
     private var _streamer:          AudioStreamer?
     private var _errorStream:       StandardErrorOutputStream = StandardErrorOutputStream()
+    
+    private let _playerItemKeyPaths = ["timedMetadata", "tracks"]
     
     var currentChannel: Channel?
     {
@@ -88,9 +92,16 @@ class Player : NSObject
         var newTrack: Track? = nil
         
         if let keyPath = keyPath {
-            if (keyPath == "timedMetadata") {
-                if let playerItem = object as? AVPlayerItem {
+            if let playerItem = object as? AVPlayerItem {
+                if (keyPath == "timedMetadata") {
                     newTrack = Track(playerItem)
+                } else if (keyPath == "tracks") {
+                    for track in playerItem.tracks {
+                        if (track.assetTrack.mediaType == AVMediaTypeAudio) {
+                            print("disabling audio track \(track)")
+                            track.enabled = false
+                        }
+                    }
                 }
             }
         }
@@ -119,6 +130,8 @@ class Player : NSObject
     
     internal func _reloadStream()
     {
+        var newPlayer: AVPlayer? = nil
+        var newPlayerItem: AVPlayerItem? = nil
         var newStreamer: AudioStreamer? = nil
         
         // create player item and player for new channel stream
@@ -130,6 +143,8 @@ class Player : NSObject
                 }
                 
                 if let streamURL = streamURLComponents.URL {
+                    newPlayerItem = AVPlayerItem(URL: streamURL)
+                    newPlayer = AVPlayer(playerItem: newPlayerItem!)
                     newStreamer = AudioStreamer(URL: streamURL)
                 } else {
                     _logError("Could not parse URL using components: \(streamURLComponents)", error: nil)
@@ -145,9 +160,18 @@ class Player : NSObject
         let prevPlaying = self.isPlaying()
         self.pause()
         
-        // save new streamer
+        // setup observer
+        for keyPath in _playerItemKeyPaths {
+            _playerItem?.removeObserver(self, forKeyPath: keyPath)
+            newPlayerItem?.addObserver(self, forKeyPath: keyPath, options: NSKeyValueObservingOptions(), context: nil)
+        }
+        
+        // save new streaming objects
         _streamer = newStreamer
         _streamer?.delegate = self.streamDelegate
+        _player = newPlayer
+        _player?.play()
+        _playerItem = newPlayerItem
         
         // begin playback if necessary
         if (prevPlaying) {

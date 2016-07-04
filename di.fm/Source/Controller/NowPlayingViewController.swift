@@ -48,7 +48,7 @@ class NowPlayingViewController : UIViewController
     private var _titleLabel:         UILabel = UILabel()
     private var _artistLabel:        UILabel = UILabel()
     
-    private static let _ArtworkSize = CGSize(width: 600.0, height: 600.0)
+    private static let _ArtworkSize = CGSize(width: 500.0, height: 500.0)
     private static let _ArtworkTitlePadding = CGFloat(40.0)
     private static let _TitleArtistLeading = CGFloat(5.0)
     
@@ -73,7 +73,6 @@ class NowPlayingViewController : UIViewController
         self.addChildViewController(self.visualizationViewController)
         self.view.addSubview(visualizationView)
         
-        _artworkImageView.hidden = true
         self.view.addSubview(_artworkImageView)
         _reloadChannelArtwork()
         
