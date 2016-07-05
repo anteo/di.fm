@@ -21,6 +21,35 @@ class VisualizationViewController : UIViewController, FFTProcessorDelegate, Play
     private var _levelsScene:    LevelMeterScene = LevelMeterScene(size: CGSizeZero)
     private var _fftProcessor:   FFTProcessor = FFTProcessor()
     
+    var levelMetersCenter: CGPoint = CGPointZero
+    {
+        didSet
+        {
+            let sceneSize = _levelsScene.size
+            let sceneCenter = CGPoint(x: levelMetersCenter.x, y: sceneSize.height - levelMetersCenter.y)
+            _levelsScene.center = sceneCenter
+        }
+    }
+    
+    // MARK: API
+    
+    func setLevelMetersVisible(visible: Bool, animated: Bool)
+    {
+        if (animated) {
+            var fadeAction: SKAction? = nil
+            if (visible) {
+                fadeAction = SKAction.fadeInWithDuration(0.5)
+            } else {
+                fadeAction = SKAction.fadeInWithDuration(0.5)
+            }
+            _levelsScene.runAction(fadeAction!)
+        } else {
+            _levelsScene.alpha = 0.0
+        }
+    }
+    
+    // MARK: UIViewController
+    
     override func loadView()
     {
         _sceneView = SCNView(frame: UIScreen.mainScreen().bounds)
@@ -129,7 +158,7 @@ internal class WireframeIcosphereScene : SCNScene
     
     internal func _setupAnimations()
     {
-        let rotationAction = SCNAction.rotateByAngle(2.0 * π, aroundAxis: SCNVector3Make(1.0, 0.75, 0.50), duration: 100.0)
+        let rotationAction = SCNAction.rotateByAngle(2.0 * π, aroundAxis: SCNVector3Make(0.0, 1.0, 0.0), duration: 150.0)
         let permanentAction = SCNAction.repeatActionForever(rotationAction)
         _sphereNode.runAction(permanentAction)
     }
@@ -217,6 +246,7 @@ internal class LevelMeterScene : SKScene
     
     internal func _generateLevels()
     {
+        let levelsTexture = SKTexture(imageNamed: "levels_texture")
         let levelsWidth = CGFloat(self.size.width) / CGFloat(_kLevelsCount)
         var levelNodes: [SKSpriteNode] = []
         var filters: [LowPassFilter] = []
@@ -229,6 +259,7 @@ internal class LevelMeterScene : SKScene
             let sz = CGSize(width: levelsWidth, height: 20.0)
             let color = UIColor.whiteColor()
             let node = SKSpriteNode(color: color, size: sz)
+            node.texture = levelsTexture
             
             let θ = a * π2
             let x = radius * cos(θ)

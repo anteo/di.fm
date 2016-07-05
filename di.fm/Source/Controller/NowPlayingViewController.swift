@@ -56,6 +56,7 @@ class NowPlayingViewController : UIViewController
     {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         self.title = NSLocalizedString("NOW_PLAYING_TAB", comment: "")
+        self.visualizationViewController.setLevelMetersVisible(false, animated: false)
     }
     
     required init?(coder aDecoder: NSCoder)
@@ -116,6 +117,7 @@ class NowPlayingViewController : UIViewController
             height: artworkSize.height
         )
         _artworkImageView.frame = artworkFrame
+        self.visualizationViewController.levelMetersCenter = CGPoint(x: CGRectGetMidX(artworkFrame), y: CGRectGetMidY(artworkFrame))
         
         let labelsWidth = artworkFrame.size.width * 2.0
         let titleFrame = CGRect(
@@ -172,6 +174,16 @@ class NowPlayingViewController : UIViewController
                 self.view.layoutIfNeeded()
                 self._titleLabel.alpha = 1.0
                 self._artistLabel.alpha = 1.0
+            }
+            
+            let metadataNowEmpty = (self._titleLabel.text?.isEmpty ?? true && self._artistLabel.text?.isEmpty ?? true)
+            if (!metadataNowEmpty) {
+                let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * NSEC_PER_SEC))
+                dispatch_after(delay, dispatch_get_main_queue(), {
+                    self.visualizationViewController.setLevelMetersVisible(true, animated: true)
+                })
+            } else {
+                self.visualizationViewController.setLevelMetersVisible(false, animated: false)
             }
         }
     }
