@@ -50,9 +50,13 @@ static void _DIFMTapProcessCallback(MTAudioProcessingTapRef tap,
 
 - (void)processAudioData:(NSData *)data withFramesCount:(NSUInteger)framesCount
 {
-    const int bufferLog2 = round(log2(framesCount));
-    const float fftNorm = (1.0 / (2 * framesCount));
+    if (framesCount == 0) {
+        return;
+    }
+    
     const long halfFrameCount = (framesCount / 2);
+    const int bufferLog2 = round(log2(halfFrameCount));
+    const float fftNorm = (1.0 / (2 * framesCount));
     float outReal[halfFrameCount];
     float outImaginary[halfFrameCount];
     

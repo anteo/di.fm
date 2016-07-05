@@ -158,7 +158,7 @@ internal class WireframeIcosphereScene : SCNScene
     
     internal func _setupAnimations()
     {
-        let rotationAction = SCNAction.rotateByAngle(2.0 * π, aroundAxis: SCNVector3Make(0.0, 1.0, 0.0), duration: 150.0)
+        let rotationAction = SCNAction.rotateByAngle(2.0 * π, aroundAxis: SCNVector3Make(0.0, 1.0, 0.0), duration: 200.0)
         let permanentAction = SCNAction.repeatActionForever(rotationAction)
         _sphereNode.runAction(permanentAction)
     }
@@ -171,7 +171,7 @@ internal class LevelMeterScene : SKScene
     
     private let _kLevelsCount:  UInt = 50
     private let _kFilterLength: UInt = 1
-    private let _kFFTScale:     Float = 15.0
+    private let _kFFTScale:     Float = 20.0
     
     override init(size: CGSize)
     {
