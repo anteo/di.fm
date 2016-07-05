@@ -20,6 +20,10 @@
 		0C2AD0381CD07A1D00A20EFE /* AudioAddictURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0371CD07A1D00A20EFE /* AudioAddictURL.swift */; };
 		0C2AD03A1CD07C9A00A20EFE /* ChannelImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0391CD07C9A00A20EFE /* ChannelImage.swift */; };
 		0C4301EF1CCFCB8200E4BEE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C4301EE1CCFCB8200E4BEE7 /* Assets.xcassets */; };
+		0C7D25811D29C1B400FA7157 /* FFTProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7D257E1D29C1B400FA7157 /* FFTProcessor.m */; };
+		0C7D25821D29C1B400FA7157 /* LowPassFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0C7D25801D29C1B400FA7157 /* LowPassFilter.mm */; };
+		0C7D25841D29C1E300FA7157 /* VisualizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7D25831D29C1E300FA7157 /* VisualizationViewController.swift */; };
+		0C7D25861D29C4BE00FA7157 /* 3DAssets.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C7D25851D29C4BE00FA7157 /* 3DAssets.scnassets */; };
 		0CA349661CDEE60000765A46 /* AudioAddictServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA349651CDEE60000765A46 /* AudioAddictServer.swift */; };
 		0CA349681CDEE6C900765A46 /* BatchUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA349671CDEE6C900765A46 /* BatchUpdate.swift */; };
 		0CA3496A1CDEE6EB00765A46 /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA349691CDEE6EB00765A46 /* Asset.swift */; };
@@ -27,6 +31,7 @@
 		0CA3496E1CDF143300765A46 /* StreamSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3496D1CDF143300765A46 /* StreamSet.swift */; };
 		0CA349701CDF148400765A46 /* StreamList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3496F1CDF148400765A46 /* StreamList.swift */; };
 		0CA349721CDF14AE00765A46 /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA349711CDF14AE00765A46 /* Stream.swift */; };
+		0CAC95D01D2B94560087E280 /* ZANStreamPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAC95CF1D2B94560087E280 /* ZANStreamPlayer.m */; };
 		0CB7A68A1CE5904D004EF016 /* RemoteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB7A6891CE5904D004EF016 /* RemoteController.swift */; };
 		0CD7B38B1CE4198300516C50 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD7B38A1CE4198300516C50 /* Theme.swift */; };
 		0CD7B38F1CE41C1200516C50 /* EnzoOT-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0CD7B38C1CE41C1200516C50 /* EnzoOT-Bold.ttf */; };
@@ -61,6 +66,12 @@
 		0C4301E41CCFCB8200E4BEE7 /* di.fm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = di.fm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C4301EE1CCFCB8200E4BEE7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0C4301F01CCFCB8200E4BEE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0C7D257D1D29C1B400FA7157 /* FFTProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTProcessor.h; sourceTree = "<group>"; };
+		0C7D257E1D29C1B400FA7157 /* FFTProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFTProcessor.m; sourceTree = "<group>"; };
+		0C7D257F1D29C1B400FA7157 /* LowPassFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LowPassFilter.h; sourceTree = "<group>"; };
+		0C7D25801D29C1B400FA7157 /* LowPassFilter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LowPassFilter.mm; sourceTree = "<group>"; };
+		0C7D25831D29C1E300FA7157 /* VisualizationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizationViewController.swift; sourceTree = "<group>"; };
+		0C7D25851D29C4BE00FA7157 /* 3DAssets.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = 3DAssets.scnassets; sourceTree = "<group>"; };
 		0CA349651CDEE60000765A46 /* AudioAddictServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioAddictServer.swift; sourceTree = "<group>"; };
 		0CA349671CDEE6C900765A46 /* BatchUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BatchUpdate.swift; sourceTree = "<group>"; };
 		0CA349691CDEE6EB00765A46 /* Asset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Asset.swift; sourceTree = "<group>"; };
@@ -68,6 +79,8 @@
 		0CA3496D1CDF143300765A46 /* StreamSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamSet.swift; sourceTree = "<group>"; };
 		0CA3496F1CDF148400765A46 /* StreamList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamList.swift; sourceTree = "<group>"; };
 		0CA349711CDF14AE00765A46 /* Stream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stream.swift; sourceTree = "<group>"; };
+		0CAC95CE1D2B94560087E280 /* ZANStreamPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZANStreamPlayer.h; sourceTree = "<group>"; };
+		0CAC95CF1D2B94560087E280 /* ZANStreamPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZANStreamPlayer.m; sourceTree = "<group>"; };
 		0CB7A6891CE5904D004EF016 /* RemoteController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteController.swift; sourceTree = "<group>"; };
 		0CD7B38A1CE4198300516C50 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		0CD7B38C1CE41C1200516C50 /* EnzoOT-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "EnzoOT-Bold.ttf"; sourceTree = "<group>"; };
@@ -119,6 +132,9 @@
 				0CDEB6DC1CE03D7C00CC208A /* NowPlayingViewController.swift */,
 				0C2AD01D1CD0795600A20EFE /* Player.swift */,
 				0CB7A6891CE5904D004EF016 /* RemoteController.swift */,
+				0C7D25831D29C1E300FA7157 /* VisualizationViewController.swift */,
+				0CAC95CE1D2B94560087E280 /* ZANStreamPlayer.h */,
+				0CAC95CF1D2B94560087E280 /* ZANStreamPlayer.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -147,8 +163,12 @@
 			isa = PBXGroup;
 			children = (
 				0CD7B3921CE45C0B00516C50 /* di.fm-Bridging-Header.h */,
+				0C7D257D1D29C1B400FA7157 /* FFTProcessor.h */,
+				0C7D257E1D29C1B400FA7157 /* FFTProcessor.m */,
 				0CD7B3931CE45C0C00516C50 /* KeychainItemWrapper.h */,
 				0CD7B3941CE45C0C00516C50 /* KeychainItemWrapper.m */,
+				0C7D257F1D29C1B400FA7157 /* LowPassFilter.h */,
+				0C7D25801D29C1B400FA7157 /* LowPassFilter.mm */,
 				0CD7B3981CE4601000516C50 /* CredentialsStore.swift */,
 				0CDEB6D41CDFB6C500CC208A /* NSDateAdditions.swift */,
 				0C2AD0231CD0795600A20EFE /* NSErrorAdditions.swift */,
@@ -209,6 +229,7 @@
 			isa = PBXGroup;
 			children = (
 				0C4301EE1CCFCB8200E4BEE7 /* Assets.xcassets */,
+				0C7D25851D29C4BE00FA7157 /* 3DAssets.scnassets */,
 				0CD7B38C1CE41C1200516C50 /* EnzoOT-Bold.ttf */,
 				0CD7B38D1CE41C1200516C50 /* EnzoOT-Light.ttf */,
 				0CD7B38E1CE41C1200516C50 /* EnzoOT-Medium.ttf */,
@@ -290,6 +311,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0CD7B3901CE41C1200516C50 /* EnzoOT-Light.ttf in Resources */,
+				0C7D25861D29C4BE00FA7157 /* 3DAssets.scnassets in Resources */,
 				0C4301EF1CCFCB8200E4BEE7 /* Assets.xcassets in Resources */,
 				0CD7B3911CE41C1200516C50 /* EnzoOT-Medium.ttf in Resources */,
 				0CDEB6E51CE044DE00CC208A /* Localizable.strings in Resources */,
@@ -310,9 +332,11 @@
 				0CDEB6E91CE047A400CC208A /* AuthenticatedUser.swift in Sources */,
 				0C2AD0341CD0796100A20EFE /* Channel.swift in Sources */,
 				0C2AD0301CD0795600A20EFE /* StandardError.swift in Sources */,
+				0CAC95D01D2B94560087E280 /* ZANStreamPlayer.m in Sources */,
 				0C2AD03A1CD07C9A00A20EFE /* ChannelImage.swift in Sources */,
 				0CD7B3971CE45D2C00516C50 /* LoadingViewController.swift in Sources */,
 				0CA3496A1CDEE6EB00765A46 /* Asset.swift in Sources */,
+				0C7D25811D29C1B400FA7157 /* FFTProcessor.m in Sources */,
 				0CA3496C1CDF12C000765A46 /* Event.swift in Sources */,
 				0CA349661CDEE60000765A46 /* AudioAddictServer.swift in Sources */,
 				0CB7A68A1CE5904D004EF016 /* RemoteController.swift in Sources */,
@@ -320,6 +344,7 @@
 				0CA349681CDEE6C900765A46 /* BatchUpdate.swift in Sources */,
 				0CDEB6D51CDFB6C500CC208A /* NSDateAdditions.swift in Sources */,
 				0CDEB6EB1CE04E4800CC208A /* LoginViewController.swift in Sources */,
+				0C7D25821D29C1B400FA7157 /* LowPassFilter.mm in Sources */,
 				0C2AD0311CD0795600A20EFE /* TVSupport.swift in Sources */,
 				0CDEB6DB1CE01DC200CC208A /* ChannelArtworkImageDataSource.swift in Sources */,
 				0CD7B3991CE4601000516C50 /* CredentialsStore.swift in Sources */,
@@ -333,6 +358,7 @@
 				0CDEB6DD1CE03D7C00CC208A /* NowPlayingViewController.swift in Sources */,
 				0C2AD02E1CD0795600A20EFE /* NSErrorAdditions.swift in Sources */,
 				0C12834C1D177C8E00EDFB79 /* Track.swift in Sources */,
+				0C7D25841D29C1E300FA7157 /* VisualizationViewController.swift in Sources */,
 				0CA349721CDF14AE00765A46 /* Stream.swift in Sources */,
 				0CDEB6D91CDFBC9E00CC208A /* ChannelListViewController.swift in Sources */,
 			);

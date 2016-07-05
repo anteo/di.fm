@@ -10,12 +10,23 @@ import Foundation
 
 struct Track
 {
-    var title:  String = ""
-    var artist: String = ""
-    var album:  String = ""
+    var title:      String = ""
+    var artist:     String = ""
+    var album:      String = ""
+    
+    init()
+    {}
+    
+    init(_ metadataDictionary: [String : String])
+    {
+        if let concatenatedTitle = metadataDictionary["StreamTitle"] {
+            (self.title, self.artist) = _titleArtistFromConcatenatedMetadata(concatenatedTitle)
+        }
+    }
     
     init(_ playerItem: AVPlayerItem)
     {
+        // parse player item metadata
         if let metadata = playerItem.timedMetadata {
             for metadataItem in metadata {
                 if let key = metadataItem.commonKey {
@@ -39,19 +50,29 @@ struct Track
            so in that case, we must parse the artist name from the title
         */
         if (self.artist.isEmpty) {
-            let titleString = self.title as NSString
-            let regex = try! NSRegularExpression(pattern: "(.*) - (.*)", options: NSRegularExpressionOptions())
-            let fullRange = NSRange(location: 0, length: titleString.length)
-            let matches = regex.matchesInString(titleString as String, options: NSMatchingOptions(), range: fullRange)
-            
-            if let match = matches.first {
-                let artistRange = match.rangeAtIndex(1)
-                self.artist = titleString.substringWithRange(artistRange) as String
-                
-                let titleRange = match.rangeAtIndex(2)
-                self.title = titleString.substringWithRange(titleRange) as String
-            }
+            (self.title, self.artist) = _titleArtistFromConcatenatedMetadata(self.title)
         }
+    }
+    
+    internal func _titleArtistFromConcatenatedMetadata(string: String) -> (String, String)
+    {
+        let titleString = string as NSString
+        let regex = try! NSRegularExpression(pattern: "(.*) - (.*)", options: NSRegularExpressionOptions())
+        let fullRange = NSRange(location: 0, length: titleString.length)
+        let matches = regex.matchesInString(titleString as String, options: NSMatchingOptions(), range: fullRange)
+        
+        var title: String = ""
+        var artist: String = ""
+        
+        if let match = matches.first {
+            let artistRange = match.rangeAtIndex(1)
+            artist = titleString.substringWithRange(artistRange) as String
+            
+            let titleRange = match.rangeAtIndex(2)
+            title = titleString.substringWithRange(titleRange) as String
+        }
+        
+        return (title, artist)
     }
 }
 

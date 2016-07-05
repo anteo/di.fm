@@ -41,12 +41,14 @@ class NowPlayingViewController : UIViewController
         }
     }
     
-    private var _artworkImageView:  UIImageView = UIImageView()
-    private var _artworkDataSource: ChannelArtworkImageDataSource = ChannelArtworkImageDataSource()
-    private var _titleLabel:        UILabel = UILabel()
-    private var _artistLabel:       UILabel = UILabel()
+    var visualizationViewController: VisualizationViewController = VisualizationViewController()
     
-    private static let _ArtworkSize = CGSize(width: 600.0, height: 600.0)
+    private var _artworkImageView:   UIImageView = UIImageView()
+    private var _artworkDataSource:  ChannelArtworkImageDataSource = ChannelArtworkImageDataSource()
+    private var _titleLabel:         UILabel = UILabel()
+    private var _artistLabel:        UILabel = UILabel()
+    
+    private static let _ArtworkSize = CGSize(width: 500.0, height: 500.0)
     private static let _ArtworkTitlePadding = CGFloat(40.0)
     private static let _TitleArtistLeading = CGFloat(5.0)
     
@@ -54,6 +56,7 @@ class NowPlayingViewController : UIViewController
     {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         self.title = NSLocalizedString("NOW_PLAYING_TAB", comment: "")
+        self.visualizationViewController.setLevelMetersVisible(false, animated: false)
     }
     
     required init?(coder aDecoder: NSCoder)
@@ -66,6 +69,10 @@ class NowPlayingViewController : UIViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        let visualizationView = self.visualizationViewController.view
+        self.addChildViewController(self.visualizationViewController)
+        self.view.addSubview(visualizationView)
         
         self.view.addSubview(_artworkImageView)
         _reloadChannelArtwork()
@@ -100,6 +107,9 @@ class NowPlayingViewController : UIViewController
             artistSize.height
         )
         
+        let visualizationFrame = bounds
+        self.visualizationViewController.view.frame = visualizationFrame
+        
         let artworkFrame = CGRect(
             x: rint(bounds.size.width / 2.0 - artworkSize.width / 2.0),
             y: rint(bounds.size.height / 2.0 - totalViewsHeight / 2.0),
@@ -107,6 +117,7 @@ class NowPlayingViewController : UIViewController
             height: artworkSize.height
         )
         _artworkImageView.frame = artworkFrame
+        self.visualizationViewController.levelMetersCenter = CGPoint(x: CGRectGetMidX(artworkFrame), y: CGRectGetMidY(artworkFrame))
         
         let labelsWidth = artworkFrame.size.width * 2.0
         let titleFrame = CGRect(
@@ -163,6 +174,16 @@ class NowPlayingViewController : UIViewController
                 self.view.layoutIfNeeded()
                 self._titleLabel.alpha = 1.0
                 self._artistLabel.alpha = 1.0
+            }
+            
+            let metadataNowEmpty = (self._titleLabel.text?.isEmpty ?? true && self._artistLabel.text?.isEmpty ?? true)
+            if (!metadataNowEmpty) {
+                let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * NSEC_PER_SEC))
+                dispatch_after(delay, dispatch_get_main_queue(), {
+                    self.visualizationViewController.setLevelMetersVisible(true, animated: true)
+                })
+            } else {
+                self.visualizationViewController.setLevelMetersVisible(false, animated: false)
             }
         }
     }
