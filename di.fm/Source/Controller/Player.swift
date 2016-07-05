@@ -16,19 +16,20 @@ protocol PlayerDelegate: class
     func playerCurrentTrackDidChange(player: Player, newTrack: Track?)
 }
 
-class Player : NSObject
+protocol PlayerStreamProcessor: class
+{
+    func playerStreamDidDecodeAudioData(player: Player, data: NSData, framesCount: UInt)
+}
+
+class Player : NSObject, ZANStreamPlayerDelegate
 {
     var listenKey:                  String?
     var streamSet:                  StreamSet?
     weak var delegate:              PlayerDelegate?
-    weak var streamDelegate:        AudioStreamDelegate?
+    weak var streamProcessor:       PlayerStreamProcessor?
     
-    private var _player:            AVPlayer?
-    private var _playerItem:        AVPlayerItem?
-    private var _streamer:          AudioStreamer?
+    private var _streamPlayer:      ZANStreamPlayer?
     private var _errorStream:       StandardErrorOutputStream = StandardErrorOutputStream()
-    
-    private let _playerItemKeyPaths = ["timedMetadata", "tracks"]
     
     var currentChannel: Channel?
     {
@@ -56,7 +57,7 @@ class Player : NSObject
             _logError("error setting audio category", error: error)
         }
         
-        _streamer?.start()
+        _streamPlayer?.play()
         
         if (self.currentChannel != nil) {
             self.delegate?.playerDidStartPlayingChannel(self, channel: self.currentChannel!)
@@ -65,48 +66,37 @@ class Player : NSObject
     
     func pause()
     {
-        if let streamer = _streamer {
-            if (streamer.isPlaying()) {
-                _streamer?.stop()
-                self.delegate?.playerDidPausePlayback(self)
-            }
-        }
+        _streamPlayer?.pause()
     }
     
     func isPlaying() -> Bool
     {
         var playing: Bool = false
-        if let streamer = _streamer {
-            playing = streamer.isPlaying()
+        if let streamPlayer = _streamPlayer {
+            playing = streamPlayer.playing
         }
         return playing
     }
     
-    // MARK: KVO
+    // MARK: ZANStreamPlayerDelegate
     
-    override func observeValueForKeyPath(keyPath: String?,
-                                         ofObject object: AnyObject?,
-                                                  change: [String : AnyObject]?,
-                                                  context: UnsafeMutablePointer<Void>)
+    func streamPlayerPlaybackStateDidChange(player: ZANStreamPlayer)
     {
-        var newTrack: Track? = nil
-        
-        if let keyPath = keyPath {
-            if let playerItem = object as? AVPlayerItem {
-                if (keyPath == "timedMetadata") {
-                    newTrack = Track(playerItem)
-                } else if (keyPath == "tracks") {
-                    for track in playerItem.tracks {
-                        if (track.assetTrack.mediaType == AVMediaTypeAudio) {
-                            print("disabling audio track \(track)")
-                            track.enabled = false
-                        }
-                    }
-                }
-            }
+        if (player.stopped) {
+            self.delegate?.playerDidStopPlayback(self)
+        } else if (!player.playing) {
+            self.delegate?.playerDidPausePlayback(self)
         }
-        
-        self.currentTrack = newTrack
+    }
+    
+    func streamPlayer(player: ZANStreamPlayer, didReceiveMetadataUpdate metadata: [String : String])
+    {
+        self.currentTrack = Track(metadata)
+    }
+    
+    func streamPlayer(player: ZANStreamPlayer, didDecodeAudioData data: NSData, withFramesCount framesCount: UInt, format: UnsafePointer<AudioStreamBasicDescription>)
+    {
+        self.streamProcessor?.playerStreamDidDecodeAudioData(self, data: data, framesCount: framesCount)
     }
     
     // MARK: Internal
@@ -130,9 +120,7 @@ class Player : NSObject
     
     internal func _reloadStream()
     {
-        var newPlayer: AVPlayer? = nil
-        var newPlayerItem: AVPlayerItem? = nil
-        var newStreamer: AudioStreamer? = nil
+        var newStreamPlayer: ZANStreamPlayer? = nil
         
         // create player item and player for new channel stream
         if (self.currentChannel != nil) {
@@ -143,9 +131,8 @@ class Player : NSObject
                 }
                 
                 if let streamURL = streamURLComponents.URL {
-                    newPlayerItem = AVPlayerItem(URL: streamURL)
-                    newPlayer = AVPlayer(playerItem: newPlayerItem!)
-                    newStreamer = AudioStreamer(URL: streamURL)
+                    newStreamPlayer = ZANStreamPlayer(URL: streamURL, options: [.InstallProcessingTap, .RequestMetadata])
+                    newStreamPlayer?.delegate = self
                 } else {
                     _logError("Could not parse URL using components: \(streamURLComponents)", error: nil)
                 }
@@ -160,18 +147,8 @@ class Player : NSObject
         let prevPlaying = self.isPlaying()
         self.pause()
         
-        // setup observer
-        for keyPath in _playerItemKeyPaths {
-            _playerItem?.removeObserver(self, forKeyPath: keyPath)
-            newPlayerItem?.addObserver(self, forKeyPath: keyPath, options: NSKeyValueObservingOptions(), context: nil)
-        }
-        
-        // save new streaming objects
-        _streamer = newStreamer
-        _streamer?.delegate = self.streamDelegate
-        _player = newPlayer
-        _player?.play()
-        _playerItem = newPlayerItem
+        // save new stream player
+        _streamPlayer = newStreamPlayer
         
         // begin playback if necessary
         if (prevPlaying) {

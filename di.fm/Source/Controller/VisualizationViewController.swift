@@ -14,7 +14,7 @@ import UIKit
 let π = CGFloat(M_PI)
 let π2 = CGFloat(2.0 * M_PI)
 
-class VisualizationViewController : UIViewController, FFTProcessorDelegate, AudioStreamDelegate
+class VisualizationViewController : UIViewController, FFTProcessorDelegate, PlayerStreamProcessor
 {
     private var _sceneView:      SCNView?
     private var _icosphereScene: WireframeIcosphereScene = WireframeIcosphereScene()
@@ -56,7 +56,7 @@ class VisualizationViewController : UIViewController, FFTProcessorDelegate, Audi
     
     // MARK: AudioStreamDelegate
     
-    func audioStreamDidDecodeAudioData(data: NSData!, framesCount: UInt)
+    func playerStreamDidDecodeAudioData(player: Player, data: NSData, framesCount: UInt)
     {
         _fftProcessor.processAudioData(data, withFramesCount: framesCount)
     }
