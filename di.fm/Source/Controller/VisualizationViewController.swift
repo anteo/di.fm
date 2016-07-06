@@ -166,12 +166,11 @@ internal class WireframeIcosphereScene : SCNScene
 
 internal class LevelMeterScene : SKScene
 {
-    private var _levelNodes: [SKSpriteNode] = []
-    private var _filters:    [LowPassFilter] = []
+    private var _levelNodes:    [SKSpriteNode] = []
+    private var _currentLevels: [Float] = []
     
     private let _kLevelsCount:  UInt = 50
     private let _kFilterLength: UInt = 1
-    private let _kFFTScale:     Float = 20.0
     
     override init(size: CGSize)
     {
@@ -208,12 +207,26 @@ internal class LevelMeterScene : SKScene
         let freqValuesCount = frequencySignalData.length / sizeof(Float)
         let buffer = UnsafeBufferPointer<Float>(start: ptr, count: freqValuesCount)
         
-        let filtersCount = _filters.count
-        for (filterIdx, filter) in _filters.enumerate() {
-            let r = Float(filterIdx) / Float(filtersCount)
+        /* FUNNY MATH AHEAD! */
+        
+        let count = _levelNodes.count
+        var values = Array<Float>(count: count, repeatedValue: 0.0)
+        var sum: Float = 0.0
+        
+        for i in 0 ..< count {
+            let r = Float(i) / Float(count)
             let bufferIdx = Int(r * Float(freqValuesCount))
-            let val = buffer[bufferIdx] * (_kFFTScale * Float(self.size.width))
-            filter.updateWithSignalValue(val)
+            let val = buffer[bufferIdx] * 2000.0
+            values[i] = val
+            sum += val
+        }
+        
+        let avg = sum / Float(count)
+        for (idx, value) in values.enumerate() {
+            let x = avg - value
+            let mul = pow(x, 3.0) + 1.0
+            let scaledValue = max(value * mul, 0.0) * 100.0
+            _currentLevels[idx] = scaledValue
         }
     }
     
@@ -224,8 +237,7 @@ internal class LevelMeterScene : SKScene
         super.update(currentTime)
         
         for (levelIdx, levelNode) in _levelNodes.enumerate() {
-            let filter = _filters[levelIdx]
-            let height = CGFloat(filter.movingAverage())
+            let height = CGFloat(_currentLevels[levelIdx])
             
             if (!height.isNaN) {
                 let act = SKAction.resizeToHeight(height, duration: 0.05)
@@ -275,6 +287,6 @@ internal class LevelMeterScene : SKScene
         
         _levelNodes.forEach { $0.removeFromParent() }
         _levelNodes = levelNodes
-        _filters = filters
+        _currentLevels = Array<Float>(count: levelNodes.count, repeatedValue: 0.0)
     }
 }
