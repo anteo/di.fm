@@ -52,7 +52,8 @@ class VisualizationViewController : UIViewController, FFTProcessorDelegate, Play
     
     override func loadView()
     {
-        _sceneView = SCNView(frame: UIScreen.mainScreen().bounds)
+        // can't use Metal because it's crashy
+        _sceneView = SCNView(frame: UIScreen.mainScreen().bounds, options: [SCNPreferredRenderingAPIKey : SCNRenderingAPI.OpenGLES2.rawValue])
         _sceneView?.backgroundColor = UIColor.blackColor()
         _sceneView?.scene = _icosphereScene
         _sceneView?.overlaySKScene = _levelsScene
