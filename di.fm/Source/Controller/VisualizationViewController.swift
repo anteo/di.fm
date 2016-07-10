@@ -226,7 +226,7 @@ internal class LevelMeterScene : SKScene
         for (idx, value) in values.enumerate() {
             let x = avg - value
             let mul = pow(x, 3.0) + 1.0
-            let scaledValue = max(value * mul, 0.0) * 100.0
+            let scaledValue = max(value * mul, 0.0) * 80.0
             _currentLevels[idx] = scaledValue
         }
     }
@@ -238,7 +238,9 @@ internal class LevelMeterScene : SKScene
         super.update(currentTime)
         
         for (levelIdx, levelNode) in _levelNodes.enumerate() {
-            let height = CGFloat(_currentLevels[levelIdx])
+            let level = CGFloat(_currentLevels[levelIdx])
+            let maxHeight = self.radius * 0.75
+            let height = min(level, maxHeight)
             
             if (!height.isNaN) {
                 let act = SKAction.resizeToHeight(height, duration: 0.05)

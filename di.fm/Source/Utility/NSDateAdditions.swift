@@ -7,7 +7,8 @@
 
 import Foundation
 
-extension NSDate {
+extension NSDate
+{
     private static var RFC3339DateFormatter:   NSDateFormatter? = nil
     private static var OnceToken:              dispatch_once_t = 0
     

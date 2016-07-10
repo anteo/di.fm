@@ -32,6 +32,7 @@
 		0CA349701CDF148400765A46 /* StreamList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3496F1CDF148400765A46 /* StreamList.swift */; };
 		0CA349721CDF14AE00765A46 /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA349711CDF14AE00765A46 /* Stream.swift */; };
 		0CAC95D01D2B94560087E280 /* ZANStreamPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAC95CF1D2B94560087E280 /* ZANStreamPlayer.m */; };
+		0CAC95D21D3300E60087E280 /* UIColorAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAC95D11D3300E60087E280 /* UIColorAdditions.swift */; };
 		0CB7A68A1CE5904D004EF016 /* RemoteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB7A6891CE5904D004EF016 /* RemoteController.swift */; };
 		0CD7B38B1CE4198300516C50 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD7B38A1CE4198300516C50 /* Theme.swift */; };
 		0CD7B38F1CE41C1200516C50 /* EnzoOT-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0CD7B38C1CE41C1200516C50 /* EnzoOT-Bold.ttf */; };
@@ -81,6 +82,7 @@
 		0CA349711CDF14AE00765A46 /* Stream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stream.swift; sourceTree = "<group>"; };
 		0CAC95CE1D2B94560087E280 /* ZANStreamPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZANStreamPlayer.h; sourceTree = "<group>"; };
 		0CAC95CF1D2B94560087E280 /* ZANStreamPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZANStreamPlayer.m; sourceTree = "<group>"; };
+		0CAC95D11D3300E60087E280 /* UIColorAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorAdditions.swift; sourceTree = "<group>"; };
 		0CB7A6891CE5904D004EF016 /* RemoteController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteController.swift; sourceTree = "<group>"; };
 		0CD7B38A1CE4198300516C50 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		0CD7B38C1CE41C1200516C50 /* EnzoOT-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "EnzoOT-Bold.ttf"; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 				0C2AD0241CD0795600A20EFE /* Semaphore.swift */,
 				0C2AD0251CD0795600A20EFE /* StandardError.swift */,
 				0C2AD0261CD0795600A20EFE /* TVSupport.swift */,
+				0CAC95D11D3300E60087E280 /* UIColorAdditions.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -355,6 +358,7 @@
 				0C2AD02F1CD0795600A20EFE /* Semaphore.swift in Sources */,
 				0CDEB6D71CDFBBC400CC208A /* ChannelFilterViewController.swift in Sources */,
 				0CA3496E1CDF143300765A46 /* StreamSet.swift in Sources */,
+				0CAC95D21D3300E60087E280 /* UIColorAdditions.swift in Sources */,
 				0CDEB6DD1CE03D7C00CC208A /* NowPlayingViewController.swift in Sources */,
 				0C2AD02E1CD0795600A20EFE /* NSErrorAdditions.swift in Sources */,
 				0C12834C1D177C8E00EDFB79 /* Track.swift in Sources */,

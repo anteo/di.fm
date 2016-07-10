@@ -49,7 +49,7 @@ class NowPlayingViewController : UIViewController
     private var _artistLabel:        UILabel = UILabel()
     
     private static let _ArtworkSize = CGSize(width: 500.0, height: 500.0)
-    private static let _ArtworkTitlePadding = CGFloat(40.0)
+    private static let _ArtworkTitlePadding = CGFloat(60.0)
     private static let _TitleArtistLeading = CGFloat(5.0)
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?)
@@ -84,7 +84,7 @@ class NowPlayingViewController : UIViewController
         self.view.addSubview(_titleLabel)
         
         _artistLabel.font = theme.foregroundFont
-        _artistLabel.textColor = theme.tertiaryColor
+        _artistLabel.textColor = theme.tertiaryColor.lighterColor()
         _artistLabel.textAlignment = .Center
         self.view.addSubview(_artistLabel)
     }

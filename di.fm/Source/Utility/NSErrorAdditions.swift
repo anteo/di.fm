@@ -8,14 +8,16 @@
 
 import Foundation
 
-enum ErrorCode : Int {
+enum ErrorCode : Int
+{
     case Unknown
     case ConnectionError
     case ConfigurationError
     case AuthenticationError
 }
 
-extension NSError {
+extension NSError
+{
     private static let ErrorDomain = "com.zanneth.di.fm"
     
     class func difmError(code: ErrorCode) -> NSError
