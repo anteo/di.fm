@@ -139,9 +139,9 @@ class AppDelegate : UIResponder,
             dispatch_async(dispatch_get_main_queue(), {
                 self.tabBarController.viewControllers = nil
                 
-                if (update != nil) {
-                    self._configureTabs(update!)
-                    self._configurePlayer(update!)
+                if let update = update {
+                    self._configureTabs(update)
+                    self._configurePlayer(update)
                     self.window?.rootViewController = self.tabBarController
                 } else {
                     let errorDescription = error?.localizedDescription ?? NSLocalizedString("UNKNOWN_ERROR", comment: "")

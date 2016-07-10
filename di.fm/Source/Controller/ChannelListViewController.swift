@@ -20,6 +20,7 @@ class ChannelListViewController : UIViewController, UICollectionViewDelegate, UI
     
     private var _collectionView:    UICollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: UICollectionViewFlowLayout())
     private var _artworkDataSource: ChannelArtworkImageDataSource = ChannelArtworkImageDataSource()
+    private var _sortedChannels:    [Channel] = []
     
     weak var delegate:              ChannelListViewControllerDelegate?
     
@@ -35,6 +36,7 @@ class ChannelListViewController : UIViewController, UICollectionViewDelegate, UI
     {
         didSet
         {
+            _sortedChannels = self.channels.sort({ $0.name < $1.name })
             _collectionView.reloadData()
         }
     }
@@ -68,7 +70,7 @@ class ChannelListViewController : UIViewController, UICollectionViewDelegate, UI
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
-        return self.channels.count
+        return _sortedChannels.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell
@@ -78,8 +80,8 @@ class ChannelListViewController : UIViewController, UICollectionViewDelegate, UI
             forIndexPath: indexPath)
             as! ChannelCollectionViewCell
         
-        let channel = self.channels[indexPath.row]
-        cell.channel = self.channels[indexPath.row]
+        let channel = _sortedChannels[indexPath.row]
+        cell.channel = _sortedChannels[indexPath.row]
         
         let sizeDimensions = ChannelListViewController.LayoutTemplate.unfocusedContentWidth
         let size = CGSize(width: sizeDimensions, height: sizeDimensions)
@@ -98,7 +100,7 @@ class ChannelListViewController : UIViewController, UICollectionViewDelegate, UI
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath)
     {
-        let channel = self.channels[indexPath.row]
+        let channel = _sortedChannels[indexPath.row]
         self.delegate?.channelListDidSelectChannel(self, channel: channel)
     }
 }
