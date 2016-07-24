@@ -49,6 +49,8 @@
 		0CDEB6E51CE044DE00CC208A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0CDEB6E41CE044DE00CC208A /* Localizable.strings */; };
 		0CDEB6E91CE047A400CC208A /* AuthenticatedUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEB6E81CE047A400CC208A /* AuthenticatedUser.swift */; };
 		0CDEB6EB1CE04E4800CC208A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEB6EA1CE04E4800CC208A /* LoginViewController.swift */; };
+		0CE19AC41D44A35B009D9FA7 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE19AC31D44A35B009D9FA7 /* SettingsViewController.swift */; };
+		0CE19AC61D44C18E009D9FA7 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE19AC51D44C18E009D9FA7 /* Settings.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -101,6 +103,8 @@
 		0CDEB6E41CE044DE00CC208A /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		0CDEB6E81CE047A400CC208A /* AuthenticatedUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticatedUser.swift; sourceTree = "<group>"; };
 		0CDEB6EA1CE04E4800CC208A /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		0CE19AC31D44A35B009D9FA7 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		0CE19AC51D44C18E009D9FA7 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +138,7 @@
 				0CDEB6DC1CE03D7C00CC208A /* NowPlayingViewController.swift */,
 				0C2AD01D1CD0795600A20EFE /* Player.swift */,
 				0CB7A6891CE5904D004EF016 /* RemoteController.swift */,
+				0CE19AC31D44A35B009D9FA7 /* SettingsViewController.swift */,
 				0C7D25831D29C1E300FA7157 /* VisualizationViewController.swift */,
 				0CAC95CE1D2B94560087E280 /* ZANStreamPlayer.h */,
 				0CAC95CF1D2B94560087E280 /* ZANStreamPlayer.m */,
@@ -175,6 +180,7 @@
 				0CDEB6D41CDFB6C500CC208A /* NSDateAdditions.swift */,
 				0C2AD0231CD0795600A20EFE /* NSErrorAdditions.swift */,
 				0C2AD0241CD0795600A20EFE /* Semaphore.swift */,
+				0CE19AC51D44C18E009D9FA7 /* Settings.swift */,
 				0C2AD0251CD0795600A20EFE /* StandardError.swift */,
 				0C2AD0261CD0795600A20EFE /* TVSupport.swift */,
 				0CAC95D11D3300E60087E280 /* UIColorAdditions.swift */,
@@ -347,6 +353,7 @@
 				0CA349681CDEE6C900765A46 /* BatchUpdate.swift in Sources */,
 				0CDEB6D51CDFB6C500CC208A /* NSDateAdditions.swift in Sources */,
 				0CDEB6EB1CE04E4800CC208A /* LoginViewController.swift in Sources */,
+				0CE19AC61D44C18E009D9FA7 /* Settings.swift in Sources */,
 				0C7D25821D29C1B400FA7157 /* LowPassFilter.mm in Sources */,
 				0C2AD0311CD0795600A20EFE /* TVSupport.swift in Sources */,
 				0CDEB6DB1CE01DC200CC208A /* ChannelArtworkImageDataSource.swift in Sources */,
@@ -354,6 +361,7 @@
 				0C2AD0291CD0795600A20EFE /* AppDelegate.swift in Sources */,
 				0CD7B3951CE45C0C00516C50 /* KeychainItemWrapper.m in Sources */,
 				0CD7B38B1CE4198300516C50 /* Theme.swift in Sources */,
+				0CE19AC41D44A35B009D9FA7 /* SettingsViewController.swift in Sources */,
 				0C2AD0361CD0798100A20EFE /* ChannelFilter.swift in Sources */,
 				0C2AD02F1CD0795600A20EFE /* Semaphore.swift in Sources */,
 				0CDEB6D71CDFBBC400CC208A /* ChannelFilterViewController.swift in Sources */,

@@ -19,4 +19,17 @@
 "LOGIN_PASSWORD_PLACEHOLDER_TEXT" = "Password";
 "LOGIN_BUTTON_TEXT" = "Login";
 
+"SETTINGS_TITLE" = "Settings";
+"SETTING_QUALITY" = "Stream Quality";
+"SETTING_LOGOUT" = "Log Out";
+
+"STREAM_QUALITY_LOW" = "Low";
+"STREAM_QUALITY_MEDIUM" = "Medium";
+"STREAM_QUALITY_HIGH" = "High";
+
+"LOGOUT_TITLE" = "Logout";
+"LOGOUT_DIALOG_MESSAGE" = "Are you sure you want to log out?";
+"LOGOUT_DIALOG_CONFIRM_ACTION" = "Logout";
+
 "OK" = "OK";
+"CANCEL" = "Cancel";

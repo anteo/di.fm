@@ -12,7 +12,8 @@ class AppDelegate : UIResponder,
     UIApplicationDelegate,
     ChannelListViewControllerDelegate,
     PlayerDelegate,
-    LoginViewControllerDelegate
+    LoginViewControllerDelegate,
+    SettingsViewControllerDelegate
 {
     var window:                 UIWindow?
     var server:                 AudioAddictServer = AudioAddictServer()
@@ -63,6 +64,11 @@ class AppDelegate : UIResponder,
         self.nowPlayingController.server = self.server
         self.remoteController = RemoteController(player: self.player)
         self.remoteController.player = self.player
+        
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        notificationCenter.addObserverForName(Settings.settingsDidChangeNotification, object: nil, queue: NSOperationQueue.mainQueue()) { [weak self] _ in
+            self?._reloadData()
+        }
         
         return true
     }
@@ -123,6 +129,18 @@ class AppDelegate : UIResponder,
         }
     }
     
+    // MARK: SettingsViewControllerDelegate
+    
+    func settingsViewControllerDidConfirmLogout(viewController: SettingsViewController)
+    {
+        self.credentialsStore.reset()
+        self.player.pause()
+        
+        let loginViewController = LoginViewController()
+        loginViewController.delegate = self
+        self.window?.rootViewController = loginViewController
+    }
+    
     // MARK: Internal
     
     internal func _handleSuccessfulAuthentication(authenticatedUser: AuthenticatedUser)
@@ -134,8 +152,8 @@ class AppDelegate : UIResponder,
     
     internal func _reloadData()
     {
-        // TODO: read stream quality from user settings
-        self.server.fetchBatchUpdate(.PremiumHigh) { (update: BatchUpdate?, error: NSError?) -> (Void) in
+        let settings = Settings.sharedSettings
+        self.server.fetchBatchUpdate(settings.streamQuality) { (update: BatchUpdate?, error: NSError?) -> (Void) in
             dispatch_async(dispatch_get_main_queue(), {
                 self.tabBarController.viewControllers = nil
                 
@@ -191,6 +209,10 @@ class AppDelegate : UIResponder,
                 viewControllers.append(channelFilterViewController)
             }
         }
+        
+        let settingsViewController = SettingsViewController()
+        settingsViewController.delegate = self
+        viewControllers.append(settingsViewController)
         
         self.tabBarController.viewControllers = viewControllers
     }
