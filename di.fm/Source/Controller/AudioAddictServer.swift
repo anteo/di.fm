@@ -3,6 +3,7 @@
 //  di.fm
 //
 //  Created by Charles Magahern on 5/7/16.
+//  Copyright © 2016 zanneth. All rights reserved.
 //
 
 import CoreGraphics
