@@ -11,22 +11,22 @@ import UIKit
 
 class ChannelArtworkImageDataSource
 {
-    typealias ChannelArtworkCallback = (UIImage?, NSError?) -> (Void)
+    typealias ChannelArtworkCallback = (UIImage?, Error?) -> (Void)
     
     var server: AudioAddictServer?
     
-    private var _cache:                      [Int : UIImage] = [:] // channel identifiers -> images
-    private var _pendingCallbacks:           [Int : [ChannelArtworkCallback]] = [:] // channel identifiers -> callbacks
-    private var _serialQueue:                dispatch_queue_t
+    fileprivate var _cache:                      [Int : UIImage] = [:] // channel identifiers -> images
+    fileprivate var _pendingCallbacks:           [Int : [ChannelArtworkCallback]] = [:] // channel identifiers -> callbacks
+    fileprivate var _serialQueue:                DispatchQueue
     
     init()
     {
-        _serialQueue = dispatch_queue_create("ChannelArtworkImageDataSource", DISPATCH_QUEUE_SERIAL)
+        _serialQueue = DispatchQueue(label: "ChannelArtworkImageDataSource", attributes: [])
     }
     
-    func loadChannelArtworkImage(channel: Channel, size: CGSize, completion: ChannelArtworkCallback)
+    func loadChannelArtworkImage(_ channel: Channel, size: CGSize, completion: @escaping ChannelArtworkCallback)
     {
-        dispatch_async(_serialQueue) {
+        _serialQueue.async {
             if let cachedImage = self._cache[channel.identifier] {
                 completion(cachedImage, nil)
             } else if (self._pendingCallbacks[channel.identifier] != nil) {
@@ -39,18 +39,19 @@ class ChannelArtworkImageDataSource
     
     // MARK: Internal
     
-    internal func _onQueueBeginLoad(channel: Channel, size: CGSize, completion: ChannelArtworkCallback)
+    internal func _onQueueBeginLoad(_ channel: Channel, size: CGSize, completion: @escaping ChannelArtworkCallback)
     {
         guard let server = self.server else {
-            let err = NSError.difmError(.ConfigurationError, description: "no server configured for artwork data source")
+            var err = DIError(code: .configurationError)
+            err.debugDescription = "no server configured for artwork data source"
             completion(nil, err)
             return
         }
         
         _pendingCallbacks[channel.identifier] = [completion]
         
-        server.loadChannelArtwork(channel.image, size: size) { (imageData: NSData?, error: NSError?) -> (Void) in
-            dispatch_async(self._serialQueue, {
+        server.loadChannelArtwork(channel.image, size: size) { (imageData: Data?, error: Error?) -> (Void) in
+            self._serialQueue.async(execute: {
                 var loadedImage: UIImage? = nil
                 
                 if (imageData != nil) {
@@ -62,7 +63,7 @@ class ChannelArtworkImageDataSource
                     callback(loadedImage, error)
                 }
                 
-                self._pendingCallbacks.removeValueForKey(channel.identifier)
+                self._pendingCallbacks.removeValue(forKey: channel.identifier)
             })
         }
     }

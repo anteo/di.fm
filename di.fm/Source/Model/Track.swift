@@ -55,22 +55,22 @@ struct Track
         }
     }
     
-    internal func _titleArtistFromConcatenatedMetadata(string: String) -> (String, String)
+    internal func _titleArtistFromConcatenatedMetadata(_ string: String) -> (String, String)
     {
         let titleString = string as NSString
-        let regex = try! NSRegularExpression(pattern: "(.*) - (.*)", options: NSRegularExpressionOptions())
+        let regex = try! NSRegularExpression(pattern: "(.*) - (.*)", options: NSRegularExpression.Options())
         let fullRange = NSRange(location: 0, length: titleString.length)
-        let matches = regex.matchesInString(titleString as String, options: NSMatchingOptions(), range: fullRange)
+        let matches = regex.matches(in: titleString as String, options: NSRegularExpression.MatchingOptions(), range: fullRange)
         
         var title: String = ""
         var artist: String = ""
         
         if let match = matches.first {
-            let artistRange = match.rangeAtIndex(1)
-            artist = titleString.substringWithRange(artistRange) as String
+            let artistRange = match.rangeAt(1)
+            artist = titleString.substring(with: artistRange) as String
             
-            let titleRange = match.rangeAtIndex(2)
-            title = titleString.substringWithRange(titleRange) as String
+            let titleRange = match.rangeAt(2)
+            title = titleString.substring(with: titleRange) as String
         }
         
         return (title, artist)

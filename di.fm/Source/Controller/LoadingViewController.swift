@@ -11,8 +11,8 @@ import UIKit
 
 class LoadingViewController : UIViewController
 {
-    private var _logoImageView: UIImageView = UIImageView()
-    private var _spinner:       UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
+    fileprivate var _logoImageView: UIImageView = UIImageView()
+    fileprivate var _spinner:       UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
     
     override func viewDidLoad()
     {
@@ -48,7 +48,7 @@ class LoadingViewController : UIViewController
         
         let spinnerFrame = CGRect(
             x: rint(bounds.size.width / 2.0 - spinnerSize.width / 2.0),
-            y: CGRectGetMaxY(logoImageViewFrame) + logoSpinnerPadding,
+            y: logoImageViewFrame.maxY + logoSpinnerPadding,
             width: spinnerSize.width,
             height: spinnerSize.height
         )

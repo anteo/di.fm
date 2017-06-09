@@ -22,7 +22,7 @@ struct Stream
     }
     
     var identifier:     Int = 0
-    var url:            NSURL = NSURL()
+    var url:            URL?
     var format:         String = ""
     var bitrate:        UInt = 0
     
@@ -32,16 +32,16 @@ struct Stream
     init(_ dict: NSDictionary)
     {
         if let identifier = dict["identifier"] as? NSNumber {
-            self.identifier = identifier.integerValue
+            self.identifier = identifier.intValue
         }
         if let url = dict["url"] as? NSString {
-            self.url = NSURL(string: url as String)!
+            self.url = URL(string: url as String)!
         }
         if let format = dict["format"] as? NSString {
             self.format = String(format)
         }
         if let bitrate = dict["bitrate"] as? NSNumber {
-            self.bitrate = bitrate.unsignedIntegerValue
+            self.bitrate = bitrate.uintValue
         }
     }
 }

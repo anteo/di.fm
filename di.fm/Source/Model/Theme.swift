@@ -26,7 +26,7 @@ struct Theme
         theme.foregroundFont = UIFont(name: "EnzoOT-Medi", size: 38.0)!
         theme.secondaryColor = UIColor(red: 0.13, green: 0.15, blue: 0.21, alpha: 1.00)
         theme.tertiaryColor = UIColor(red: 0.21, green: 0.24, blue: 0.33, alpha: 1.00)
-        theme.foregroundColor = UIColor.whiteColor()
+        theme.foregroundColor = UIColor.white
         
         return theme
     }

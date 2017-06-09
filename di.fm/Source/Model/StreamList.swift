@@ -20,7 +20,7 @@ struct StreamList
     init(_ dict: NSDictionary)
     {
         if let identifier = dict["id"] as? NSNumber {
-            self.identifier = identifier.integerValue
+            self.identifier = identifier.intValue
         }
         if let name = dict["name"] as? NSString {
             self.name = String(name)
@@ -30,7 +30,7 @@ struct StreamList
             
             for channelObj in channelsArray {
                 if let channelDict = channelObj as? NSDictionary {
-                    let channelID = (channelDict["id"] as! NSNumber).integerValue
+                    let channelID = (channelDict["id"] as! NSNumber).intValue
                     channelIDToStreams[channelID] = _parseChannelStreams(channelDict)
                 }
             }
@@ -41,7 +41,7 @@ struct StreamList
     
     // MARK: Internal
     
-    internal func _parseChannelStreams(channelDict: NSDictionary) -> [Stream]
+    internal func _parseChannelStreams(_ channelDict: NSDictionary) -> [Stream]
     {
         var streams: [Stream] = []
         

@@ -8,12 +8,11 @@
 
 import Foundation
 
-class StandardErrorOutputStream : OutputStreamType
+class StandardErrorOutputStream : OutputStream
 {
-    private var _stderr = NSFileHandle.fileHandleWithStandardError()
-    
-    func write(string: String)
+    func write(_ string: String)
     {
-        _stderr.writeData(string.dataUsingEncoding(NSUTF8StringEncoding)!)
+        let stderr = FileHandle.standardError
+        stderr.write(string.data(using: String.Encoding.utf8)!)
     }
 }

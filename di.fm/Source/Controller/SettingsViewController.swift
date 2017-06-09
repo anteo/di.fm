@@ -11,7 +11,7 @@ import UIKit
 
 protocol SettingsViewControllerDelegate : class
 {
-    func settingsViewControllerDidConfirmLogout(viewController: SettingsViewController)
+    func settingsViewControllerDidConfirmLogout(_ viewController: SettingsViewController)
 }
 
 internal struct Setting
@@ -24,15 +24,15 @@ class SettingsViewController : UIViewController, UITableViewDelegate, UITableVie
 {
     weak var delegate:                        SettingsViewControllerDelegate?
     
-    private var _splitViewController:         UISplitViewController = UISplitViewController()
-    private var _navigationController:        UINavigationController!
-    private var _settingsTableViewController: UITableViewController = UITableViewController()
-    private var _logoViewController:          UIViewController = UIViewController()
-    private var _settings:                    [Setting] = []
+    fileprivate var _splitViewController:         UISplitViewController = UISplitViewController()
+    fileprivate var _navigationController:        UINavigationController!
+    fileprivate var _settingsTableViewController: UITableViewController = UITableViewController()
+    fileprivate var _logoViewController:          UIViewController = UIViewController()
+    fileprivate var _settings:                    [Setting] = []
     
-    static private let _SettingCellIdentifier = "SettingsCellIdentifier"
+    static fileprivate let _SettingCellIdentifier = "SettingsCellIdentifier"
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?)
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
     {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         self.title = NSLocalizedString("SETTINGS_TITLE", comment: "")
@@ -44,16 +44,16 @@ class SettingsViewController : UIViewController, UITableViewDelegate, UITableVie
         
         let theme = Theme.defaultTheme()
         let tableView = _settingsTableViewController.tableView
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: SettingsViewController._SettingCellIdentifier)
+        tableView?.delegate = self
+        tableView?.dataSource = self
+        tableView?.register(UITableViewCell.self, forCellReuseIdentifier: SettingsViewController._SettingCellIdentifier)
         _settingsTableViewController.title = self.title
         
         let logoView = _logoViewController.view
         let logoImage = UIImage(named: "di_logo")
         let logoImageView = UIImageView(image: logoImage)
-        logoImageView.contentMode = .Center
-        logoView.addSubview(logoImageView)
+        logoImageView.contentMode = .center
+        logoView?.addSubview(logoImageView)
         
         _navigationController = UINavigationController(rootViewController: _settingsTableViewController)
         _navigationController.view.backgroundColor = theme.tertiaryColor
@@ -74,47 +74,47 @@ class SettingsViewController : UIViewController, UITableViewDelegate, UITableVie
         _splitViewController.view.frame = self.view.bounds
         
         let logoView = _logoViewController.view
-        let logoViewBounds = logoView.bounds
-        let logoImageView = logoView.subviews.first
-        logoImageView?.frame = logoViewBounds
+        let logoViewBounds = logoView?.bounds
+        let logoImageView = logoView?.subviews.first
+        logoImageView?.frame = logoViewBounds!
     }
     
     // MARK: UITableViewDataSource
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return _settings.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        let cell = tableView.dequeueReusableCellWithIdentifier(SettingsViewController._SettingCellIdentifier, forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: SettingsViewController._SettingCellIdentifier, for: indexPath)
         let setting = _settings[indexPath.row]
         cell.textLabel?.text = setting.title
-        cell.textLabel?.textColor = UIColor.whiteColor()
-        cell.selectionStyle = .None
+        cell.textLabel?.textColor = UIColor.white
+        cell.selectionStyle = .none
         
         return cell
     }
     
     // MARK: UITableViewDelegate
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
         let setting = _settings[indexPath.row]
         setting.action()
     }
     
-    func tableView(tableView: UITableView, didUpdateFocusInContext context: UITableViewFocusUpdateContext, withAnimationCoordinator coordinator: UIFocusAnimationCoordinator)
+    func tableView(_ tableView: UITableView, didUpdateFocusIn context: UITableViewFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator)
     {
         if let prevIndexPath = context.previouslyFocusedIndexPath {
-            let prevCell = tableView.cellForRowAtIndexPath(prevIndexPath)
-            prevCell?.textLabel?.textColor = UIColor.whiteColor()
+            let prevCell = tableView.cellForRow(at: prevIndexPath)
+            prevCell?.textLabel?.textColor = UIColor.white
         }
         
         if let nextIndexPath = context.nextFocusedIndexPath {
-            let nextCell = tableView.cellForRowAtIndexPath(nextIndexPath)
-            nextCell?.textLabel?.textColor = UIColor.blackColor()
+            let nextCell = tableView.cellForRow(at: nextIndexPath)
+            nextCell?.textLabel?.textColor = UIColor.black
         }
     }
     
@@ -133,33 +133,33 @@ class SettingsViewController : UIViewController, UITableViewDelegate, UITableVie
         let alertConfirmTitle = NSLocalizedString("LOGOUT_DIALOG_CONFIRM_ACTION", comment: "")
         let cancelTitle = NSLocalizedString("CANCEL", comment: "")
         
-        let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .ActionSheet)
-        alert.addAction(UIAlertAction(title: alertConfirmTitle, style: .Destructive, handler: { (_: UIAlertAction) in
+        let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: alertConfirmTitle, style: .destructive, handler: { (_: UIAlertAction) in
             self.delegate?.settingsViewControllerDidConfirmLogout(self)
         }))
-        alert.addAction(UIAlertAction(title: cancelTitle, style: .Cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: cancelTitle, style: .cancel, handler: nil))
         
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
 internal class StreamQualitySelectionViewController : UITableViewController
 {
-    static private let _CellReuseIdentifier = "StreamQualityCellReuseIdentifier"
-    static private let _AvailableQualitySettings = [
+    static fileprivate let _CellReuseIdentifier = "StreamQualityCellReuseIdentifier"
+    static fileprivate let _AvailableQualitySettings = [
         ("STREAM_QUALITY_LOW", Stream.Quality.PremiumLow),
         ("STREAM_QUALITY_MEDIUM", Stream.Quality.PremiumMedium),
         ("STREAM_QUALITY_HIGH", Stream.Quality.PremiumHigh)
     ]
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?)
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
     {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
         self.title = NSLocalizedString("SETTING_QUALITY", comment: "")
         
         let tableView = self.tableView
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: StreamQualitySelectionViewController._CellReuseIdentifier)
+        tableView?.register(UITableViewCell.self, forCellReuseIdentifier: StreamQualitySelectionViewController._CellReuseIdentifier)
     }
     
     required init?(coder aDecoder: NSCoder)
@@ -169,24 +169,24 @@ internal class StreamQualitySelectionViewController : UITableViewController
     
     // MARK: UITableViewDataSource
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return StreamQualitySelectionViewController._AvailableQualitySettings.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        let cell = tableView.dequeueReusableCellWithIdentifier(StreamQualitySelectionViewController._CellReuseIdentifier,
-                                                               forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: StreamQualitySelectionViewController._CellReuseIdentifier,
+                                                               for: indexPath)
         let qualitySetting = StreamQualitySelectionViewController._AvailableQualitySettings[indexPath.row]
         cell.textLabel?.text = NSLocalizedString(qualitySetting.0, comment: "")
-        cell.textLabel?.textColor = UIColor.whiteColor()
-        cell.selectionStyle = .None
+        cell.textLabel?.textColor = UIColor.white
+        cell.selectionStyle = .none
         
         if (qualitySetting.1 == Settings.sharedSettings.streamQuality) {
-            cell.accessoryType = .Checkmark
+            cell.accessoryType = .checkmark
         } else {
-            cell.accessoryType = .None
+            cell.accessoryType = .none
         }
         
         return cell
@@ -194,7 +194,7 @@ internal class StreamQualitySelectionViewController : UITableViewController
     
     // MARK: UITableViewDelegate
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
         let selectedQualitySetting = StreamQualitySelectionViewController._AvailableQualitySettings[indexPath.row]
         let settings = Settings.sharedSettings
@@ -202,18 +202,18 @@ internal class StreamQualitySelectionViewController : UITableViewController
         self.tableView.reloadData()
     }
     
-    override func tableView(tableView: UITableView,
-                            didUpdateFocusInContext context: UITableViewFocusUpdateContext,
-                            withAnimationCoordinator coordinator: UIFocusAnimationCoordinator)
+    override func tableView(_ tableView: UITableView,
+                            didUpdateFocusIn context: UITableViewFocusUpdateContext,
+                            with coordinator: UIFocusAnimationCoordinator)
     {
         if let prevIndexPath = context.previouslyFocusedIndexPath {
-            let prevCell = tableView.cellForRowAtIndexPath(prevIndexPath)
-            prevCell?.textLabel?.textColor = UIColor.whiteColor()
+            let prevCell = tableView.cellForRow(at: prevIndexPath)
+            prevCell?.textLabel?.textColor = UIColor.white
         }
         
         if let nextIndexPath = context.nextFocusedIndexPath {
-            let nextCell = tableView.cellForRowAtIndexPath(nextIndexPath)
-            nextCell?.textLabel?.textColor = UIColor.blackColor()
+            let nextCell = tableView.cellForRow(at: nextIndexPath)
+            nextCell?.textLabel?.textColor = UIColor.black
         }
     }
 }

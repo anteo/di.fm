@@ -11,17 +11,17 @@ import SceneKit
 import SpriteKit
 import UIKit
 
-let π = CGFloat(M_PI)
-let π2 = CGFloat(2.0 * M_PI)
+let π = CGFloat.pi
+let π2 = CGFloat.pi * 2.0
 
 class VisualizationViewController : UIViewController, FFTProcessorDelegate, PlayerStreamProcessor
 {
-    private var _sceneView:      SCNView?
-    private var _icosphereScene: WireframeIcosphereScene = WireframeIcosphereScene()
-    private var _levelsScene:    LevelMeterScene = LevelMeterScene(size: CGSizeZero)
-    private var _fftProcessor:   FFTProcessor = FFTProcessor()
+    fileprivate var _sceneView:      SCNView?
+    fileprivate var _icosphereScene: WireframeIcosphereScene = WireframeIcosphereScene()
+    fileprivate var _levelsScene:    LevelMeterScene = LevelMeterScene(size: CGSize.zero)
+    fileprivate var _fftProcessor:   FFTProcessor = FFTProcessor()
     
-    var levelMetersCenter: CGPoint = CGPointZero
+    var levelMetersCenter: CGPoint = CGPoint.zero
     {
         didSet
         {
@@ -33,16 +33,16 @@ class VisualizationViewController : UIViewController, FFTProcessorDelegate, Play
     
     // MARK: API
     
-    func setLevelMetersVisible(visible: Bool, animated: Bool)
+    func setLevelMetersVisible(_ visible: Bool, animated: Bool)
     {
         if (animated) {
             var fadeAction: SKAction? = nil
             if (visible) {
-                fadeAction = SKAction.fadeInWithDuration(0.5)
+                fadeAction = SKAction.fadeIn(withDuration: 0.5)
             } else {
-                fadeAction = SKAction.fadeInWithDuration(0.5)
+                fadeAction = SKAction.fadeIn(withDuration: 0.5)
             }
-            _levelsScene.runAction(fadeAction!)
+            _levelsScene.run(fadeAction!)
         } else {
             _levelsScene.alpha = 0.0
         }
@@ -53,22 +53,22 @@ class VisualizationViewController : UIViewController, FFTProcessorDelegate, Play
     override func loadView()
     {
         // can't use Metal because it's crashy
-        _sceneView = SCNView(frame: UIScreen.mainScreen().bounds, options: [SCNPreferredRenderingAPIKey : SCNRenderingAPI.OpenGLES2.rawValue])
-        _sceneView?.backgroundColor = UIColor.blackColor()
+        _sceneView = SCNView(frame: UIScreen.main.bounds, options: [SCNView.Option.preferredRenderingAPI.rawValue : SCNRenderingAPI.openGLES2.rawValue])
+        _sceneView?.backgroundColor = UIColor.black
         _sceneView?.scene = _icosphereScene
         _sceneView?.overlaySKScene = _levelsScene
         
         self.view = _sceneView
     }
     
-    override func viewDidAppear(animated: Bool)
+    override func viewDidAppear(_ animated: Bool)
     {
         super.viewDidAppear(animated)
         _fftProcessor.delegate = self
         _sceneView?.play(nil)
     }
     
-    override func viewDidDisappear(animated: Bool)
+    override func viewDidDisappear(_ animated: Bool)
     {
         super.viewDidDisappear(animated)
         _sceneView?.pause(nil)
@@ -81,19 +81,19 @@ class VisualizationViewController : UIViewController, FFTProcessorDelegate, Play
         let bounds = self.view.bounds
         _levelsScene.size = bounds.size
         _levelsScene.radius = bounds.size.width / 8.0
-        _levelsScene.center = CGPoint(x: CGRectGetMidX(bounds), y: CGRectGetMidY(bounds))
+        _levelsScene.center = CGPoint(x: bounds.midX, y: bounds.midY)
     }
     
     // MARK: AudioStreamDelegate
     
-    func playerStreamDidDecodeAudioData(player: Player, data: NSData, framesCount: UInt)
+    func playerStreamDidDecodeAudioData(_ player: Player, data: Data, framesCount: UInt)
     {
         _fftProcessor.processAudioData(data, withFramesCount: framesCount)
     }
     
     // MARK: FFTProcessorDelegate
     
-    func processor(processor: FFTProcessor, didProcessFrequencyData data: NSData)
+    func processor(_ processor: FFTProcessor, didProcessFrequencyData data: Data)
     {
         _levelsScene.updateFrequency(data)
     }
@@ -101,9 +101,9 @@ class VisualizationViewController : UIViewController, FFTProcessorDelegate, Play
 
 internal class WireframeIcosphereScene : SCNScene
 {
-    private var _sceneView:   SCNView?
-    private var _cameraNode:  SCNNode = SCNNode()
-    private var _sphereNode:  SCNNode = SCNNode()
+    fileprivate var _sceneView:   SCNView?
+    fileprivate var _cameraNode:  SCNNode = SCNNode()
+    fileprivate var _sphereNode:  SCNNode = SCNNode()
     
     override init()
     {
@@ -134,15 +134,15 @@ internal class WireframeIcosphereScene : SCNScene
     {
         // load sphere model from file
         do {
-            let icosphereSceneURL = NSBundle.mainBundle().URLForResource("wireframe_uvsphere",
+            let icosphereSceneURL = Bundle.main.url(forResource: "wireframe_uvsphere",
                                                                          withExtension: "dae",
                                                                          subdirectory: "3DAssets.scnassets")
-            let icosphereScene = try SCNScene(URL: icosphereSceneURL!, options: nil)
+            let icosphereScene = try SCNScene(url: icosphereSceneURL!, options: nil)
             
-            if let icosphereNode = icosphereScene.rootNode.childNodeWithName("Sphere", recursively: false) {
+            if let icosphereNode = icosphereScene.rootNode.childNode(withName: "Sphere", recursively: false) {
                 let material = SCNMaterial()
                 material.diffuse.contents = UIColor(red: 0.08, green: 0.41, blue: 0.55, alpha: 0.8)
-                material.doubleSided = true
+                material.isDoubleSided = true
                 
                 let geometry = icosphereNode.geometry
                 geometry?.firstMaterial = material
@@ -159,19 +159,19 @@ internal class WireframeIcosphereScene : SCNScene
     
     internal func _setupAnimations()
     {
-        let rotationAction = SCNAction.rotateByAngle(2.0 * π, aroundAxis: SCNVector3Make(0.0, 1.0, 0.0), duration: 200.0)
-        let permanentAction = SCNAction.repeatActionForever(rotationAction)
+        let rotationAction = SCNAction.rotate(by: 2.0 * π, around: SCNVector3Make(0.0, 1.0, 0.0), duration: 200.0)
+        let permanentAction = SCNAction.repeatForever(rotationAction)
         _sphereNode.runAction(permanentAction)
     }
 }
 
 internal class LevelMeterScene : SKScene
 {
-    private var _levelNodes:    [SKSpriteNode] = []
-    private var _currentLevels: [Float] = []
+    fileprivate var _levelNodes:    [SKSpriteNode] = []
+    fileprivate var _currentLevels: [Float] = []
     
-    private let _kLevelsCount:  UInt = 50
-    private let _kFilterLength: UInt = 1
+    fileprivate let _kLevelsCount:  UInt = 50
+    fileprivate let _kFilterLength: UInt = 1
     
     override init(size: CGSize)
     {
@@ -202,16 +202,16 @@ internal class LevelMeterScene : SKScene
         }
     }
     
-    func updateFrequency(frequencySignalData: NSData)
+    func updateFrequency(_ frequencySignalData: Data)
     {
-        let ptr = UnsafePointer<Float>(frequencySignalData.bytes)
-        let freqValuesCount = frequencySignalData.length / sizeof(Float)
+        let ptr = (frequencySignalData as NSData).bytes.bindMemory(to: Float.self, capacity: frequencySignalData.count)
+        let freqValuesCount = frequencySignalData.count / MemoryLayout<Float>.size
         let buffer = UnsafeBufferPointer<Float>(start: ptr, count: freqValuesCount)
         
         /* FUNNY MATH AHEAD! */
         
         let count = _levelNodes.count
-        var values = Array<Float>(count: count, repeatedValue: 0.0)
+        var values = Array<Float>(repeating: 0.0, count: count)
         var sum: Float = 0.0
         
         for i in 0 ..< count {
@@ -223,7 +223,7 @@ internal class LevelMeterScene : SKScene
         }
         
         let avg = sum / Float(count)
-        for (idx, value) in values.enumerate() {
+        for (idx, value) in values.enumerated() {
             let x = avg - value
             let mul = pow(x, 3.0) + 1.0
             let scaledValue = max(value * mul, 0.0) * 80.0
@@ -233,18 +233,18 @@ internal class LevelMeterScene : SKScene
     
     // MARK: Overrides
     
-    override func update(currentTime: NSTimeInterval)
+    override func update(_ currentTime: TimeInterval)
     {
         super.update(currentTime)
         
-        for (levelIdx, levelNode) in _levelNodes.enumerate() {
+        for (levelIdx, levelNode) in _levelNodes.enumerated() {
             let level = CGFloat(_currentLevels[levelIdx])
             let maxHeight = self.radius * 0.75
             let height = min(level, maxHeight)
             
             if (!height.isNaN) {
-                let act = SKAction.resizeToHeight(height, duration: 0.05)
-                levelNode.runAction(act)
+                let act = SKAction.resize(toHeight: height, duration: 0.05)
+                levelNode.run(act)
             }
         }
     }
@@ -272,7 +272,7 @@ internal class LevelMeterScene : SKScene
         for i in 0 ..< _kLevelsCount {
             let a = CGFloat(i) / CGFloat(_kLevelsCount)
             let sz = CGSize(width: levelsWidth, height: 20.0)
-            let color = UIColor.whiteColor()
+            let color = UIColor.white
             let node = SKSpriteNode(color: color, size: sz)
             node.texture = levelsTexture
             
@@ -290,6 +290,6 @@ internal class LevelMeterScene : SKScene
         
         _levelNodes.forEach { $0.removeFromParent() }
         _levelNodes = levelNodes
-        _currentLevels = Array<Float>(count: levelNodes.count, repeatedValue: 0.0)
+        _currentLevels = Array<Float>(repeating: 0.0, count: levelNodes.count)
     }
 }

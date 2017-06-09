@@ -19,7 +19,7 @@ struct AuthenticatedUser
     var fraudulent:         Bool = false
     var activated:          Bool = false
     var listenKey:          String = ""
-    var timezone:           NSTimeZone?
+    var timezone:           TimeZone?
     var favoriteChannelIDs: [Int] = []
     
     init()
@@ -28,7 +28,7 @@ struct AuthenticatedUser
     init(_ dict: NSDictionary)
     {
         if let identifier = dict["id"] as? NSNumber {
-            self.identifier = identifier.integerValue
+            self.identifier = identifier.intValue
         }
         if let apiKey = dict["api_key"] as? NSString {
             self.apiKey = String(apiKey)
@@ -55,14 +55,14 @@ struct AuthenticatedUser
             self.listenKey = String(listenKey)
         }
         if let timezone = dict["timezone"] as? NSString {
-            self.timezone = NSTimeZone(name: timezone as String)
+            self.timezone = TimeZone(identifier: timezone as String)
         }
         if let favoriteChannelsArray = dict["network_favorite_channels"] as? NSArray {
             var channelIDs: [Int] = []
             
             for favoriteChannelDict in favoriteChannelsArray as! [NSDictionary] {
-                if let channelID = favoriteChannelDict["channel_id"]?.integerValue {
-                    channelIDs.append(channelID)
+                if let channelID = favoriteChannelDict["channel_id"] as? NSNumber {
+                    channelIDs.append(channelID.intValue)
                 }
             }
             

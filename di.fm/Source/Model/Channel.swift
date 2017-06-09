@@ -12,8 +12,8 @@ struct Channel
 {
     var identifier:                 Int = 0
     var channelDirector:            String = ""
-    var dateCreated:                NSDate?
-    var dateUpdated:                NSDate?
+    var dateCreated:                Date?
+    var dateUpdated:                Date?
     var description:                String = ""
     var descriptionLong:            String = ""
     var descriptionShort:           String = ""
@@ -34,16 +34,16 @@ struct Channel
     init(_ dict: NSDictionary)
     {
         if let identifier = dict["id"] as? NSNumber {
-            self.identifier = identifier.integerValue
+            self.identifier = identifier.intValue
         }
         if let channelDirector = dict["channel_director"] as? NSString {
             self.channelDirector = String(channelDirector)
         }
         if let dateCreated = dict["created_at"] as? NSString {
-            self.dateCreated = NSDate(rfc3339string: dateCreated as String)
+            self.dateCreated = Date(rfc3339string: dateCreated as String)
         }
         if let dateUpdated = dict["updated_at"] as? NSString {
-            self.dateUpdated = NSDate(rfc3339string: dateUpdated as String)
+            self.dateUpdated = Date(rfc3339string: dateUpdated as String)
         }
         if let description = dict["description"] as? NSString {
             self.description = String(description)
@@ -61,19 +61,19 @@ struct Channel
             self.name = String(name)
         }
         if let networkIdentifier = dict["network_id"] as? NSNumber {
-            self.networkIdentifier = networkIdentifier.integerValue
+            self.networkIdentifier = networkIdentifier.intValue
         }
         if let oldIdentifier = dict["old_id"] as? NSNumber {
-            self.oldIdentifier = oldIdentifier.integerValue
+            self.oldIdentifier = oldIdentifier.intValue
         }
         if let premiumIdentifier = dict["premium_id"] as? NSNumber {
-            self.premiumIdentifier = premiumIdentifier.integerValue
+            self.premiumIdentifier = premiumIdentifier.intValue
         }
         if let tracklistServerIdentifier = dict["tracklist_server_id"] as? NSNumber {
-            self.tracklistServerIdentifier = tracklistServerIdentifier.integerValue
+            self.tracklistServerIdentifier = tracklistServerIdentifier.intValue
         }
         if let assetIdentifier = dict["asset_id"] as? NSNumber {
-            self.assetIdentifier = assetIdentifier.integerValue
+            self.assetIdentifier = assetIdentifier.intValue
         }
         if let assetURL = dict["asset_url"] as? NSString {
             self.assetURL = AudioAddictURL(assetURL as String)

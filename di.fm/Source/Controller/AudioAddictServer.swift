@@ -11,21 +11,21 @@ import Foundation
 
 class AudioAddictServer
 {
-    private var _urlSession:        NSURLSession
-    private var _operationQueue:    NSOperationQueue = NSOperationQueue()
-    private var _errorStream:       StandardErrorOutputStream = StandardErrorOutputStream()
-    private var _authenticatedUser: AuthenticatedUser?
+    fileprivate var _urlSession:        URLSession
+    fileprivate var _operationQueue:    OperationQueue = OperationQueue()
+    fileprivate var _errorStream:       StandardErrorOutputStream = StandardErrorOutputStream()
+    fileprivate var _authenticatedUser: AuthenticatedUser?
     
-    private static let _BaseURL = NSURL(string: "http://api.audioaddict.com/v1/di/")!
-    private static let _APIKey = "ZXBoZW1lcm9uOmRheWVpcGgwbmVAcHA="
+    fileprivate static let _BaseURL = URL(string: "http://api.audioaddict.com/v1/di/")!
+    fileprivate static let _APIKey = "ZXBoZW1lcm9uOmRheWVpcGgwbmVAcHA="
     
     init()
     {
-        let config = NSURLSessionConfiguration.defaultSessionConfiguration()
-        _urlSession = NSURLSession(configuration: config)
+        let config = URLSessionConfiguration.default
+        _urlSession = URLSession(configuration: config)
     }
     
-    func authenticate(username: String, password: String, completion: (AuthenticatedUser?, NSError?) -> (Void))
+    func authenticate(_ username: String, password: String, completion: @escaping (AuthenticatedUser?, Error?) -> (Void))
     {
         let operation = AuthenticationOperation(baseURL: AudioAddictServer._BaseURL, session: _urlSession)
         operation.username = username
@@ -35,8 +35,8 @@ class AudioAddictServer
         operation.completionBlock = {
             guard let strongOp = weakOp else { completion(nil, nil) ; return }
             
-            if (strongOp.error != nil) {
-                self._logError("authentication failure", error: strongOp.error!)
+            if let error = strongOp.error {
+                self._logError("authentication failure", error: error)
             }
             
             if (strongOp.newAuthenticatedUser != nil) {
@@ -49,7 +49,7 @@ class AudioAddictServer
         _operationQueue.addOperation(operation)
     }
     
-    func fetchBatchUpdate(streamQuality: Stream.Quality, completion: (BatchUpdate?, NSError?) -> (Void))
+    func fetchBatchUpdate(_ streamQuality: Stream.Quality, completion: @escaping (BatchUpdate?, Error?) -> (Void))
     {
         let operation = BatchUpdateOperation(baseURL: AudioAddictServer._BaseURL, session: _urlSession)
         operation.authenticatedUser = _authenticatedUser
@@ -58,8 +58,9 @@ class AudioAddictServer
         weak var weakOp = operation
         operation.completionBlock = {
             guard let strongOp = weakOp else { completion(nil, nil) ; return }
-            if (strongOp.error != nil) {
-                self._logError("could not fetch batch update", error: strongOp.error!)
+            
+            if let error = strongOp.error {
+                self._logError("could not fetch batch update", error: error)
             }
             
             completion(strongOp.batchUpdate, strongOp.error)
@@ -68,7 +69,7 @@ class AudioAddictServer
         _operationQueue.addOperation(operation)
     }
     
-    func loadChannelArtwork(channelImage: ChannelImage, size: CGSize, completion: (NSData?, NSError?) -> (Void))
+    func loadChannelArtwork(_ channelImage: ChannelImage, size: CGSize, completion: @escaping (Data?, Error?) -> (Void))
     {
         let operation = LoadChannelArtworkOperation(baseURL: AudioAddictServer._BaseURL, session: _urlSession)
         operation.channelImage = channelImage
@@ -77,8 +78,9 @@ class AudioAddictServer
         weak var weakOp = operation
         operation.completionBlock = {
             guard let strongOp = weakOp else { completion(nil, nil) ; return }
-            if (strongOp.error != nil) {
-                self._logError("could not fetch artwork data", error: strongOp.error!)
+            
+            if let error = strongOp.error {
+                self._logError("could not fetch artwork data", error: error)
             }
             
             completion(strongOp.imageData, strongOp.error)
@@ -89,20 +91,20 @@ class AudioAddictServer
     
     // MARK: Internal
     
-    internal func _logError(description: String, error: NSError)
+    internal func _logError(_ description: String, error: Error)
     {
-        print("ERROR: \(description) \(error)", toStream: &_errorStream)
+        _errorStream.write("ERROR: \(description) \(String(describing: error))")
     }
 }
 
-internal class ServerOperation : NSOperation
+internal class ServerOperation : Operation
 {
-    var baseURL:             NSURL
-    var session:             NSURLSession
+    var baseURL:             URL
+    var session:             URLSession
     var authenticatedUser:   AuthenticatedUser?
-    internal(set) var error: NSError?
+    internal(set) var error: Error?
     
-    init(baseURL: NSURL, session: NSURLSession)
+    init(baseURL: URL, session: URLSession)
     {
         self.baseURL = baseURL
         self.session = session
@@ -113,49 +115,49 @@ internal class ServerOperation : NSOperation
         return false
     }
     
-    func fetchData(url: NSURL) -> NSData?
+    func fetchData(_ url: URL) -> Data?
     {
-        var fetchedData: NSData?
+        var fetchedData: Data?
         
         if (self.authenticatedUser != nil || !self.requiresAuthentication()) {
             let semaphore = Semaphore(value: 0)
-            let task = self.session.dataTaskWithURL(url) { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
+            let task = self.session.dataTask(with: url, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) -> Void in
                 if (data != nil) {
                     fetchedData = data
                 } else {
-                    self.error = NSError.difmError(.ConnectionError, underlying: error)
+                    self.error = error
                 }
                 semaphore.signal()
-            }
+            })
             task.resume()
             semaphore.wait()
         } else {
-            self.error = NSError.difmError(.AuthenticationError, description: NSLocalizedString("AUTH_ERROR_NOT_AUTHENTICATED", comment: ""))
+            self.error = DIError(code: .authenticationError)
         }
         
         return fetchedData
     }
     
-    func fetchResponse(request: NSURLRequest) -> (NSData?, NSURLResponse?)
+    func fetchResponse(_ request: URLRequest) -> (Data?, URLResponse?)
     {
-        var fetchedData: NSData?
-        var fetchedResponse: NSURLResponse?
+        var fetchedData: Data?
+        var fetchedResponse: URLResponse?
         
         if (self.authenticatedUser != nil || !self.requiresAuthentication()) {
             let semaphore = Semaphore(value: 0)
-            let task = self.session.dataTaskWithRequest(request) { (data: NSData?, response: NSURLResponse?, error: NSError?) in
+            let task = self.session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) in
                 fetchedResponse = response
                 if (data != nil) {
                     fetchedData = data
                 } else {
-                    self.error = NSError.difmError(.ConnectionError, underlying: error)
+                    self.error = error
                 }
                 semaphore.signal()
-            }
+            })
             task.resume()
             semaphore.wait()
         } else {
-            self.error = NSError.difmError(.AuthenticationError, description: NSLocalizedString("AUTH_ERROR_NOT_AUTHENTICATED", comment: ""))
+            self.error = DIError(code: .authenticationError)
         }
         
         return (fetchedData, fetchedResponse)
@@ -170,27 +172,27 @@ internal class AuthenticationOperation : ServerOperation
     
     override func main()
     {
-        let url = self.baseURL.URLByAppendingPathComponent("members/authenticate")
-        let urlComponents = NSURLComponents(URL: url, resolvingAgainstBaseURL: false)!
+        let url = self.baseURL.appendingPathComponent("members/authenticate")
+        var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)!
         urlComponents.scheme = "https"
         
-        let request = NSMutableURLRequest(URL: urlComponents.URL!)
-        let httpBody = NSString(format: "username=%@&password=%@", self.username, self.password)
-        request.HTTPBody = NSData(bytes: httpBody.UTF8String, length: httpBody.length)
-        request.HTTPMethod = "POST"
+        let request = NSMutableURLRequest(url: urlComponents.url!)
+        let httpBody = "username=\(self.username)&password=\(self.password)"
+        request.httpBody = httpBody.data(using: .utf8)
+        request.httpMethod = "POST"
         
-        let (data, response) = self.fetchResponse(request)
+        let (data, response) = self.fetchResponse(request as URLRequest)
         var successfulResponse = false
-        if let httpResponse = response as? NSHTTPURLResponse {
+        if let httpResponse = response as? HTTPURLResponse {
             successfulResponse = (httpResponse.statusCode == 200)
         }
         
         if (data != nil && successfulResponse) {
-            if let jsonDict = (try? NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions()) as? NSDictionary) {
+            if let jsonDict = (try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions()) as? NSDictionary) {
                 self.newAuthenticatedUser = AuthenticatedUser(jsonDict!)
             }
         } else {
-            self.error = NSError.difmError(.AuthenticationError, description: NSLocalizedString("AUTH_ERROR_USERNAME_OR_PASSWORD", comment: ""))
+            self.error = DIError(code: .invalidAuthCredentials)
         }
     }
 }
@@ -207,16 +209,16 @@ internal class BatchUpdateOperation : ServerOperation
     
     override func main()
     {
-        let batchUpdateURL = self.baseURL.URLByAppendingPathComponent("mobile/batch_update")
-        let urlComponents = NSURLComponents(URL: batchUpdateURL, resolvingAgainstBaseURL: false)!
+        let batchUpdateURL = self.baseURL.appendingPathComponent("mobile/batch_update")
+        var urlComponents = URLComponents(url: batchUpdateURL, resolvingAgainstBaseURL: false)!
         urlComponents.query = "stream_set_key=\(self.streamQuality.rawValue)"
         
-        let request = NSMutableURLRequest(URL: urlComponents.URL!)
+        let request = NSMutableURLRequest(url: urlComponents.url!)
         request.addValue("Basic: \(AudioAddictServer._APIKey)", forHTTPHeaderField: "Authorization")
         
-        let data = self.fetchResponse(request).0
+        let data = self.fetchResponse(request as URLRequest).0
         if (data != nil) {
-            if let jsonDict = (try? NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions()) as? NSDictionary) {
+            if let jsonDict = (try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions()) as? NSDictionary) {
                 self.batchUpdate = BatchUpdate(jsonDict!)
             }
         }
@@ -228,12 +230,13 @@ internal class LoadChannelArtworkOperation : ServerOperation
     var sizeHint:       CGSize = CGSize(width: 300.0, height: 300.0)
     var channelImage:   ChannelImage = ChannelImage()
     
-    internal(set) var imageData: NSData? = nil
+    internal(set) var imageData: Data? = nil
     
     override func main()
     {
         let urlParams = ["width" : "\(self.sizeHint.width)", "height" : "\(self.sizeHint.height)"]
-        let artworkURL = self.channelImage.defaultURL.url(urlParams)
-        self.imageData = self.fetchData(artworkURL)
+        if let artworkURL = self.channelImage.defaultURL.url(urlParams) {
+            self.imageData = self.fetchData(artworkURL)
+        }
     }
 }

@@ -11,17 +11,17 @@ import UIKit
 
 protocol ChannelListViewControllerDelegate: class
 {
-    func channelListDidSelectChannel(controller: ChannelListViewController, channel: Channel)
+    func channelListDidSelectChannel(_ controller: ChannelListViewController, channel: Channel)
 }
 
 class ChannelListViewController : UIViewController, UICollectionViewDelegate, UICollectionViewDataSource
 {
-    static private let CollectionViewReuseIdentifier = "CollectionViewReuseIdentifier"
-    static private let LayoutTemplate = TVSixColumnGridTemplate
+    static fileprivate let CollectionViewReuseIdentifier = "CollectionViewReuseIdentifier"
+    static fileprivate let LayoutTemplate = TVSixColumnGridTemplate
     
-    private var _collectionView:    UICollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: UICollectionViewFlowLayout())
-    private var _artworkDataSource: ChannelArtworkImageDataSource = ChannelArtworkImageDataSource()
-    private var _sortedChannels:    [Channel] = []
+    fileprivate var _collectionView:    UICollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
+    fileprivate var _artworkDataSource: ChannelArtworkImageDataSource = ChannelArtworkImageDataSource()
+    fileprivate var _sortedChannels:    [Channel] = []
     
     weak var delegate:              ChannelListViewControllerDelegate?
     
@@ -37,7 +37,7 @@ class ChannelListViewController : UIViewController, UICollectionViewDelegate, UI
     {
         didSet
         {
-            _sortedChannels = self.channels.sort({ $0.name < $1.name })
+            _sortedChannels = self.channels.sorted(by: { $0.name < $1.name })
             _collectionView.reloadData()
         }
     }
@@ -57,7 +57,7 @@ class ChannelListViewController : UIViewController, UICollectionViewDelegate, UI
         
         _collectionView.delegate = self
         _collectionView.dataSource = self
-        _collectionView.registerClass(ChannelCollectionViewCell.self, forCellWithReuseIdentifier: ChannelListViewController.CollectionViewReuseIdentifier)
+        _collectionView.register(ChannelCollectionViewCell.self, forCellWithReuseIdentifier: ChannelListViewController.CollectionViewReuseIdentifier)
         self.view.addSubview(_collectionView)
     }
     
@@ -69,16 +69,16 @@ class ChannelListViewController : UIViewController, UICollectionViewDelegate, UI
     
     // MARK: UICollectionViewDataSource
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
         return _sortedChannels.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(
-            ChannelListViewController.CollectionViewReuseIdentifier,
-            forIndexPath: indexPath)
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: ChannelListViewController.CollectionViewReuseIdentifier,
+            for: indexPath)
             as! ChannelCollectionViewCell
         
         let channel = _sortedChannels[indexPath.row]
@@ -86,8 +86,8 @@ class ChannelListViewController : UIViewController, UICollectionViewDelegate, UI
         
         let sizeDimensions = ChannelListViewController.LayoutTemplate.unfocusedContentWidth
         let size = CGSize(width: sizeDimensions, height: sizeDimensions)
-        _artworkDataSource.loadChannelArtworkImage(channel, size: size) { (channelImage: UIImage?, error: NSError?) -> (Void) in
-            dispatch_async(dispatch_get_main_queue()) {
+        _artworkDataSource.loadChannelArtworkImage(channel, size: size) { (channelImage: UIImage?, error: Error?) -> (Void) in
+            DispatchQueue.main.async {
                 if (cell.channel?.identifier == channel.identifier) {
                     cell.channelImage = channelImage
                 }
@@ -99,7 +99,7 @@ class ChannelListViewController : UIViewController, UICollectionViewDelegate, UI
     
     // MARK: UICollectionViewDelegate
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath)
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
     {
         let channel = _sortedChannels[indexPath.row]
         self.delegate?.channelListDidSelectChannel(self, channel: channel)

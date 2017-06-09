@@ -24,9 +24,9 @@ class AppDelegate : UIResponder,
     var nowPlayingController:   NowPlayingViewController = NowPlayingViewController()
     var remoteController:       RemoteController!
     
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool
     {
-        application.idleTimerDisabled = true
+        application.isIdleTimerDisabled = true
         
         var initialRootViewController: UIViewController? = nil
         if (self.credentialsStore.hasCredentials()) {
@@ -34,7 +34,7 @@ class AppDelegate : UIResponder,
             
             let username = self.credentialsStore.username ?? ""
             let password = self.credentialsStore.password ?? ""
-            self.server.authenticate(username, password: password, completion: { (user: AuthenticatedUser?, err: NSError?) -> (Void) in
+            self.server.authenticate(username, password: password, completion: { (user: AuthenticatedUser?, err: Error?) -> (Void) in
                 if (user != nil) {
                     self._handleSuccessfulAuthentication(user!)
                 } else {
@@ -51,13 +51,13 @@ class AppDelegate : UIResponder,
             initialRootViewController = loginViewController
         }
         
-        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.backgroundColor = Theme.defaultTheme().backgroundColor
         self.window?.rootViewController = initialRootViewController
         self.window?.makeKeyAndVisible()
         
         let playPauseButtonRecognizer = UITapGestureRecognizer(target: self, action: #selector(_playPauseButtonPressed))
-        playPauseButtonRecognizer.allowedPressTypes = [NSNumber(integer: UIPressType.PlayPause.rawValue)];
+        playPauseButtonRecognizer.allowedPressTypes = [NSNumber(value: UIPressType.playPause.rawValue as Int)];
         self.window?.addGestureRecognizer(playPauseButtonRecognizer)
         
         self.player.delegate = self
@@ -66,8 +66,8 @@ class AppDelegate : UIResponder,
         self.remoteController = RemoteController(player: self.player)
         self.remoteController.player = self.player
         
-        let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.addObserverForName(Settings.settingsDidChangeNotification, object: nil, queue: NSOperationQueue.mainQueue()) { [weak self] _ in
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(forName: NSNotification.Name(rawValue: Settings.settingsDidChangeNotification), object: nil, queue: OperationQueue.main) { [weak self] _ in
             self?._reloadData()
         }
         
@@ -76,52 +76,52 @@ class AppDelegate : UIResponder,
     
     // MARK: ChannelListViewControllerDelegate
     
-    func channelListDidSelectChannel(controller: ChannelListViewController, channel: Channel)
+    func channelListDidSelectChannel(_ controller: ChannelListViewController, channel: Channel)
     {
         self.player.currentChannel = channel
         self.player.play()
         
         _reloadNowPlayingState()
         
-        if let nowPlayingControllerIndex = self.tabBarController.viewControllers?.indexOf(self.nowPlayingController)! {
+        if let nowPlayingControllerIndex = self.tabBarController.viewControllers?.index(of: self.nowPlayingController)! {
             self.tabBarController.selectedIndex = nowPlayingControllerIndex
         }
     }
     
     // MARK: PlayerDelegate
     
-    func playerDidStartPlayingChannel(player: Player, channel: Channel)
+    func playerDidStartPlayingChannel(_ player: Player, channel: Channel)
     {
         _reloadNowPlayingState()
     }
     
-    func playerDidPausePlayback(player: Player)
+    func playerDidPausePlayback(_ player: Player)
     {
         _reloadNowPlayingState()
     }
     
-    func playerDidStopPlayback(player: Player)
+    func playerDidStopPlayback(_ player: Player)
     {
         _reloadNowPlayingState()
     }
     
-    func playerCurrentTrackDidChange(player: Player, newTrack: Track?)
+    func playerCurrentTrackDidChange(_ player: Player, newTrack: Track?)
     {
         _reloadNowPlayingState()
     }
     
     // MARK: LoginViewControllerDelegate
     
-    func loginViewControllerDidSubmitCredentials(controller: LoginViewController,
+    func loginViewControllerDidSubmitCredentials(_ controller: LoginViewController,
                                                  email: String,
                                                  password: String,
-                                                 completion: (NSError?) -> (Void))
+                                                 completion: @escaping (Error?) -> (Void))
     {
-        self.server.authenticate(email, password: password) { (authenticatedUser: AuthenticatedUser?, error: NSError?) -> (Void) in
+        self.server.authenticate(email, password: password) { (authenticatedUser: AuthenticatedUser?, error: Error?) -> (Void) in
             completion(error)
             
             if (authenticatedUser != nil) {
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     self.credentialsStore.username = email
                     self.credentialsStore.password = password
                     self._handleSuccessfulAuthentication(authenticatedUser!)
@@ -132,7 +132,7 @@ class AppDelegate : UIResponder,
     
     // MARK: SettingsViewControllerDelegate
     
-    func settingsViewControllerDidConfirmLogout(viewController: SettingsViewController)
+    func settingsViewControllerDidConfirmLogout(_ viewController: SettingsViewController)
     {
         self.credentialsStore.reset()
         self.player.pause()
@@ -144,7 +144,7 @@ class AppDelegate : UIResponder,
     
     // MARK: Internal
     
-    internal func _handleSuccessfulAuthentication(authenticatedUser: AuthenticatedUser)
+    internal func _handleSuccessfulAuthentication(_ authenticatedUser: AuthenticatedUser)
     {
         self.player.listenKey = authenticatedUser.listenKey
         self.window?.rootViewController = LoadingViewController()
@@ -154,8 +154,8 @@ class AppDelegate : UIResponder,
     internal func _reloadData()
     {
         let settings = Settings.sharedSettings
-        self.server.fetchBatchUpdate(settings.streamQuality) { (update: BatchUpdate?, error: NSError?) -> (Void) in
-            dispatch_async(dispatch_get_main_queue(), {
+        self.server.fetchBatchUpdate(settings.streamQuality) { (update: BatchUpdate?, error: Error?) -> (Void) in
+            DispatchQueue.main.async(execute: {
                 self.tabBarController.viewControllers = nil
                 
                 if let update = update {
@@ -164,13 +164,13 @@ class AppDelegate : UIResponder,
                     self.window?.rootViewController = self.tabBarController
                 } else {
                     let errorDescription = error?.localizedDescription ?? NSLocalizedString("UNKNOWN_ERROR", comment: "")
-                    let alertMessage = NSString(format: NSLocalizedString("CONNECTION_ERROR_FORMAT_%@", comment: ""), errorDescription) as String
+                    let alertMessage = NSString(format: NSLocalizedString("CONNECTION_ERROR_FORMAT_%@", comment: "") as NSString, errorDescription) as String
                     let alertTitle = NSLocalizedString("LOADING_FAILED_MESSAGE_TITLE", comment: "")
-                    let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .Alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: { (action: UIAlertAction) in
-                        self.tabBarController.dismissViewControllerAnimated(true, completion: nil)
+                    let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: { (action: UIAlertAction) in
+                        self.tabBarController.dismiss(animated: true, completion: nil)
                     }))
-                    self.tabBarController.presentViewController(alert, animated: true, completion: nil)
+                    self.tabBarController.present(alert, animated: true, completion: nil)
                 }
             })
         }
@@ -181,7 +181,7 @@ class AppDelegate : UIResponder,
         self.nowPlayingController.currentChannel = self.player.currentChannel
         self.nowPlayingController.currentTrack = self.player.currentTrack
         
-        let tabIndexOfNowPlaying = self.tabBarController.viewControllers?.indexOf(self.nowPlayingController)
+        let tabIndexOfNowPlaying = self.tabBarController.viewControllers?.index(of: self.nowPlayingController)
         if (self.nowPlayingController.currentChannel != nil) {
             // show now playing tab if not already visible
             if (tabIndexOfNowPlaying == nil) {
@@ -190,12 +190,12 @@ class AppDelegate : UIResponder,
         } else {
             // hide now playing tab if not already hidden
             if (tabIndexOfNowPlaying != nil) {
-                self.tabBarController.viewControllers?.removeAtIndex(tabIndexOfNowPlaying!)
+                self.tabBarController.viewControllers?.remove(at: tabIndexOfNowPlaying!)
             }
         }
     }
     
-    internal func _configureTabs(batchUpdate: BatchUpdate)
+    internal func _configureTabs(_ batchUpdate: BatchUpdate)
     {
         var viewControllers: [UIViewController] = []
         let channelFilters = batchUpdate.channelFilters
@@ -218,7 +218,7 @@ class AppDelegate : UIResponder,
         self.tabBarController.viewControllers = viewControllers
     }
     
-    internal func _configurePlayer(batchUpdate: BatchUpdate)
+    internal func _configurePlayer(_ batchUpdate: BatchUpdate)
     {
         var streamSet: StreamSet? = nil
         
@@ -229,7 +229,7 @@ class AppDelegate : UIResponder,
         self.player.streamSet = streamSet
     }
     
-    internal func _playPauseButtonPressed(sender: UITapGestureRecognizer)
+    internal func _playPauseButtonPressed(_ sender: UITapGestureRecognizer)
     {
         if (self.player.isPlaying()) {
             self.player.pause()

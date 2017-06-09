@@ -26,7 +26,7 @@ struct ChannelFilter
     init(_ dict: NSDictionary)
     {
         if let identifier = dict["id"] as? NSNumber {
-            self.identifier = identifier.integerValue
+            self.identifier = identifier.intValue
         }
         if let display = dict["display"] as? NSNumber {
             self.display = display.boolValue
@@ -41,10 +41,10 @@ struct ChannelFilter
             self.name = String(name)
         }
         if let networkIdentifier = dict["network_id"] as? NSNumber {
-            self.networkIdentifier = networkIdentifier.integerValue
+            self.networkIdentifier = networkIdentifier.intValue
         }
         if let position = dict["position"] as? NSNumber {
-            self.position = position.integerValue
+            self.position = position.intValue
         }
         if let spriteURL = dict["sprite"] as? NSString {
             self.spriteURL = AudioAddictURL(spriteURL as String)

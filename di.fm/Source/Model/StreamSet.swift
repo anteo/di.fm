@@ -23,10 +23,10 @@ struct StreamSet
     init(_ dict: NSDictionary)
     {
         if let identifier = dict["id"] as? NSNumber {
-            self.identifier = identifier.integerValue
+            self.identifier = identifier.intValue
         }
         if let networkIdentifier = dict["network_id"] as? NSNumber {
-            self.networkIdentifier = networkIdentifier.integerValue
+            self.networkIdentifier = networkIdentifier.intValue
         }
         if let name = dict["name"] as? NSString {
             self.name = String(name)

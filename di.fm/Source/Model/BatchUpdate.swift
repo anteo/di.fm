@@ -10,12 +10,12 @@ import Foundation
 
 class BatchUpdate
 {
-    private(set) var adNetwork:      String = ""
-    private(set) var dateCached:     NSDate?
-    private(set) var assets:         [Asset] = []
-    private(set) var channelFilters: [ChannelFilter] = []
-    private(set) var events:         [Event] = []
-    private(set) var streamSets:     [StreamSet] = []
+    fileprivate(set) var adNetwork:      String = ""
+    fileprivate(set) var dateCached:     Date?
+    fileprivate(set) var assets:         [Asset] = []
+    fileprivate(set) var channelFilters: [ChannelFilter] = []
+    fileprivate(set) var events:         [Event] = []
+    fileprivate(set) var streamSets:     [StreamSet] = []
     
     init()
     {}
@@ -27,7 +27,7 @@ class BatchUpdate
         }
         
         if let dateCached = dict["cached_at"] as? NSString {
-            self.dateCached = NSDate(rfc3339string: dateCached as String)
+            self.dateCached = Date(rfc3339string: dateCached as String)
         }
         
         if let assetsArray = dict["assets"] as? NSArray {

@@ -20,7 +20,7 @@ struct Asset
     init(_ dict: NSDictionary)
     {
         if let identifier = dict["id"] as? NSNumber {
-            self.identifier = identifier.integerValue
+            self.identifier = identifier.intValue
         }
         if let name = dict["name"] as? NSString {
             self.name = String(name)

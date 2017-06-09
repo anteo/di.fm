@@ -11,7 +11,7 @@ import UIKit
 
 class ChannelCollectionViewCell : UICollectionViewCell
 {
-    private var _imageView: UIImageView = UIImageView()
+    fileprivate var _imageView: UIImageView = UIImageView()
     
     override init(frame: CGRect)
     {

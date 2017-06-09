@@ -10,13 +10,13 @@ import Foundation
 
 class CredentialsStore
 {
-    private var _keychainItem: KeychainItemWrapper = KeychainItemWrapper(identifier: "com.zanneth.di.fm", accessGroup: nil)
+    fileprivate var _keychainItem: KeychainItemWrapper = KeychainItemWrapper(identifier: "com.zanneth.di.fm", accessGroup: nil)
     
     var username: String?
     {
         get
         {
-            return _keychainItem.objectForKey(kSecAttrAccount) as? String
+            return _keychainItem.object(forKey: kSecAttrAccount) as? String
         }
         
         set(newUsername)
@@ -29,7 +29,7 @@ class CredentialsStore
     {
         get
         {
-            return _keychainItem.objectForKey(kSecValueData) as? String
+            return _keychainItem.object(forKey: kSecValueData) as? String
         }
         
         set(newPassword)
@@ -40,7 +40,9 @@ class CredentialsStore
     
     func hasCredentials() -> Bool
     {
-        return (self.username?.characters.count > 0 && self.password?.characters.count > 0)
+        let usernameLength = self.username?.characters.count ?? 0
+        let passwordLength = self.password?.characters.count ?? 0
+        return (usernameLength > 0 && passwordLength > 0)
     }
     
     func reset()

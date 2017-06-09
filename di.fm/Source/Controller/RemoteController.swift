@@ -17,27 +17,27 @@ class RemoteController
     {
         self.player = player
         
-        let commandCenter = MPRemoteCommandCenter.sharedCommandCenter()
-        commandCenter.playCommand.addTargetWithHandler(self._playCommandReceived)
-        commandCenter.pauseCommand.addTargetWithHandler(self._pauseCommandReceived)
-        commandCenter.togglePlayPauseCommand.addTargetWithHandler(self._togglePlayPauseCommandReceived)
+        let commandCenter = MPRemoteCommandCenter.shared()
+        commandCenter.playCommand.addTarget(handler: self._playCommandReceived)
+        commandCenter.pauseCommand.addTarget(handler: self._pauseCommandReceived)
+        commandCenter.togglePlayPauseCommand.addTarget(handler: self._togglePlayPauseCommandReceived)
     }
     
     // MARK: Command Handlers
     
-    internal func _playCommandReceived(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus
+    internal func _playCommandReceived(_ event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus
     {
         self.player.play()
-        return .Success
+        return .success
     }
     
-    internal func _pauseCommandReceived(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus
+    internal func _pauseCommandReceived(_ event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus
     {
         self.player.pause()
-        return .Success
+        return .success
     }
     
-    internal func _togglePlayPauseCommandReceived(event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus
+    internal func _togglePlayPauseCommandReceived(_ event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus
     {
         if (self.player.isPlaying()) {
             self.player.pause()
@@ -46,6 +46,6 @@ class RemoteController
             self.player.play()
         }
         
-        return .Success
+        return .success
     }
 }

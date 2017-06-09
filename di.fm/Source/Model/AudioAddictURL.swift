@@ -23,8 +23,8 @@ struct AudioAddictURLComponent
 
 class AudioAddictURL
 {
-    private(set) var rawString:  String
-    private(set) var components: [AudioAddictURLComponent]
+    fileprivate(set) var rawString:  String
+    fileprivate(set) var components: [AudioAddictURLComponent]
     
     init()
     {
@@ -38,7 +38,7 @@ class AudioAddictURL
         self.components = AudioAddictURL._parseURLComponents(rawString)
     }
     
-    func url(parameters: [String : String]?) -> NSURL
+    func url(_ parameters: [String : String]?) -> URL?
     {
         var urlString = self.rawString
         let components = self.components
@@ -47,19 +47,19 @@ class AudioAddictURL
             var strValueToInsert = ""
             
             if (component.isQueryItemComponent()) {
-                var queryItems: [NSURLQueryItem] = []
+                var queryItems: [URLQueryItem] = []
                 
                 if (parameters != nil) {
                     for parameterKey in component.parameterKeys {
                         if let parameterValue = parameters![parameterKey] {
-                            let queryItem = NSURLQueryItem(name: parameterKey, value: parameterValue)
+                            let queryItem = URLQueryItem(name: parameterKey, value: parameterValue)
                             queryItems.append(queryItem)
                         }
                     }
                 }
                 
                 if (queryItems.count > 0) {
-                    let urlComponents = NSURLComponents()
+                    var urlComponents = URLComponents()
                     urlComponents.queryItems = queryItems
                     
                     if (urlComponents.query != nil) {
@@ -80,47 +80,47 @@ class AudioAddictURL
                 }
             }
             
-            urlString = urlString.stringByReplacingOccurrencesOfString(component.rawString, withString: strValueToInsert)
+            urlString = urlString.replacingOccurrences(of: component.rawString, with: strValueToInsert)
         }
         
-        let urlComponents = NSURLComponents(string: urlString)!
+        var urlComponents = URLComponents(string: urlString)!
         if (urlComponents.scheme == nil) {
             urlComponents.scheme = "http"
         }
         
-        return urlComponents.URL ?? NSURL()
+        return urlComponents.url
     }
     
     // MARK: Internal
-    internal class func _parseURLComponents(string: String) -> [AudioAddictURLComponent]
+    internal class func _parseURLComponents(_ string: String) -> [AudioAddictURLComponent]
     {
         var components: [AudioAddictURLComponent] = []
         
         let foundationString = string as NSString
         let pattern = "\\{((.)([\\w,]+)+)\\}"
-        let regex = try! NSRegularExpression(pattern: pattern, options: NSRegularExpressionOptions())
+        let regex = try! NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options())
         let fullRange = NSMakeRange(0, string.characters.count)
-        let matches = regex.matchesInString(string, options: NSMatchingOptions(), range: fullRange)
+        let matches = regex.matches(in: string, options: NSRegularExpression.MatchingOptions(), range: fullRange)
         
         for result in matches {
             var component = AudioAddictURLComponent()
             
             // store position
-            let from16 = string.utf16.startIndex.advancedBy(result.range.location)
+            let from16 = string.utf16.index(string.utf16.startIndex, offsetBy: result.range.location)
             component.position = String.Index(from16, within: string)
             
             // parse delimiter
-            let delimiterString = foundationString.substringWithRange(result.rangeAtIndex(2))
+            let delimiterString = foundationString.substring(with: result.rangeAt(2))
             if (delimiterString.characters.count > 0) {
                 component.delimiter = delimiterString[delimiterString.startIndex]
             }
             
             // parse parameter keys
-            let paramsString = foundationString.substringWithRange(result.rangeAtIndex(3))
-            component.parameterKeys = paramsString.componentsSeparatedByString(",")
+            let paramsString = foundationString.substring(with: result.rangeAt(3))
+            component.parameterKeys = paramsString.components(separatedBy: ",")
             
             // store complete match
-            component.rawString = foundationString.substringWithRange(result.rangeAtIndex(0))
+            component.rawString = foundationString.substring(with: result.rangeAt(0))
             
             // append
             components.append(component)

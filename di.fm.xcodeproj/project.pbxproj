@@ -10,7 +10,7 @@
 		0C12834C1D177C8E00EDFB79 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C12834B1D177C8E00EDFB79 /* Track.swift */; };
 		0C2AD0291CD0795600A20EFE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD01B1CD0795600A20EFE /* AppDelegate.swift */; };
 		0C2AD02A1CD0795600A20EFE /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD01D1CD0795600A20EFE /* Player.swift */; };
-		0C2AD02E1CD0795600A20EFE /* NSErrorAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0231CD0795600A20EFE /* NSErrorAdditions.swift */; };
+		0C2AD02E1CD0795600A20EFE /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0231CD0795600A20EFE /* Error.swift */; };
 		0C2AD02F1CD0795600A20EFE /* Semaphore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0241CD0795600A20EFE /* Semaphore.swift */; };
 		0C2AD0301CD0795600A20EFE /* StandardError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0251CD0795600A20EFE /* StandardError.swift */; };
 		0C2AD0311CD0795600A20EFE /* TVSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0261CD0795600A20EFE /* TVSupport.swift */; };
@@ -57,7 +57,7 @@
 		0C12834B1D177C8E00EDFB79 /* Track.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Track.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		0C2AD01B1CD0795600A20EFE /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AppDelegate.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		0C2AD01D1CD0795600A20EFE /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Player.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		0C2AD0231CD0795600A20EFE /* NSErrorAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = NSErrorAdditions.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		0C2AD0231CD0795600A20EFE /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Error.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		0C2AD0241CD0795600A20EFE /* Semaphore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Semaphore.swift; sourceTree = "<group>"; };
 		0C2AD0251CD0795600A20EFE /* StandardError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandardError.swift; sourceTree = "<group>"; };
 		0C2AD0261CD0795600A20EFE /* TVSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = TVSupport.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -177,8 +177,8 @@
 				0C7D257F1D29C1B400FA7157 /* LowPassFilter.h */,
 				0C7D25801D29C1B400FA7157 /* LowPassFilter.mm */,
 				0CD7B3981CE4601000516C50 /* CredentialsStore.swift */,
+				0C2AD0231CD0795600A20EFE /* Error.swift */,
 				0CDEB6D41CDFB6C500CC208A /* NSDateAdditions.swift */,
-				0C2AD0231CD0795600A20EFE /* NSErrorAdditions.swift */,
 				0C2AD0241CD0795600A20EFE /* Semaphore.swift */,
 				0CE19AC51D44C18E009D9FA7 /* Settings.swift */,
 				0C2AD0251CD0795600A20EFE /* StandardError.swift */,
@@ -287,7 +287,8 @@
 				TargetAttributes = {
 					0C4301E31CCFCB8200E4BEE7 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = FZ6BMA5HA9;
+						DevelopmentTeam = 64S2YWUDC5;
+						LastSwiftMigration = 0830;
 						SystemCapabilities = {
 							com.apple.BackgroundModes.appletvos = {
 								enabled = 1;
@@ -368,7 +369,7 @@
 				0CA3496E1CDF143300765A46 /* StreamSet.swift in Sources */,
 				0CAC95D21D3300E60087E280 /* UIColorAdditions.swift in Sources */,
 				0CDEB6DD1CE03D7C00CC208A /* NowPlayingViewController.swift in Sources */,
-				0C2AD02E1CD0795600A20EFE /* NSErrorAdditions.swift in Sources */,
+				0C2AD02E1CD0795600A20EFE /* Error.swift in Sources */,
 				0C12834C1D177C8E00EDFB79 /* Track.swift in Sources */,
 				0C7D25841D29C1E300FA7157 /* VisualizationViewController.swift in Sources */,
 				0CA349721CDF14AE00765A46 /* Stream.swift in Sources */,
@@ -477,6 +478,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "di.fm/Source/Utility/di.fm-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -494,6 +496,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "di.fm/Source/Utility/di.fm-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

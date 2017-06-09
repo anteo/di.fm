@@ -10,11 +10,11 @@ import Foundation
 
 class Semaphore
 {
-    private var _semaphore: dispatch_semaphore_t
+    fileprivate var _semaphore: DispatchSemaphore
     
     init(value: Int)
     {
-        _semaphore = dispatch_semaphore_create(value)
+        _semaphore = DispatchSemaphore(value: value)
     }
     
     func wait()
@@ -22,18 +22,18 @@ class Semaphore
         self.wait(nil)
     }
     
-    func wait(untilDate: NSDate?)
+    func wait(_ untilDate: Date?)
     {
-        var time: dispatch_time_t = DISPATCH_TIME_FOREVER
-        if (untilDate != nil) {
-            time = UInt64(untilDate!.timeIntervalSinceNow) * NSEC_PER_SEC
+        var time: DispatchTime = DispatchTime.distantFuture
+        if let untilDate = untilDate {
+            time = DispatchTime(uptimeNanoseconds: UInt64(untilDate.timeIntervalSinceNow) * NSEC_PER_SEC)
         }
         
-        dispatch_semaphore_wait(_semaphore, time)
+        _ = _semaphore.wait(timeout: time)
     }
     
     func signal()
     {
-        dispatch_semaphore_signal(_semaphore)
+        _semaphore.signal()
     }
 }

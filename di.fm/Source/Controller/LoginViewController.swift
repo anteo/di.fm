@@ -11,22 +11,22 @@ import UIKit
 
 protocol LoginViewControllerDelegate: class
 {
-    func loginViewControllerDidSubmitCredentials(controller: LoginViewController,
+    func loginViewControllerDidSubmitCredentials(_ controller: LoginViewController,
                                                  email: String,
                                                  password: String,
-                                                 completion: (NSError?) -> (Void))
+                                                 completion: @escaping (Error?) -> (Void))
 }
 
 class LoginViewController : UIViewController
 {
-    weak var delegate:              LoginViewControllerDelegate?
+    weak var delegate:                  LoginViewControllerDelegate?
     
-    private var _logoImageView:     UIImageView = UIImageView()
-    private var _formContainerView: UIView = UIView()
-    private var _emailTextField:    UITextField = UITextField()
-    private var _passwordTextField: UITextField = UITextField()
-    private var _loginButton:       UIButton = UIButton(type: .System)
-    private var _spinner:           UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .White)
+    fileprivate var _logoImageView:     UIImageView = UIImageView()
+    fileprivate var _formContainerView: UIView = UIView()
+    fileprivate var _emailTextField:    UITextField = UITextField()
+    fileprivate var _passwordTextField: UITextField = UITextField()
+    fileprivate var _loginButton:       UIButton = UIButton(type: .system)
+    fileprivate var _spinner:           UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .white)
     
     // MARK: UIViewController
     
@@ -37,7 +37,7 @@ class LoginViewController : UIViewController
         let theme = Theme.defaultTheme()
         
         _logoImageView.image = UIImage(named: "di_logo_title")
-        _logoImageView.contentMode = .ScaleAspectFit
+        _logoImageView.contentMode = .scaleAspectFit
         self.view.addSubview(_logoImageView)
         
         _formContainerView.backgroundColor = theme.secondaryColor
@@ -46,22 +46,22 @@ class LoginViewController : UIViewController
         self.view.addSubview(_formContainerView)
         
         _emailTextField.placeholder = NSLocalizedString("LOGIN_EMAIL_PLACEHOLDER_TEXT", comment: "")
-        _emailTextField.keyboardType = .EmailAddress
-        _emailTextField.autocorrectionType = .No
-        _emailTextField.autocapitalizationType = .None
-        _emailTextField.addTarget(self, action: #selector(_textFieldValueChanged), forControlEvents: .EditingChanged)
+        _emailTextField.keyboardType = .emailAddress
+        _emailTextField.autocorrectionType = .no
+        _emailTextField.autocapitalizationType = .none
+        _emailTextField.addTarget(self, action: #selector(_textFieldValueChanged), for: .editingChanged)
         _formContainerView.addSubview(_emailTextField)
         
         _passwordTextField.placeholder = NSLocalizedString("LOGIN_PASSWORD_PLACEHOLDER_TEXT", comment: "")
-        _passwordTextField.secureTextEntry = true
-        _passwordTextField.autocorrectionType = .No
-        _passwordTextField.autocapitalizationType = .None
-        _passwordTextField.addTarget(self, action: #selector(_textFieldValueChanged), forControlEvents: .EditingChanged)
+        _passwordTextField.isSecureTextEntry = true
+        _passwordTextField.autocorrectionType = .no
+        _passwordTextField.autocapitalizationType = .none
+        _passwordTextField.addTarget(self, action: #selector(_textFieldValueChanged), for: .editingChanged)
         _formContainerView.addSubview(_passwordTextField)
         
-        _loginButton.enabled = false
-        _loginButton.setTitle(NSLocalizedString("LOGIN_BUTTON_TEXT", comment: ""), forState: .Normal)
-        _loginButton.addTarget(self, action: #selector(_loginButtonSelected), forControlEvents: .PrimaryActionTriggered)
+        _loginButton.isEnabled = false
+        _loginButton.setTitle(NSLocalizedString("LOGIN_BUTTON_TEXT", comment: ""), for: UIControlState())
+        _loginButton.addTarget(self, action: #selector(_loginButtonSelected), for: .primaryActionTriggered)
         _formContainerView.addSubview(_loginButton)
         
         _spinner.stopAnimating()
@@ -100,7 +100,7 @@ class LoginViewController : UIViewController
         
         let containerFrame = CGRect(
             x: rint(bounds.size.width / 2.0 - containerViewDimensions / 2.0),
-            y: CGRectGetMaxY(logoViewFrame) + headerFormPadding,
+            y: logoViewFrame.maxY + headerFormPadding,
             width: containerViewDimensions,
             height: containerViewDimensions
         )
@@ -116,7 +116,7 @@ class LoginViewController : UIViewController
         
         let passwordFrame = CGRect(
             x: rint(containerViewDimensions / 2.0 - textFieldsWidth / 2.0),
-            y: CGRectGetMaxY(emailFrame) + textFieldsPadding,
+            y: emailFrame.maxY + textFieldsPadding,
             width: textFieldsWidth,
             height: passwordFieldSize.height
         )
@@ -124,7 +124,7 @@ class LoginViewController : UIViewController
         
         let loginButtonFrame = CGRect(
             x: rint(containerViewDimensions / 2.0 - loginButtonSize.width / 2.0),
-            y: CGRectGetMaxY(passwordFrame) + loginButtonMarginTop,
+            y: passwordFrame.maxY + loginButtonMarginTop,
             width: loginButtonSize.width,
             height: loginButtonSize.height
         )
@@ -133,7 +133,7 @@ class LoginViewController : UIViewController
         let spinnerSize = _spinner.sizeThatFits(bounds.size)
         let spinnerFrame = CGRect(
             x: rint(containerViewDimensions / 2.0 - spinnerSize.width / 2.0),
-            y: CGRectGetMaxY(loginButtonFrame) + spinnerMarginTop,
+            y: loginButtonFrame.maxY + spinnerMarginTop,
             width: spinnerSize.width,
             height: spinnerSize.height
         )
@@ -142,18 +142,18 @@ class LoginViewController : UIViewController
     
     // MARK: Actions
     
-    internal func _textFieldValueChanged(sender: UITextField)
+    internal func _textFieldValueChanged(_ sender: UITextField)
     {
         let email = _emailTextField.text!
         let password = _passwordTextField.text!
         if (email.characters.count > 0 && password.characters.count > 0) {
-            _loginButton.enabled = true
+            _loginButton.isEnabled = true
         } else {
-            _loginButton.enabled = false
+            _loginButton.isEnabled = false
         }
     }
     
-    internal func _loginButtonSelected(sender: UIButton)
+    internal func _loginButtonSelected(_ sender: UIButton)
     {
         _setLoadingStateVisible(true)
         
@@ -164,18 +164,18 @@ class LoginViewController : UIViewController
                                                                email: email,
                                                                password: password,
                                                                completion:
-        { (error: NSError?) -> (Void) in
-            dispatch_async(dispatch_get_main_queue()) {
+        { (error: Error?) -> (Void) in
+            DispatchQueue.main.async {
                 self._setLoadingStateVisible(false)
                 
                 if (error != nil) {
                     let alertTitle = NSLocalizedString("LOGIN_FAILED_MESSAGE_TITLE", comment: "")
                     let alertMessage = error!.localizedDescription
-                    let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .Alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .Default, handler: { (action: UIAlertAction) in
-                        self.dismissViewControllerAnimated(true, completion: nil)
+                    let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: { (action: UIAlertAction) in
+                        self.dismiss(animated: true, completion: nil)
                     }))
-                    self.presentViewController(alert, animated: true, completion: {
+                    self.present(alert, animated: true, completion: {
                         // clear password field
                         self._passwordTextField.text = ""
                     })
@@ -186,14 +186,14 @@ class LoginViewController : UIViewController
     
     // MARK: Internal
     
-    internal func _setLoadingStateVisible(visible: Bool)
+    internal func _setLoadingStateVisible(_ visible: Bool)
     {
         if (visible) {
             _spinner.startAnimating()
-            _loginButton.enabled = false
+            _loginButton.isEnabled = false
         } else {
             _spinner.stopAnimating()
-            _loginButton.enabled = true
+            _loginButton.isEnabled = true
         }
     }
 }

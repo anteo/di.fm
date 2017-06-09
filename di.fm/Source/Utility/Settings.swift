@@ -13,27 +13,27 @@ class Settings
     static let sharedSettings = Settings()
     static let settingsDidChangeNotification = "SettingsDidChangeNotification"
     
-    private var _defaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
+    fileprivate var _defaults: UserDefaults = UserDefaults.standard
     
-    static private let _StreamQualityDefaultsKey = "StreamQuality"
+    static fileprivate let _StreamQualityDefaultsKey = "StreamQuality"
     
     var streamQuality: Stream.Quality = .PremiumHigh
     {
         didSet(newValue)
         {
-            let savedStreamQuality = _defaults.stringForKey(Settings._StreamQualityDefaultsKey)
+            let savedStreamQuality = _defaults.string(forKey: Settings._StreamQualityDefaultsKey)
             if (savedStreamQuality != newValue.rawValue) {
                 _defaults.setValue(newValue.rawValue, forKey: Settings._StreamQualityDefaultsKey)
                 _defaults.synchronize()
                 
-                NSNotificationCenter.defaultCenter().postNotificationName(Settings.settingsDidChangeNotification, object: self)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: Settings.settingsDidChangeNotification), object: self)
             }
         }
     }
     
     init()
     {
-        if let loadedStreamQuality = _defaults.stringForKey(Settings._StreamQualityDefaultsKey) {
+        if let loadedStreamQuality = _defaults.string(forKey: Settings._StreamQualityDefaultsKey) {
             self.streamQuality = Stream.Quality(rawValue: loadedStreamQuality)!
         }
     }

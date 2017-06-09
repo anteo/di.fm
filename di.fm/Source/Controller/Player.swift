@@ -11,15 +11,15 @@ import Foundation
 
 protocol PlayerDelegate: class
 {
-    func playerDidStartPlayingChannel(player: Player, channel: Channel)
-    func playerDidPausePlayback(player: Player)
-    func playerDidStopPlayback(player: Player)
-    func playerCurrentTrackDidChange(player: Player, newTrack: Track?)
+    func playerDidStartPlayingChannel(_ player: Player, channel: Channel)
+    func playerDidPausePlayback(_ player: Player)
+    func playerDidStopPlayback(_ player: Player)
+    func playerCurrentTrackDidChange(_ player: Player, newTrack: Track?)
 }
 
 protocol PlayerStreamProcessor: class
 {
-    func playerStreamDidDecodeAudioData(player: Player, data: NSData, framesCount: UInt)
+    func playerStreamDidDecodeAudioData(_ player: Player, data: Data, framesCount: UInt)
 }
 
 class Player : NSObject, ZANStreamPlayerDelegate
@@ -29,8 +29,8 @@ class Player : NSObject, ZANStreamPlayerDelegate
     weak var delegate:              PlayerDelegate?
     weak var streamProcessor:       PlayerStreamProcessor?
     
-    private var _streamPlayer:      ZANStreamPlayer?
-    private var _errorStream:       StandardErrorOutputStream = StandardErrorOutputStream()
+    fileprivate var _streamPlayer:      ZANStreamPlayer?
+    fileprivate var _errorStream:       StandardErrorOutputStream = StandardErrorOutputStream()
     
     var currentChannel: Channel?
     {
@@ -41,7 +41,7 @@ class Player : NSObject, ZANStreamPlayerDelegate
         }
     }
     
-    private(set) var currentTrack: Track?
+    fileprivate(set) var currentTrack: Track?
     {
         didSet
         {
@@ -60,8 +60,8 @@ class Player : NSObject, ZANStreamPlayerDelegate
         
         _streamPlayer?.play()
         
-        if (self.currentChannel != nil) {
-            self.delegate?.playerDidStartPlayingChannel(self, channel: self.currentChannel!)
+        if let currentChannel = self.currentChannel {
+            self.delegate?.playerDidStartPlayingChannel(self, channel: currentChannel)
         }
     }
     
@@ -74,44 +74,42 @@ class Player : NSObject, ZANStreamPlayerDelegate
     {
         var playing: Bool = false
         if let streamPlayer = _streamPlayer {
-            playing = streamPlayer.playing
+            playing = streamPlayer.isPlaying
         }
         return playing
     }
     
     // MARK: ZANStreamPlayerDelegate
     
-    func streamPlayerPlaybackStateDidChange(player: ZANStreamPlayer)
+    func streamPlayerPlaybackStateDidChange(_ player: ZANStreamPlayer)
     {
-        if (player.stopped) {
+        if (player.isStopped) {
             self.delegate?.playerDidStopPlayback(self)
-        } else if (!player.playing) {
+        } else if (!player.isPlaying) {
             self.delegate?.playerDidPausePlayback(self)
         }
     }
     
-    func streamPlayer(player: ZANStreamPlayer, didReceiveMetadataUpdate metadata: [String : String])
+    func streamPlayer(_ player: ZANStreamPlayer, didReceiveMetadataUpdate metadata: [String : String])
     {
         self.currentTrack = Track(metadata)
     }
     
-    func streamPlayer(player: ZANStreamPlayer, didDecodeAudioData data: NSData, withFramesCount framesCount: UInt, format: UnsafePointer<AudioStreamBasicDescription>)
+    func streamPlayer(_ player: ZANStreamPlayer, didDecodeAudioData data: Data, withFramesCount framesCount: UInt, format: UnsafePointer<AudioStreamBasicDescription>)
     {
         self.streamProcessor?.playerStreamDidDecodeAudioData(self, data: data, framesCount: framesCount)
     }
     
     // MARK: Internal
     
-    internal func _cachedChannelStream(channel: Channel) -> Stream?
+    internal func _cachedChannelStream(_ channel: Channel) -> Stream?
     {
         var stream: Stream? = nil
         
         if (self.streamSet != nil) {
             let streamlist = self.streamSet?.streamlist
             let streams = streamlist?.channelIDToStreams[channel.identifier]
-            if (streams?.count > 0) {
-                stream = streams?.first
-            }
+            stream = streams?.first
         } else {
             _logError("No stream set initialized on player.", error: nil)
         }
@@ -125,14 +123,14 @@ class Player : NSObject, ZANStreamPlayerDelegate
         
         // create player item and player for new channel stream
         if (self.currentChannel != nil) {
-            if let stream = _cachedChannelStream(self.currentChannel!) {
-                let streamURLComponents = NSURLComponents(URL: stream.url, resolvingAgainstBaseURL: false)!
+            if let stream = _cachedChannelStream(self.currentChannel!), let streamURL = stream.url {
+                var streamURLComponents = URLComponents(url: streamURL, resolvingAgainstBaseURL: false)!
                 if (self.listenKey != nil) {
                     streamURLComponents.query = "?\(self.listenKey!)"
                 }
                 
-                if let streamURL = streamURLComponents.URL {
-                    newStreamPlayer = ZANStreamPlayer(URL: streamURL, options: [.InstallProcessingTap, .RequestMetadata])
+                if let streamURL = streamURLComponents.url {
+                    newStreamPlayer = ZANStreamPlayer(url: streamURL, options: [.installProcessingTap, .requestMetadata])
                     newStreamPlayer?.delegate = self
                 } else {
                     _logError("Could not parse URL using components: \(streamURLComponents)", error: nil)
@@ -157,8 +155,8 @@ class Player : NSObject, ZANStreamPlayerDelegate
         }
     }
     
-    internal func _logError(description: String, error: NSError?)
+    internal func _logError(_ description: String, error: NSError?)
     {
-        print("ERROR: \(description) \(error)", toStream: &_errorStream)
+        _errorStream.write("ERROR: \(description) \(String(describing: error))")
     }
 }
