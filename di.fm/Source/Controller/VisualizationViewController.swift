@@ -150,10 +150,14 @@ internal class WireframeIcosphereScene : SCNScene
                 _sphereNode.addChildNode(icosphereNode)
                 self.rootNode.addChildNode(_sphereNode)
             } else {
+                #if DEBUG
                 print("could not find icosphere node in scene file")
+                #endif
             }
         } catch {
+            #if DEBUG
             print("error loading scene from file")
+            #endif
         }
     }
     

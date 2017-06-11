@@ -93,7 +93,9 @@ class AudioAddictServer
     
     internal func _logError(_ description: String, error: Error)
     {
+        #if DEBUG
         _errorStream.write("ERROR: \(description) \(error.localizedDescription)\n")
+        #endif
     }
 }
 

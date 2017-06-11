@@ -767,22 +767,26 @@ static void _ZANAudioQueueProcessingTapCallback(void *clientData,
 
 - (void)_logMessage:(NSString *)format, ...
 {
+#if DEBUG
     va_list args;
     va_start(args, format);
     NSString *message = [[NSString alloc] initWithFormat:format arguments:args];
     va_end(args);
     
     NSLog(@"%@: %@", NSStringFromClass([self class]), message);
+#endif
 }
 
 - (void)_logError:(NSString *)format, ...
 {
+#if DEBUG
     va_list args;
     va_start(args, format);
     NSString *message = [[NSString alloc] initWithFormat:format arguments:args];
     va_end(args);
     
     NSLog(@"%@ ERROR: %@", NSStringFromClass([self class]), message);
+#endif
 }
 
 #pragma mark - AudioFileStream Callbacks

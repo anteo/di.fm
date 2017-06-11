@@ -159,7 +159,9 @@ class Player : NSObject, ZANStreamPlayerDelegate
     
     internal func _logError(_ description: String, error: NSError?)
     {
+        #if DEBUG
         let errDescription = error?.localizedDescription ?? "nil"
         _errorStream.write("ERROR: \(description) \(errDescription)\n")
+        #endif
     }
 }
