@@ -34,7 +34,7 @@ class AppDelegate : UIResponder,
             
             let username = self.credentialsStore.username ?? ""
             let password = self.credentialsStore.password ?? ""
-            self.server.authenticate(username, password: password, completion: { (user: AuthenticatedUser?, err: Error?) -> (Void) in
+            self.server.authenticate(username: username, password: password, completion: { (user: AuthenticatedUser?, err: Error?) -> (Void) in
                 if (user != nil) {
                     self._handleSuccessfulAuthentication(user!)
                 } else {
@@ -117,7 +117,7 @@ class AppDelegate : UIResponder,
                                                  password: String,
                                                  completion: @escaping (Error?) -> (Void))
     {
-        self.server.authenticate(email, password: password) { (authenticatedUser: AuthenticatedUser?, error: Error?) -> (Void) in
+        self.server.authenticate(username: email, password: password) { (authenticatedUser: AuthenticatedUser?, error: Error?) -> (Void) in
             completion(error)
             
             if (authenticatedUser != nil) {

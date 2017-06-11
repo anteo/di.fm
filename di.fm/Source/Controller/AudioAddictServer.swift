@@ -25,7 +25,7 @@ class AudioAddictServer
         _urlSession = URLSession(configuration: config)
     }
     
-    func authenticate(_ username: String, password: String, completion: @escaping (AuthenticatedUser?, Error?) -> (Void))
+    func authenticate(username: String, password: String, completion: @escaping (AuthenticatedUser?, Error?) -> (Void))
     {
         let operation = AuthenticationOperation(baseURL: AudioAddictServer._BaseURL, session: _urlSession)
         operation.username = username
@@ -69,7 +69,7 @@ class AudioAddictServer
         _operationQueue.addOperation(operation)
     }
     
-    func loadChannelArtwork(_ channelImage: ChannelImage, size: CGSize, completion: @escaping (Data?, Error?) -> (Void))
+    func loadChannelArtwork(channelImage: ChannelImage, size: CGSize, completion: @escaping (Data?, Error?) -> (Void))
     {
         let operation = LoadChannelArtworkOperation(baseURL: AudioAddictServer._BaseURL, session: _urlSession)
         operation.channelImage = channelImage
@@ -93,7 +93,7 @@ class AudioAddictServer
     
     internal func _logError(_ description: String, error: Error)
     {
-        _errorStream.write("ERROR: \(description) \(String(describing: error))")
+        _errorStream.write("ERROR: \(description) \(error.localizedDescription)\n")
     }
 }
 
@@ -132,7 +132,7 @@ internal class ServerOperation : Operation
             task.resume()
             semaphore.wait()
         } else {
-            self.error = DIError(code: .authenticationError)
+            self.error = DIError(.authenticationError)
         }
         
         return fetchedData
@@ -157,7 +157,7 @@ internal class ServerOperation : Operation
             task.resume()
             semaphore.wait()
         } else {
-            self.error = DIError(code: .authenticationError)
+            self.error = DIError(.authenticationError)
         }
         
         return (fetchedData, fetchedResponse)
@@ -192,7 +192,7 @@ internal class AuthenticationOperation : ServerOperation
                 self.newAuthenticatedUser = AuthenticatedUser(jsonDict!)
             }
         } else {
-            self.error = DIError(code: .invalidAuthCredentials)
+            self.error = DIError(.invalidAuthCredentials)
         }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  NSErrorAdditions.swift
+//  Error.swift
 //  di.fm
 //
 //  Created by Charles Magahern on 12/31/15.
@@ -22,7 +22,8 @@ struct DIError : LocalizedError
     let code: ErrorCode
     var debugDescription: String? = nil
     
-    init(code: ErrorCode) {
+    init(_ code: ErrorCode)
+    {
         self.code = code
     }
     

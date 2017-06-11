@@ -29,8 +29,8 @@ class Player : NSObject, ZANStreamPlayerDelegate
     weak var delegate:              PlayerDelegate?
     weak var streamProcessor:       PlayerStreamProcessor?
     
-    fileprivate var _streamPlayer:      ZANStreamPlayer?
-    fileprivate var _errorStream:       StandardErrorOutputStream = StandardErrorOutputStream()
+    fileprivate var _streamPlayer:  ZANStreamPlayer?
+    fileprivate var _errorStream:   StandardErrorOutputStream = StandardErrorOutputStream()
     
     var currentChannel: Channel?
     {
@@ -51,12 +51,14 @@ class Player : NSObject, ZANStreamPlayerDelegate
     
     func play()
     {
+        #if (os(iOS) || os(tvOS))
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
         }
         catch let error as NSError {
             _logError("error setting audio category", error: error)
         }
+        #endif
         
         _streamPlayer?.play()
         
@@ -157,6 +159,7 @@ class Player : NSObject, ZANStreamPlayerDelegate
     
     internal func _logError(_ description: String, error: NSError?)
     {
-        _errorStream.write("ERROR: \(description) \(String(describing: error))")
+        let errDescription = error?.localizedDescription ?? "nil"
+        _errorStream.write("ERROR: \(description) \(errDescription)\n")
     }
 }

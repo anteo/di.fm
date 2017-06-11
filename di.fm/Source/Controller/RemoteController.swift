@@ -9,6 +9,7 @@
 import Foundation
 import MediaPlayer
 
+@available(OSX 10.12.2, *)
 class RemoteController
 {
     var player: Player

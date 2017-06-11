@@ -20,6 +20,10 @@
 		0C2AD0381CD07A1D00A20EFE /* AudioAddictURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0371CD07A1D00A20EFE /* AudioAddictURL.swift */; };
 		0C2AD03A1CD07C9A00A20EFE /* ChannelImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0391CD07C9A00A20EFE /* ChannelImage.swift */; };
 		0C4301EF1CCFCB8200E4BEE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C4301EE1CCFCB8200E4BEE7 /* Assets.xcassets */; };
+		0C7C530D1EED1976005588D9 /* AudioAddictServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA349651CDEE60000765A46 /* AudioAddictServer.swift */; };
+		0C7C530E1EED1976005588D9 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD01D1CD0795600A20EFE /* Player.swift */; };
+		0C7C530F1EED1976005588D9 /* RemoteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB7A6891CE5904D004EF016 /* RemoteController.swift */; };
+		0C7C53131EED1A7C005588D9 /* ZANStreamPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAC95CF1D2B94560087E280 /* ZANStreamPlayer.m */; };
 		0C7D25811D29C1B400FA7157 /* FFTProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7D257E1D29C1B400FA7157 /* FFTProcessor.m */; };
 		0C7D25821D29C1B400FA7157 /* LowPassFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0C7D25801D29C1B400FA7157 /* LowPassFilter.mm */; };
 		0C7D25841D29C1E300FA7157 /* VisualizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7D25831D29C1E300FA7157 /* VisualizationViewController.swift */; };
@@ -33,6 +37,28 @@
 		0CA349721CDF14AE00765A46 /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA349711CDF14AE00765A46 /* Stream.swift */; };
 		0CAC95D01D2B94560087E280 /* ZANStreamPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAC95CF1D2B94560087E280 /* ZANStreamPlayer.m */; };
 		0CAC95D21D3300E60087E280 /* UIColorAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAC95D11D3300E60087E280 /* UIColorAdditions.swift */; };
+		0CB0BAE21EECFDF000162EB4 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB0BAE11EECFDF000162EB4 /* main.swift */; };
+		0CB0BAE71EECFF0B00162EB4 /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA349691CDEE6EB00765A46 /* Asset.swift */; };
+		0CB0BAE81EECFF0B00162EB4 /* AudioAddictURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0371CD07A1D00A20EFE /* AudioAddictURL.swift */; };
+		0CB0BAE91EECFF0B00162EB4 /* AuthenticatedUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEB6E81CE047A400CC208A /* AuthenticatedUser.swift */; };
+		0CB0BAEA1EECFF0B00162EB4 /* BatchUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA349671CDEE6C900765A46 /* BatchUpdate.swift */; };
+		0CB0BAEB1EECFF0B00162EB4 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0331CD0796100A20EFE /* Channel.swift */; };
+		0CB0BAEC1EECFF0B00162EB4 /* ChannelImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0391CD07C9A00A20EFE /* ChannelImage.swift */; };
+		0CB0BAED1EECFF0B00162EB4 /* ChannelFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0351CD0798100A20EFE /* ChannelFilter.swift */; };
+		0CB0BAEE1EECFF0B00162EB4 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3496B1CDF12C000765A46 /* Event.swift */; };
+		0CB0BAEF1EECFF0B00162EB4 /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA349711CDF14AE00765A46 /* Stream.swift */; };
+		0CB0BAF01EECFF0B00162EB4 /* StreamList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3496F1CDF148400765A46 /* StreamList.swift */; };
+		0CB0BAF11EECFF0B00162EB4 /* StreamSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA3496D1CDF143300765A46 /* StreamSet.swift */; };
+		0CB0BAF31EECFF0B00162EB4 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C12834B1D177C8E00EDFB79 /* Track.swift */; };
+		0CB0BAF41EECFF1F00162EB4 /* FFTProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C7D257E1D29C1B400FA7157 /* FFTProcessor.m */; };
+		0CB0BAF51EECFF1F00162EB4 /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CD7B3941CE45C0C00516C50 /* KeychainItemWrapper.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0CB0BAF61EECFF1F00162EB4 /* LowPassFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0C7D25801D29C1B400FA7157 /* LowPassFilter.mm */; };
+		0CB0BAF71EECFF3600162EB4 /* CredentialsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD7B3981CE4601000516C50 /* CredentialsStore.swift */; };
+		0CB0BAF81EECFF3600162EB4 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0231CD0795600A20EFE /* Error.swift */; };
+		0CB0BAF91EECFF3600162EB4 /* NSDateAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEB6D41CDFB6C500CC208A /* NSDateAdditions.swift */; };
+		0CB0BAFA1EECFF3600162EB4 /* Semaphore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0241CD0795600A20EFE /* Semaphore.swift */; };
+		0CB0BAFB1EECFF3600162EB4 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE19AC51D44C18E009D9FA7 /* Settings.swift */; };
+		0CB0BAFC1EECFF3600162EB4 /* StandardError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2AD0251CD0795600A20EFE /* StandardError.swift */; };
 		0CB7A68A1CE5904D004EF016 /* RemoteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB7A6891CE5904D004EF016 /* RemoteController.swift */; };
 		0CD7B38B1CE4198300516C50 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD7B38A1CE4198300516C50 /* Theme.swift */; };
 		0CD7B38F1CE41C1200516C50 /* EnzoOT-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0CD7B38C1CE41C1200516C50 /* EnzoOT-Bold.ttf */; };
@@ -53,6 +79,18 @@
 		0CE19AC61D44C18E009D9FA7 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE19AC51D44C18E009D9FA7 /* Settings.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		0CB0BADD1EECFDF000162EB4 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		0C12834B1D177C8E00EDFB79 /* Track.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Track.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		0C2AD01B1CD0795600A20EFE /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AppDelegate.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -69,6 +107,8 @@
 		0C4301E41CCFCB8200E4BEE7 /* di.fm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = di.fm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C4301EE1CCFCB8200E4BEE7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0C4301F01CCFCB8200E4BEE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0C7C53111EED19DC005588D9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
+		0C7C53141EED20CA005588D9 /* CLI.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = CLI.xcconfig; sourceTree = "<group>"; };
 		0C7D257D1D29C1B400FA7157 /* FFTProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = FFTProcessor.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		0C7D257E1D29C1B400FA7157 /* FFTProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FFTProcessor.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		0C7D257F1D29C1B400FA7157 /* LowPassFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = LowPassFilter.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -85,6 +125,8 @@
 		0CAC95CE1D2B94560087E280 /* ZANStreamPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZANStreamPlayer.h; sourceTree = "<group>"; };
 		0CAC95CF1D2B94560087E280 /* ZANStreamPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZANStreamPlayer.m; sourceTree = "<group>"; };
 		0CAC95D11D3300E60087E280 /* UIColorAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorAdditions.swift; sourceTree = "<group>"; };
+		0CB0BADF1EECFDF000162EB4 /* difm */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = difm; sourceTree = BUILT_PRODUCTS_DIR; };
+		0CB0BAE11EECFDF000162EB4 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		0CB7A6891CE5904D004EF016 /* RemoteController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = RemoteController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		0CD7B38A1CE4198300516C50 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Theme.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		0CD7B38C1CE41C1200516C50 /* EnzoOT-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "EnzoOT-Bold.ttf"; sourceTree = "<group>"; };
@@ -109,6 +151,13 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		0C4301E11CCFCB8200E4BEE7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0CB0BADC1EECFDF000162EB4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -201,6 +250,7 @@
 			children = (
 				0C4301E61CCFCB8200E4BEE7 /* di.fm */,
 				0C4301E51CCFCB8200E4BEE7 /* Products */,
+				0C7C53101EED19DC005588D9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -208,6 +258,7 @@
 			isa = PBXGroup;
 			children = (
 				0C4301E41CCFCB8200E4BEE7 /* di.fm.app */,
+				0CB0BADF1EECFDF000162EB4 /* difm */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -226,6 +277,7 @@
 			isa = PBXGroup;
 			children = (
 				0C2AD01A1CD0795500A20EFE /* Application */,
+				0CB0BAE61EECFDFD00162EB4 /* CLI */,
 				0C2AD01C1CD0795600A20EFE /* Controller */,
 				0C2AD0201CD0795600A20EFE /* Model */,
 				0C2AD0221CD0795600A20EFE /* Utility */,
@@ -250,10 +302,27 @@
 		0C4301F81CCFCBE300E4BEE7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0C7C53141EED20CA005588D9 /* CLI.xcconfig */,
 				0C4301F01CCFCB8200E4BEE7 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		0C7C53101EED19DC005588D9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0C7C53111EED19DC005588D9 /* AVFoundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		0CB0BAE61EECFDFD00162EB4 /* CLI */ = {
+			isa = PBXGroup;
+			children = (
+				0CB0BAE11EECFDF000162EB4 /* main.swift */,
+			);
+			path = CLI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -276,13 +345,30 @@
 			productReference = 0C4301E41CCFCB8200E4BEE7 /* di.fm.app */;
 			productType = "com.apple.product-type.application";
 		};
+		0CB0BADE1EECFDF000162EB4 /* CLI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0CB0BAE51EECFDF000162EB4 /* Build configuration list for PBXNativeTarget "CLI" */;
+			buildPhases = (
+				0CB0BADB1EECFDF000162EB4 /* Sources */,
+				0CB0BADC1EECFDF000162EB4 /* Frameworks */,
+				0CB0BADD1EECFDF000162EB4 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CLI;
+			productName = "di.fm player";
+			productReference = 0CB0BADF1EECFDF000162EB4 /* difm */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		0C4301DC1CCFCB8200E4BEE7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0730;
+				LastSwiftUpdateCheck = 0830;
 				LastUpgradeCheck = 0730;
 				TargetAttributes = {
 					0C4301E31CCFCB8200E4BEE7 = {
@@ -294,6 +380,10 @@
 								enabled = 1;
 							};
 						};
+					};
+					0CB0BADE1EECFDF000162EB4 = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -311,6 +401,7 @@
 			projectRoot = "";
 			targets = (
 				0C4301E31CCFCB8200E4BEE7 /* di.fm */,
+				0CB0BADE1EECFDF000162EB4 /* CLI */,
 			);
 		};
 /* End PBXProject section */
@@ -374,6 +465,39 @@
 				0C7D25841D29C1E300FA7157 /* VisualizationViewController.swift in Sources */,
 				0CA349721CDF14AE00765A46 /* Stream.swift in Sources */,
 				0CDEB6D91CDFBC9E00CC208A /* ChannelListViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0CB0BADB1EECFDF000162EB4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0CB0BAF61EECFF1F00162EB4 /* LowPassFilter.mm in Sources */,
+				0CB0BAF01EECFF0B00162EB4 /* StreamList.swift in Sources */,
+				0CB0BAF41EECFF1F00162EB4 /* FFTProcessor.m in Sources */,
+				0CB0BAE91EECFF0B00162EB4 /* AuthenticatedUser.swift in Sources */,
+				0C7C530E1EED1976005588D9 /* Player.swift in Sources */,
+				0CB0BAEE1EECFF0B00162EB4 /* Event.swift in Sources */,
+				0CB0BAEB1EECFF0B00162EB4 /* Channel.swift in Sources */,
+				0CB0BAE71EECFF0B00162EB4 /* Asset.swift in Sources */,
+				0CB0BAE21EECFDF000162EB4 /* main.swift in Sources */,
+				0CB0BAFC1EECFF3600162EB4 /* StandardError.swift in Sources */,
+				0CB0BAEA1EECFF0B00162EB4 /* BatchUpdate.swift in Sources */,
+				0C7C530D1EED1976005588D9 /* AudioAddictServer.swift in Sources */,
+				0CB0BAF91EECFF3600162EB4 /* NSDateAdditions.swift in Sources */,
+				0CB0BAF71EECFF3600162EB4 /* CredentialsStore.swift in Sources */,
+				0CB0BAED1EECFF0B00162EB4 /* ChannelFilter.swift in Sources */,
+				0CB0BAEC1EECFF0B00162EB4 /* ChannelImage.swift in Sources */,
+				0CB0BAE81EECFF0B00162EB4 /* AudioAddictURL.swift in Sources */,
+				0CB0BAF51EECFF1F00162EB4 /* KeychainItemWrapper.m in Sources */,
+				0C7C53131EED1A7C005588D9 /* ZANStreamPlayer.m in Sources */,
+				0CB0BAF11EECFF0B00162EB4 /* StreamSet.swift in Sources */,
+				0CB0BAEF1EECFF0B00162EB4 /* Stream.swift in Sources */,
+				0CB0BAF31EECFF0B00162EB4 /* Track.swift in Sources */,
+				0C7C530F1EED1976005588D9 /* RemoteController.swift in Sources */,
+				0CB0BAFA1EECFF3600162EB4 /* Semaphore.swift in Sources */,
+				0CB0BAFB1EECFF3600162EB4 /* Settings.swift in Sources */,
+				0CB0BAF81EECFF3600162EB4 /* Error.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -500,6 +624,38 @@
 			};
 			name = Release;
 		};
+		0CB0BAE31EECFDF000162EB4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0C7C53141EED20CA005588D9 /* CLI.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CODE_SIGN_IDENTITY = "-";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = difm;
+				SWIFT_OBJC_BRIDGING_HEADER = "di.fm/Source/Utility/di.fm-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		0CB0BAE41EECFDF000162EB4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0C7C53141EED20CA005588D9 /* CLI.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CODE_SIGN_IDENTITY = "-";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = difm;
+				SWIFT_OBJC_BRIDGING_HEADER = "di.fm/Source/Utility/di.fm-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -517,6 +673,15 @@
 			buildConfigurations = (
 				0C4301F41CCFCB8200E4BEE7 /* Debug */,
 				0C4301F51CCFCB8200E4BEE7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0CB0BAE51EECFDF000162EB4 /* Build configuration list for PBXNativeTarget "CLI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0CB0BAE31EECFDF000162EB4 /* Debug */,
+				0CB0BAE41EECFDF000162EB4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -42,7 +42,7 @@ class ChannelArtworkImageDataSource
     internal func _onQueueBeginLoad(_ channel: Channel, size: CGSize, completion: @escaping ChannelArtworkCallback)
     {
         guard let server = self.server else {
-            var err = DIError(code: .configurationError)
+            var err = DIError(.configurationError)
             err.debugDescription = "no server configured for artwork data source"
             completion(nil, err)
             return
@@ -50,7 +50,7 @@ class ChannelArtworkImageDataSource
         
         _pendingCallbacks[channel.identifier] = [completion]
         
-        server.loadChannelArtwork(channel.image, size: size) { (imageData: Data?, error: Error?) -> (Void) in
+        server.loadChannelArtwork(channelImage: channel.image, size: size) { (imageData: Data?, error: Error?) -> (Void) in
             self._serialQueue.async(execute: {
                 var loadedImage: UIImage? = nil
                 
