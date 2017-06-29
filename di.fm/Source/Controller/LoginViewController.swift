@@ -36,7 +36,7 @@ class LoginViewController : UIViewController
         
         let theme = Theme.defaultTheme()
         
-        _logoImageView.image = UIImage(named: "di_logo_title")
+        _logoImageView.image = UIImage(named: "di_logo")
         _logoImageView.contentMode = .scaleAspectFit
         self.view.addSubview(_logoImageView)
         
