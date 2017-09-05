@@ -236,7 +236,7 @@ internal class LoadChannelArtworkOperation : ServerOperation
     
     override func main()
     {
-        let urlParams = ["width" : "\(self.sizeHint.width)", "height" : "\(self.sizeHint.height)"]
+        let urlParams = ["width" : "\(Int(self.sizeHint.width))", "height" : "\(Int(self.sizeHint.height))"]
         if let artworkURL = self.channelImage.defaultURL.url(urlParams) {
             self.imageData = self.fetchData(artworkURL)
         }
