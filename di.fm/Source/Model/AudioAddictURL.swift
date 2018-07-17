@@ -99,7 +99,7 @@ class AudioAddictURL
         let foundationString = string as NSString
         let pattern = "\\{((.)([\\w,]+)+)\\}"
         let regex = try! NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options())
-        let fullRange = NSMakeRange(0, string.characters.count)
+        let fullRange = NSMakeRange(0, string.count)
         let matches = regex.matches(in: string, options: NSRegularExpression.MatchingOptions(), range: fullRange)
         
         for result in matches {
@@ -110,17 +110,17 @@ class AudioAddictURL
             component.position = String.Index(from16, within: string)
             
             // parse delimiter
-            let delimiterString = foundationString.substring(with: result.rangeAt(2))
-            if (delimiterString.characters.count > 0) {
+            let delimiterString = foundationString.substring(with: result.range(at: 2))
+            if (delimiterString.count > 0) {
                 component.delimiter = delimiterString[delimiterString.startIndex]
             }
             
             // parse parameter keys
-            let paramsString = foundationString.substring(with: result.rangeAt(3))
+            let paramsString = foundationString.substring(with: result.range(at: 3))
             component.parameterKeys = paramsString.components(separatedBy: ",")
             
             // store complete match
-            component.rawString = foundationString.substring(with: result.rangeAt(0))
+            component.rawString = foundationString.substring(with: result.range(at: 0))
             
             // append
             components.append(component)

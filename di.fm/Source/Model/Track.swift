@@ -32,11 +32,11 @@ struct Track
             for metadataItem in metadata {
                 if let key = metadataItem.commonKey {
                     switch key {
-                    case AVMetadataCommonKeyTitle:
+                    case AVMetadataKey.commonKeyTitle:
                         self.title = metadataItem.value as? String ?? ""
-                    case AVMetadataCommonKeyArtist:
+                    case AVMetadataKey.commonKeyArtist:
                         self.artist = metadataItem.value as? String ?? ""
-                    case AVMetadataCommonKeyAlbumName:
+                    case AVMetadataKey.commonKeyAlbumName:
                         self.album = metadataItem.value as? String ?? ""
                     default:
                         break
@@ -66,10 +66,10 @@ struct Track
         var artist: String = ""
         
         if let match = matches.first {
-            let artistRange = match.rangeAt(1)
+            let artistRange = match.range(at: 1)
             artist = titleString.substring(with: artistRange) as String
             
-            let titleRange = match.rangeAt(2)
+            let titleRange = match.range(at: 2)
             title = titleString.substring(with: titleRange) as String
         }
         

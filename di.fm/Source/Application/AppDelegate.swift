@@ -250,7 +250,7 @@ class AppDelegate : UIResponder,
         self.player.streamSet = streamSet
     }
     
-    internal func _playPauseButtonPressed(_ sender: UITapGestureRecognizer)
+    @objc internal func _playPauseButtonPressed(_ sender: UITapGestureRecognizer)
     {
         if (self.player.isPlaying()) {
             self.player.pause()

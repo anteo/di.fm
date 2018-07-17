@@ -270,34 +270,34 @@ static void _ZANAudioQueueProcessingTapCallback(void *clientData,
                     const NSUInteger remainingBytes = byteRange.length - bytesRead;
                     const void *currentPtr = bytes + bytesRead;
                     
-                    if (_currentMetaLength > 0) { // currently reading metadata
-                        const NSUInteger remainingMetaBytes = _currentMetaLength - [_currentMetaPayload length];
+                    if (self->_currentMetaLength > 0) { // currently reading metadata
+                        const NSUInteger remainingMetaBytes = self->_currentMetaLength - [self->_currentMetaPayload length];
                         const NSUInteger bytesToAppend = MIN(remainingMetaBytes, remainingBytes);
-                        [_currentMetaPayload appendBytes:currentPtr length:bytesToAppend];
+                        [self->_currentMetaPayload appendBytes:currentPtr length:bytesToAppend];
                         
-                        if (_currentMetaPayload.length == _currentMetaLength) {
-                            [self _processMetadataUpdate:_currentMetaPayload];
+                        if (self->_currentMetaPayload.length == self->_currentMetaLength) {
+                            [self _processMetadataUpdate:self->_currentMetaPayload];
                             
-                            _currentMetaPayload.length = 0;
-                            _currentMetaLength = 0;
-                            _bytesReadSinceMeta = 0;
+                            self->_currentMetaPayload.length = 0;
+                            self->_currentMetaLength = 0;
+                            self->_bytesReadSinceMeta = 0;
                         }
                         
                         bytesRead += bytesToAppend;
-                    } else if (_bytesReadSinceMeta == _metaInterval) { // currently reading metaint
+                    } else if (self->_bytesReadSinceMeta == self->_metaInterval) { // currently reading metaint
                         uint8_t metaLength = *(uint8_t *)currentPtr * 16;
                         if (metaLength > 0) {
-                            _currentMetaLength = (NSUInteger)metaLength;
+                            self->_currentMetaLength = (NSUInteger)metaLength;
                         } else {
-                            _bytesReadSinceMeta = 0;
+                            self->_bytesReadSinceMeta = 0;
                         }
                         
                         bytesRead += 1;
                     } else { // currently reading audio data
-                        const NSUInteger audioBytesToRead = MIN(_metaInterval - _bytesReadSinceMeta, remainingBytes);
+                        const NSUInteger audioBytesToRead = MIN(self->_metaInterval - self->_bytesReadSinceMeta, remainingBytes);
                         [mutableAudioData appendBytes:currentPtr length:audioBytesToRead];
                         
-                        _bytesReadSinceMeta += audioBytesToRead;
+                        self->_bytesReadSinceMeta += audioBytesToRead;
                         bytesRead += audioBytesToRead;
                     }
                 }

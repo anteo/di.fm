@@ -142,18 +142,18 @@ class LoginViewController : UIViewController
     
     // MARK: Actions
     
-    internal func _textFieldValueChanged(_ sender: UITextField)
+    @objc internal func _textFieldValueChanged(_ sender: UITextField)
     {
         let email = _emailTextField.text!
         let password = _passwordTextField.text!
-        if (email.characters.count > 0 && password.characters.count > 0) {
+        if (email.count > 0 && password.count > 0) {
             _loginButton.isEnabled = true
         } else {
             _loginButton.isEnabled = false
         }
     }
     
-    internal func _loginButtonSelected(_ sender: UIButton)
+    @objc internal func _loginButtonSelected(_ sender: UIButton)
     {
         _setLoadingStateVisible(true)
         

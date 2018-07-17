@@ -78,7 +78,6 @@
 		0CE19AC41D44A35B009D9FA7 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE19AC31D44A35B009D9FA7 /* SettingsViewController.swift */; };
 		0CE19AC61D44C18E009D9FA7 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE19AC51D44C18E009D9FA7 /* Settings.swift */; };
 		3A2C7C0620FDF783004EB4BF /* ChannelFavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2C7C0520FDF783004EB4BF /* ChannelFavoritesViewController.swift */; };
-		3A49F28F20FCA60200F297E5 /* Focus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A49F28E20FCA60200F297E5 /* Focus.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -150,7 +149,6 @@
 		0CE19AC31D44A35B009D9FA7 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = SettingsViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		0CE19AC51D44C18E009D9FA7 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Settings.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		3A2C7C0520FDF783004EB4BF /* ChannelFavoritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelFavoritesViewController.swift; sourceTree = "<group>"; };
-		3A49F28E20FCA60200F297E5 /* Focus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Focus.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,7 +236,6 @@
 				0C2AD0251CD0795600A20EFE /* StandardError.swift */,
 				0C2AD0261CD0795600A20EFE /* TVSupport.swift */,
 				0CAC95D11D3300E60087E280 /* UIColorAdditions.swift */,
-				3A49F28E20FCA60200F297E5 /* Focus.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -375,12 +372,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0940;
 				TargetAttributes = {
 					0C4301E31CCFCB8200E4BEE7 = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = HVHT52WC88;
-						LastSwiftMigration = 0830;
+						LastSwiftMigration = 0940;
 						SystemCapabilities = {
 							com.apple.BackgroundModes.appletvos = {
 								enabled = 1;
@@ -466,7 +463,6 @@
 				0CA3496E1CDF143300765A46 /* StreamSet.swift in Sources */,
 				0CAC95D21D3300E60087E280 /* UIColorAdditions.swift in Sources */,
 				0CDEB6DD1CE03D7C00CC208A /* NowPlayingViewController.swift in Sources */,
-				3A49F28F20FCA60200F297E5 /* Focus.swift in Sources */,
 				0C2AD02E1CD0795600A20EFE /* Error.swift in Sources */,
 				3A2C7C0620FDF783004EB4BF /* ChannelFavoritesViewController.swift in Sources */,
 				0C12834C1D177C8E00EDFB79 /* Track.swift in Sources */,
@@ -521,13 +517,23 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
@@ -566,13 +572,23 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
@@ -589,6 +605,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = appletvos;
+				SWIFT_COMPILATION_MODE = wholemodule;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 				VALIDATE_PRODUCT = YES;
@@ -611,7 +628,8 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "di.fm/Source/Utility/di.fm-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -630,7 +648,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "di.fm/Source/Utility/di.fm-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

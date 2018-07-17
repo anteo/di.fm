@@ -101,7 +101,7 @@ class NowPlayingViewController : UIViewController
         self.view.addSubview(_ff)
     }
     
-    func buttonAction(sender: UIButton!)
+    @objc func buttonAction(sender: UIButton!)
     {
         self.delegate?.nowPlayingViewControllerDidReturn(self)
     }

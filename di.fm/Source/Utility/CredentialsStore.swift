@@ -40,8 +40,8 @@ class CredentialsStore
     
     func hasCredentials() -> Bool
     {
-        let usernameLength = self.username?.characters.count ?? 0
-        let passwordLength = self.password?.characters.count ?? 0
+        let usernameLength = self.username?.count ?? 0
+        let passwordLength = self.password?.count ?? 0
         return (usernameLength > 0 && passwordLength > 0)
     }
     
