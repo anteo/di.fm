@@ -19,6 +19,12 @@ class AudioAddictServer
     fileprivate static let _BaseURL = URL(string: "http://api.audioaddict.com/v1/di/")!
     fileprivate static let _APIKey = "ZXBoZW1lcm9uOmRheWVpcGgwbmVAcHA="
     
+    var authenticatedUser: AuthenticatedUser? {
+        get {
+            return _authenticatedUser;
+        }
+    }
+    
     init()
     {
         let config = URLSessionConfiguration.default

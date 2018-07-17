@@ -10,8 +10,15 @@ import Foundation
 import MediaPlayer
 import UIKit
 
+protocol NowPlayingViewControllerDelegate : class
+{
+    func nowPlayingViewControllerDidReturn(_ viewController: NowPlayingViewController)
+}
+
 class NowPlayingViewController : UIViewController
 {
+    weak var delegate: NowPlayingViewControllerDelegate?
+
     var currentChannel: Channel?
     {
         didSet
@@ -48,6 +55,7 @@ class NowPlayingViewController : UIViewController
     fileprivate var _artworkDataSource:  ChannelArtworkImageDataSource = ChannelArtworkImageDataSource()
     fileprivate var _titleLabel:         UILabel = UILabel()
     fileprivate var _artistLabel:        UILabel = UILabel()
+    fileprivate var _ff:                 UIButton = UIButton()
     
     fileprivate static let _ArtworkSize = CGSize(width: 500.0, height: 500.0)
     fileprivate static let _ArtworkTitlePadding = CGFloat(60.0)
@@ -88,6 +96,14 @@ class NowPlayingViewController : UIViewController
         _artistLabel.textColor = theme.tertiaryColor.lighterColor()
         _artistLabel.textAlignment = .center
         self.view.addSubview(_artistLabel)
+        
+        _ff.addTarget(self, action: #selector(buttonAction), for: .primaryActionTriggered)
+        self.view.addSubview(_ff)
+    }
+    
+    func buttonAction(sender: UIButton!)
+    {
+        self.delegate?.nowPlayingViewControllerDidReturn(self)
     }
     
     override func viewDidLayoutSubviews()
@@ -136,6 +152,9 @@ class NowPlayingViewController : UIViewController
             height: artistSize.height
         )
         _artistLabel.frame = artistFrame
+        
+        let ffFrame = CGRect(x: 0, y: 0, width: 1, height: 1)
+        _ff.frame = ffFrame
     }
     
     // MARK: Internal

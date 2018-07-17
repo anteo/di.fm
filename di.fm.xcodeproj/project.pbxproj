@@ -77,6 +77,8 @@
 		0CDEB6EB1CE04E4800CC208A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEB6EA1CE04E4800CC208A /* LoginViewController.swift */; };
 		0CE19AC41D44A35B009D9FA7 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE19AC31D44A35B009D9FA7 /* SettingsViewController.swift */; };
 		0CE19AC61D44C18E009D9FA7 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE19AC51D44C18E009D9FA7 /* Settings.swift */; };
+		3A2C7C0620FDF783004EB4BF /* ChannelFavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2C7C0520FDF783004EB4BF /* ChannelFavoritesViewController.swift */; };
+		3A49F28F20FCA60200F297E5 /* Focus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A49F28E20FCA60200F297E5 /* Focus.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -147,6 +149,8 @@
 		0CDEB6EA1CE04E4800CC208A /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = LoginViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		0CE19AC31D44A35B009D9FA7 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = SettingsViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		0CE19AC51D44C18E009D9FA7 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Settings.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		3A2C7C0520FDF783004EB4BF /* ChannelFavoritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelFavoritesViewController.swift; sourceTree = "<group>"; };
+		3A49F28E20FCA60200F297E5 /* Focus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Focus.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,6 +185,7 @@
 				0CA349651CDEE60000765A46 /* AudioAddictServer.swift */,
 				0CDEB6DA1CE01DC200CC208A /* ChannelArtworkImageDataSource.swift */,
 				0CDEB6D61CDFBBC400CC208A /* ChannelFilterViewController.swift */,
+				3A2C7C0520FDF783004EB4BF /* ChannelFavoritesViewController.swift */,
 				0CDEB6D81CDFBC9E00CC208A /* ChannelListViewController.swift */,
 				0CD7B3961CE45D2C00516C50 /* LoadingViewController.swift */,
 				0CDEB6EA1CE04E4800CC208A /* LoginViewController.swift */,
@@ -233,6 +238,7 @@
 				0C2AD0251CD0795600A20EFE /* StandardError.swift */,
 				0C2AD0261CD0795600A20EFE /* TVSupport.swift */,
 				0CAC95D11D3300E60087E280 /* UIColorAdditions.swift */,
+				3A49F28E20FCA60200F297E5 /* Focus.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -373,7 +379,7 @@
 				TargetAttributes = {
 					0C4301E31CCFCB8200E4BEE7 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = F7W5R35V7L;
+						DevelopmentTeam = HVHT52WC88;
 						LastSwiftMigration = 0830;
 						SystemCapabilities = {
 							com.apple.BackgroundModes.appletvos = {
@@ -460,7 +466,9 @@
 				0CA3496E1CDF143300765A46 /* StreamSet.swift in Sources */,
 				0CAC95D21D3300E60087E280 /* UIColorAdditions.swift in Sources */,
 				0CDEB6DD1CE03D7C00CC208A /* NowPlayingViewController.swift in Sources */,
+				3A49F28F20FCA60200F297E5 /* Focus.swift in Sources */,
 				0C2AD02E1CD0795600A20EFE /* Error.swift in Sources */,
+				3A2C7C0620FDF783004EB4BF /* ChannelFavoritesViewController.swift in Sources */,
 				0C12834C1D177C8E00EDFB79 /* Track.swift in Sources */,
 				0C7D25841D29C1E300FA7157 /* VisualizationViewController.swift in Sources */,
 				0CA349721CDF14AE00765A46 /* Stream.swift in Sources */,
@@ -595,7 +603,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = F7W5R35V7L;
+				DEVELOPMENT_TEAM = HVHT52WC88;
 				INFOPLIST_FILE = di.fm/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.zanneth.di-fm";
@@ -615,7 +623,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = F7W5R35V7L;
+				DEVELOPMENT_TEAM = HVHT52WC88;
 				INFOPLIST_FILE = di.fm/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.zanneth.di-fm";

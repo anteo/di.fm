@@ -14,8 +14,10 @@ class AppDelegate : UIResponder,
     ChannelListViewControllerDelegate,
     PlayerDelegate,
     LoginViewControllerDelegate,
-    SettingsViewControllerDelegate
+    SettingsViewControllerDelegate,
+    NowPlayingViewControllerDelegate
 {
+    
     var window:                 UIWindow?
     var server:                 AudioAddictServer = AudioAddictServer()
     var player:                 Player = Player()
@@ -23,6 +25,7 @@ class AppDelegate : UIResponder,
     var credentialsStore:       CredentialsStore = CredentialsStore()
     var nowPlayingController:   NowPlayingViewController = NowPlayingViewController()
     var remoteController:       RemoteController!
+    var lastTabIndex:           Int = -1
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool
     {
@@ -63,6 +66,7 @@ class AppDelegate : UIResponder,
         self.player.delegate = self
         self.player.streamProcessor = self.nowPlayingController.visualizationViewController
         self.nowPlayingController.server = self.server
+        self.nowPlayingController.delegate = self
         self.remoteController = RemoteController(player: self.player)
         self.remoteController.player = self.player
         
@@ -72,6 +76,10 @@ class AppDelegate : UIResponder,
         }
         
         return true
+    }
+    
+    func nowPlayingViewControllerDidReturn(_ viewController: NowPlayingViewController) {
+        self.tabBarController.selectedIndex = lastTabIndex
     }
     
     // MARK: ChannelListViewControllerDelegate
@@ -84,6 +92,7 @@ class AppDelegate : UIResponder,
         _reloadNowPlayingState()
         
         if let nowPlayingControllerIndex = self.tabBarController.viewControllers?.index(of: self.nowPlayingController)! {
+            self.lastTabIndex = self.tabBarController.selectedIndex
             self.tabBarController.selectedIndex = nowPlayingControllerIndex
         }
     }
@@ -199,6 +208,7 @@ class AppDelegate : UIResponder,
     {
         var viewControllers: [UIViewController] = []
         let channelFilters = batchUpdate.channelFilters
+        var allChannelsFilter: ChannelFilter?
         
         for channelFilter in channelFilters {
             if (!channelFilter.isStyleFilter() && !channelFilter.isHidden()) {
@@ -206,9 +216,20 @@ class AppDelegate : UIResponder,
                 channelFilterViewController.channelListViewController.delegate = self
                 channelFilterViewController.server = self.server
                 channelFilterViewController.channelFilter = channelFilter
-                
+                if (channelFilter.isAllChannels()) {
+                    allChannelsFilter = channelFilter;
+                    channelFilterViewController.sorted = true;
+                }
                 viewControllers.append(channelFilterViewController)
             }
+        }
+        
+        if (server.authenticatedUser != nil && allChannelsFilter != nil) {
+            let channelFavoritesViewController = ChannelFavoritesViewController()
+            channelFavoritesViewController.channelListViewController.delegate = self
+            channelFavoritesViewController.server = self.server
+            channelFavoritesViewController.channelFilter = allChannelsFilter
+            viewControllers.append(channelFavoritesViewController)
         }
         
         let settingsViewController = SettingsViewController()

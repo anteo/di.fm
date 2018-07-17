@@ -6,6 +6,7 @@
 */
 
 "NOW_PLAYING_TAB" = "Now Playing";
+"FAVORITES_TAB" = "Favorites";
 
 "LOGIN_FAILED_MESSAGE_TITLE" = "Login Failed";
 "LOADING_FAILED_MESSAGE_TITLE" = "Loading Failed";

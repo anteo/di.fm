@@ -61,6 +61,11 @@ struct ChannelFilter
         }
     }
     
+    func isAllChannels() -> Bool
+    {
+        return self.key == "default"
+    }
+    
     func isStyleFilter() -> Bool
     {
         return Set([
@@ -83,8 +88,9 @@ struct ChannelFilter
     {
         // no idea what these are, but don't show them
         return Set([
-            67, // UMF
-            69  // Sankeys
+            67,  // UMF
+            69,  // Sankeys
+            106  // Icybridge
         ]).contains(self.identifier)
     }
 }

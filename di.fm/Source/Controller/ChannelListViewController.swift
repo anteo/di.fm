@@ -37,9 +37,22 @@ class ChannelListViewController : UIViewController, UICollectionViewDelegate, UI
     {
         didSet
         {
-            _sortedChannels = self.channels.sorted(by: { $0.name < $1.name })
-            _collectionView.reloadData()
+            _setAndSortChannels(self.channels)
         }
+    }
+    
+    var sorted: Bool = false
+    {
+        didSet
+        {
+            _setAndSortChannels(self.channels)
+        }
+    }
+    
+    func _setAndSortChannels(_ channels: [Channel])
+    {
+        _sortedChannels = sorted ? channels.sorted(by: { $0.name < $1.name }) : channels
+        _collectionView.reloadData()
     }
     
     // MARK: UIViewController
@@ -75,7 +88,7 @@ class ChannelListViewController : UIViewController, UICollectionViewDelegate, UI
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
-    {
+    {		
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: ChannelListViewController.CollectionViewReuseIdentifier,
             for: indexPath)

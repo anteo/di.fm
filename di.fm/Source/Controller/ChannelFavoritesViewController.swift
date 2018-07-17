@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class ChannelFilterViewController : UIViewController
+class ChannelFavoritesViewController : UIViewController
 {
     var channelListViewController: ChannelListViewController = ChannelListViewController()
     
@@ -20,21 +20,20 @@ class ChannelFilterViewController : UIViewController
             self.channelListViewController.server = server
         }
     }
-    
+
     var channelFilter: ChannelFilter?
     {
         didSet
         {
-            self.title = self.channelFilter?.name
-            self.channelListViewController.channels = self.channelFilter?.channels ?? []
-        }
-    }
-    
-    var sorted: Bool = false
-    {
-        didSet
-        {
-            self.channelListViewController.sorted = sorted
+            self.title = NSLocalizedString("FAVORITES_TAB", comment: "")
+            self.channelListViewController.sorted = true
+            if (server?.authenticatedUser != nil) {
+                for channel in self.channelFilter?.channels ?? [] {
+                    if (server!.authenticatedUser!.favoriteChannelIDs.contains(channel.identifier)) {
+                        self.channelListViewController.channels.append(channel)
+                    }
+                }
+            }
         }
     }
     
